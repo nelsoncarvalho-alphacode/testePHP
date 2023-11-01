@@ -1,58 +1,57 @@
-[![](https://site.alphacode.com.br/wp-content/uploads/2015/10/logocolor.png)](https://site.alphacode.com.br/)
+## About project
 
-# Nossa empresa
+This project is development with Laravel Sail, Docker, MySQL.
 
-Nascida em 2015, a Alphacode é uma empresa que não para de crescer e de inovar.
-Formada por um time experiente de especialistas em tecnologia a empresa busca a cada dia trazer as soluções mais inovadoras do mercado mobile para os seus clientes.
-Todos os meses são novos aplicativos publicados nas lojas Play Store e Apple Store e um número maior de pessoas que utilizam nossas soluções para melhorar seu dia a dia.
-Seja para pedir uma pizza, assistir tv,  abrir o portão de casa ou pagar a conta de um churrasco com os amigos você pode estar usando um aplicativo criado por nós.
-E é com esse espirito inovador que a Alphacode vem se tornando referência no mercado mobile nacional.
+### Funcionalidades implementadas
 
-## Conheça mais sobre a Alphacode
+[x] CRUD Clientes
+[x] CRUD Produtos
+[x] CRUD PEDIDOS
+[x] SEEDER para Status dos pedidos
+[x] Barra de navegação entre os CRUDs.
+[x] Links para os outros CRUDs nas listagens 
 
-https://site.alphacode.com.br/
+### Bonus
+[x] Permitir que o usuário mude o número de itens por página.
+[x] Implementar aplicação de desconto em alguns pedidos de compra.
+[x] Implementar a camada de Front-End utilizando a biblioteca javascript Bootstrap e ser responsiva.
+[x] API Rest JSON para todos os CRUDS listados acima.
 
-https://www.linkedin.com/company/alphacodeit/
+## Running project in localhost
 
-# Descrição da vaga
+- Create .env file to use when docker is building
+  ```cp .env.example .env```
 
-Buscamos profissionais que sejam apaixonados por desenvolvimento, inovação e novas tecnologias, para integrar nosso time em projetos baseados em PHP, Ionic, Angular.
+- Installing dependencies to use composer with docker
+  ```docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php81-composer:latest \
+    composer install --ignore-platform-reqs```
 
-## Requisitos
+- Exec project
+```./vendor/bin/sail up -d```
 
-### **Obrigatórios:**
+- Access docker
+```docker exec -it name_container bash```
 
-- Mínimo 2 ano de experiência em desenvolvimento de sites e sistemas em PHP;
-- Desenvolvimento de APIs RESTful;
-- Conhecimentos em SQL e NoSQL;
-- Controle de versões (GIT).
+- Access directory and exec commands
+```cd resources/assets/hyper```
+    
+- Yarn install depedences layout Hyper 
+  ```yarn install -g```
 
-### **Diferenciais:**
+- Render deployed templet (Hyper)
+  ```npx gulp (selecione Saas)```
 
-- TDD;
-- Conhecimentos em Ionic;
-- Conhecimentos em serviços AWS;
-- Conhecimentos em Node.JS;
-- Experiência em metodologias ágeis (Scrum/Kanban).
+- Quando finalizar vai ficar a linha abaixo, basta da CTRL + C sair. 
+  [Browsersync] Couldn't open browser (if you are using BrowserSync in a headless environment, you might want to set the open option to false)
 
-## Benefícios
+- Return raiz project and exec commands Artisan
+  ```cd ../../..```
+  ```php artisan key:generate```
+  ```php artisan migrate```
+  ```php artisan db:seed```
 
-- Salário compatível com o mercado;
-- Vale Refeição;
-- Seguro de Vida;
-- Equipe unida, e divertida;
 
-## Contratação
-
-Regime: CLT
-
-## Alocação
-
-À definir
-
-## Como se candidatar
-
-Para se candidatar, basta acessar a url de acordo com o nível e realizar o teste para a vaga:
-
-- [Desenvolvedor PHP - Teste 1](teste-php-1.md)
-- [Desenvolvedor PHP - Teste 2](teste-php-2.md)

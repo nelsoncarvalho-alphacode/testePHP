@@ -13,13 +13,10 @@ return new class extends Migration
     {
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
-            $table->string('numero_do_pedido')->unique()->nullable();
             $table->timestamp('data_do_pedido')->useCurrent();
             $table->unsignedBigInteger('cliente_id');
-            $table->foreign('cliente_id')->references('id')->on('clientes');
-            $table->string('status')->default('Em aberto');
             $table->unsignedBigInteger('produto_id');
-            $table->foreign('produto_id')->references('id')->on('produtos');
+            $table->string('status')->default('Em aberto');
             $table->integer('quantidade');
             $table->timestamps();
         });

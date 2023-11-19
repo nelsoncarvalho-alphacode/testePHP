@@ -1,17 +1,25 @@
 @extends('layout')
 
 @section('conteudo')
+    <div class="content-fluid">
+        <div class="row">
+            @if(session('success'))
+                <p class="msg"> {{ session('success') }}</p>
+            @endif
+        </div>
+    </div>
     <h1>Listagem de Pedidos</h1>
-    <!-- Tabela para exibir os pedidos -->
-    <table class="pedidos-table">
+    <table class="table table-bordered pedidos-table">
         <thead>
         <tr>
             <th>ID do Pedido</th>
-            <th>Número do Pedido</th>
-            <th>Data do Pedido</th>
+            <th>
+                <a href="{{ route('pedidos', ['order' => 'desc']) }}">▼</a>
+                Data do pedido
+                <a href="{{ route('pedidos', ['order' => 'asc']) }}">▲</a>
+            </th>
             <th>ID do Cliente</th>
             <th>Status do Pedido</th>
-            <th>ID do Produto</th>
             <th>Quantidade</th>
             <th>Ações</th>
         </tr>
@@ -20,74 +28,64 @@
         @foreach ($pedidos as $pedido)
             <tr>
                 <td>{{ $pedido->id }}</td>
-                <td>{{ $pedido->numero_do_pedido }}</td>
                 <td>{{ $pedido->data_do_pedido }}</td>
                 <td>{{ $pedido->cliente_id }}</td>
                 <td>{{ $pedido->status }}</td>
-                <td>{{ $pedido->produto_id }}</td>
                 <td>{{ $pedido->quantidade }}</td>
-                <td>
-                    <!-- Botões para editar e excluir -->
-                    <a href="{{ route('pedido.editar', $pedido->id) }}" class="btn btn-primary"><i class="fas fa-edit"></i> Editar</a>
-                    <a href="{{ route('pedido.excluir', $pedido->id) }}" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Excluir</a>
-                </td>
+                @auth
+                    @if($pedido->status !== 'Pago' && $pedido->status !== 'Cancelado')
+                        <td>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{{ route('pedidos.pagar', $pedido->id) }}" class="btn btn-success"><i class="fas fa-edit"></i> Pagar</a>
+                                <a href="{{ route('pedidos.edit', $pedido->id) }}" class="btn btn-primary"><i class="fas fa-edit"></i> Editar</a>
+                                <form action="{{ route('pedidos.destroy', $pedido->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este pedido?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-trash-alt"></i> Excluir Pedido
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    @endif
+                @endauth
+                    @if($pedido->status == 'Pago')
+                    <td>
+                        <div style="text-align: center">
+                        <a href="{{ route('pedidos.cancelar', $pedido->id) }}" class="btn btn-danger"><i class="fas fa-edit"></i> Cancelar</a>
+                        </div>
+                    </td>
+                    @endif
+
             </tr>
         @endforeach
         </tbody>
     </table>
-    @auth
-
-    @endauth
+    <div class="d-flex justify-content-center pt-5">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item {{ $pedidos->previousPageUrl() ? '' : 'disabled' }}">
+                    <a class="page-link" href="{{ $pedidos->previousPageUrl() }}">Anterior</a>
+                </li>
+                <!-- Loop para exibir os números das páginas -->
+                @for ($i = 1; $i <= $pedidos->lastPage(); $i++)
+                    <li class="page-item {{ $pedidos->currentPage() == $i ? 'active' : '' }}">
+                        <a class="page-link" href="{{ $pedidos->url($i) }}">{{ $i }}</a>
+                    </li>
+                @endfor
+                <li class="page-item {{ $pedidos->nextPageUrl() ? '' : 'disabled' }}">
+                    <a class="page-link" href="{{ $pedidos->nextPageUrl() }}">Próxima</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 @endsection
 
 @push('styles')
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Estilos CSS para a tabela de pedidos */
         .pedidos-table {
             width: 100%;
-            border-collapse: collapse;
             margin-top: 20px;
-        }
-
-        .botao_cadastrar_pedido a {
-            text-decoration: none;
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 10px;
-            border: 1px solid transparent;
-            border-radius: 5px;
-            color: #fff;
-            transition: all 0.3s ease;
-        }
-
-        .botao_cadastrar_pedido {
-            background-color: #1E90FF; /* Azul */
-        }
-
-        .botao_cadastrar_pedido a:hover {
-            opacity: 0.8;
-        }
-
-        .pedidos-table th,
-        .pedidos-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        .pedidos-table th {
-            background-color: #f2f2f2;
-        }
-
-        .pedidos-table td a {
-            margin-right: 5px;
-            text-decoration: none;
-            color: #333;
-        }
-
-        .pedidos-table td a:hover {
-            color: #1E90FF;
         }
     </style>
 @endpush

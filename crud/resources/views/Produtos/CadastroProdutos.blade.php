@@ -26,7 +26,6 @@
 
 @push('styles')
     <style>
-        /* Estilos CSS para o formulário de cadastro de produtos */
         .form_cadastro_produto {
             width: 50%;
             margin: 20px auto;
@@ -41,14 +40,14 @@
         label {
             display: block;
             margin-bottom: 5px;
-            color: #5f6368; /* Cor cinza do Google */
+            color: #5f6368;
         }
 
         input[type="text"],
         input[type="number"] {
             width: 100%;
             padding: 10px;
-            border: 1px solid #dfe1e5; /* Cor cinza do Google */
+            border: 1px solid #dfe1e5;
             border-radius: 5px;
             transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
@@ -56,13 +55,13 @@
         input[type="text"]:focus,
         input[type="number"]:focus {
             outline: none;
-            border-color: #1a73e8; /* Cor azul do Google no foco */
-            box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.15); /* Efeito de foco */
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.15);
         }
 
         button {
             padding: 12px 24px;
-            background-color: #1a73e8; /* Cor azul do Google */
+            background-color: #1a73e8;
             color: white;
             border: none;
             border-radius: 5px;
@@ -71,7 +70,7 @@
         }
 
         button:hover {
-            background-color: #0f62fe; /* Cor azul mais escura no hover */
+            background-color: #0f62fe;
         }
     </style>
 @endpush

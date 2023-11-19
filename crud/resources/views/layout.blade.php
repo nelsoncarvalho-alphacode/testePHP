@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minha Aplicação CRUD</title>
-    <!-- Estilos -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,11 +17,11 @@
             padding: 15px;
             display: flex;
             justify-content: flex-end;
+            gap: 10px; /* Espaçamento entre os links */
         }
         .navbar a {
             color: black;
             text-decoration: none;
-            margin-left: 10px;
             padding: 8px 15px;
             border-radius: 5px;
             transition: all 0.3s ease;
@@ -50,31 +50,30 @@
     @stack('styles')
 </head>
 <body>
-    <div class="navbar">
-        <a href="/">Home</a>
-        <a href="{{ route('produtos') }}">Produtos</a>
-        @auth
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-
-                <a href="{{ route('logout') }}"
-                                     onclick="event.preventDefault();
-                    this.closest('form').submit();">
-                    {{ __('Logout') }}
-                </a>
-            </form>
-            <a href="{{ route('pedidos') }}">Pedidos</a>
-        @endauth
-    </div>
-    <main>
-        <div class="container">
-            <div>
-                @if(session('msg'))
-                    <p class="msg"> {{ session('msg') }}</p>
-                @endif
-                @yield('conteudo')
-            </div>
+<div class="navbar">
+    <a href="/">Home</a>
+    <a href="{{ route('produtos') }}">Produtos</a>
+    @auth
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                {{ __('Logout') }}
+            </a>
+        </form>
+        <a href="{{ route('pedidos') }}">Pedidos</a>
+    @endauth
+</div>
+<main>
+    <div class="container">
+        <div>
+            @if(session('msg'))
+                <p class="msg"> {{ session('msg') }}</p>
+            @endif
+            @yield('conteudo')
         </div>
-    </main>
+    </div>
+</main>
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

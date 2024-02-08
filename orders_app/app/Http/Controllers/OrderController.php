@@ -60,7 +60,7 @@ class OrderController extends Controller
     {
         $order = $this->order->find($id);
         if($order === null){
-            return response()->json(['erro' => 'O pedido informado não existe!'], 401);
+            return response()->json(['erro' => 'O pedido informado não existe!'], 404);
         }
 
         return $order;
@@ -70,7 +70,7 @@ class OrderController extends Controller
     {
         $order = $this->order->find($id);
         if($order === null){
-            return response()->json(['erro' => 'O pedido informado não existe!'], 401);
+            return response()->json(['erro' => 'O pedido informado não existe!'], 404);
         }
 
         $data = $request->all();
@@ -94,7 +94,7 @@ class OrderController extends Controller
     {
         $order = $this->order->find($id);
         if($order === null){
-            return response()->json(['erro' => 'O pedido informado não existe!'], 401);
+            return response()->json(['erro' => 'O pedido informado não existe!'], 404);
         }
 
         $order->delete();

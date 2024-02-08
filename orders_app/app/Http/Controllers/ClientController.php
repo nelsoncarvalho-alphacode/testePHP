@@ -45,7 +45,7 @@ class ClientController extends Controller
     {
         $client = $this->client->find($id);
         if($client == null){
-            return response()->json(['erro' => 'O usuário informado não existe'], 401);
+            return response()->json(['erro' => 'O usuário informado não existe'], 404);
         }
         return response()->json($client);
     }
@@ -55,7 +55,7 @@ class ClientController extends Controller
         $client = $this->client->find($id);
         $data = $request->all();
         if($client === null){
-            return response()->json(['erro' => 'Cliente informado não existe'], 401);
+            return response()->json(['erro' => 'Cliente informado não existe'], 404);
         }
         $client->update($data);
         return response()->json(['message' => 'Cliente atualizado com sucesso'], 200);
@@ -65,7 +65,7 @@ class ClientController extends Controller
     {
         $client = $this->client->find($id);
         if($client == null){
-            return response()->json(['erro' => 'Cliente informado não existe'], 401);
+            return response()->json(['erro' => 'Cliente informado não existe'], 404);
         }
 
         $client->delete();

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -21,6 +22,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('/clients', ClientController::class);
-Route::apiResource('/products', ProductController::class);
-Route::apiResource('/orders', OrderController::class);
+Route::prefix('v1')->middleware('jwt.auth')->group(function () {
+    Route::post('/me', [AuthController::class, 'me']);
+    Route::post('/refresh', [AuthController::class, 'refresh']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::apiResource('/clients', ClientController::class);
+    Route::apiResource('/products', ProductController::class);
+    Route::apiResource('/orders', OrderController::class);
+});
+
+
+Route::post('/login', [AuthController::class, 'login']);
+
+
+

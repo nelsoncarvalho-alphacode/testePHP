@@ -42,7 +42,7 @@ class ProductController extends Controller
     {
         $product = $this->product->find($id);
         if($product == null){
-            return response()->json(['erro' => 'Produto informado não existe!'], 401);
+            return response()->json(['erro' => 'Produto informado não existe!'], 404);
         }
 
         return $product;
@@ -52,7 +52,7 @@ class ProductController extends Controller
     {
         $product = $this->product->find($id);
         if($product == null){
-            return response()->json(['erro' => 'Produto informado não existe!'], 401);
+            return response()->json(['erro' => 'Produto informado não existe!'], 404);
         }
         $data = $request->all();
         $product->update($data);
@@ -63,7 +63,7 @@ class ProductController extends Controller
     {
         $product = $this->product->find($id);
         if($product == null){
-            return response()->json(['erro' => 'Produto informado não existe!'], 401);
+            return response()->json(['erro' => 'Produto informado não existe!'], 404);
         }
 
         $product->delete();

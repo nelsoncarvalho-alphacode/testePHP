@@ -1,8 +1,41 @@
-# Teste para candidatos à vaga de Desenvolvedor PHP
+# Informações
 
 Olá caro desenvolvedor, nesse teste analisaremos seu conhecimento geral e inclusive velocidade de desenvolvimento. Abaixo explicaremos tudo o que será necessário.
 
-## Instruções
+## Comandos Iniciais
+- composer create-project laravel/laravel orders_app
+- cd orders_app
+- php artisan key:generate
+- php artisan serve
+
+
+## Migrations
+- php artisan migrate
+
+
+## Controllers
+- php artisan make:controller ProductController --resource
+- php artisan make:controller ClientController --resource
+- php artisan make:controller OrderController --resource
+
+
+## Models e Migrations
+- php artisan make:model Client -m
+- php artisan make:model Product -m
+- php artisan make:model Order -m
+- php artisan make:model OrderItem -m
+
+
+## Requests
+- php artisan make:request ClientRequest
+- php artisan make:request ProductRequest
+- php artisan make:request OrderRequest
+
+
+## Repositories
+- Criei a pasta Repositories dentro de App
+
+
 
 O desafio consiste em implementar uma aplicação web utilizando PHP, um banco de dados relacional (Mysql, Postgres ou SQLite), que terá como finalidade a inscrição de candidatos a uma oportunidade de emprego.
 

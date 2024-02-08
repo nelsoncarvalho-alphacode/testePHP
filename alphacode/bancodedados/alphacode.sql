@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08/02/2024 às 01:39
+-- Tempo de geração: 08/02/2024 às 21:52
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -51,10 +51,7 @@ CREATE TABLE `candidato` (
 --
 
 INSERT INTO `candidato` (`idcandidato`, `nome`, `endereco`, `numero`, `bairro`, `cep`, `idpais`, `idestado`, `idcidade`, `email`, `rg`, `cpf`, `cnpj`, `telefone`, `celular`, `obs`) VALUES
-(1, 'Dennys Dias Lopes', '', '', '', '', 1, 1, 1, '', '', '111.111.111-11', '', '', '', ''),
-(2, 'Ana maria oliveira dias', NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 'Joana', 'rua  rogaciano leite ', '100', 'luciano cavalcante', NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(5, 'Sodexo', NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 'Dennys Dias Lopes', '', '', '', '', 1, 1, 1, 'dennys_dias@yahoo.com.br', '', '619.349.093-00', '', '', '(00) 0000-0000', '');
 
 -- --------------------------------------------------------
 
@@ -104,41 +101,6 @@ INSERT INTO `cidade` (`idcidade`, `cidade`, `idpais`, `idestado`) VALUES
 (3, 'Rio de Janeiro', 1, 3),
 (6, 'Salvador', 1, 5),
 (11, 'Jericoacoara', 1, 1);
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `cliente`
---
-
-CREATE TABLE `cliente` (
-  `idcliente` bigint(20) UNSIGNED NOT NULL,
-  `nome` varchar(200) NOT NULL,
-  `endereco` text DEFAULT NULL,
-  `numero` varchar(10) DEFAULT NULL,
-  `bairro` varchar(100) DEFAULT NULL,
-  `cep` varchar(10) DEFAULT NULL,
-  `idpais` bigint(20) NOT NULL,
-  `idestado` bigint(20) NOT NULL,
-  `idcidade` bigint(20) NOT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `rg` varchar(20) DEFAULT NULL,
-  `cpf` varchar(20) DEFAULT NULL,
-  `cnpj` varchar(20) DEFAULT NULL,
-  `telefone` varchar(20) DEFAULT NULL,
-  `celular` varchar(20) DEFAULT NULL,
-  `obs` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Despejando dados para a tabela `cliente`
---
-
-INSERT INTO `cliente` (`idcliente`, `nome`, `endereco`, `numero`, `bairro`, `cep`, `idpais`, `idestado`, `idcidade`, `email`, `rg`, `cpf`, `cnpj`, `telefone`, `celular`, `obs`) VALUES
-(1, 'Dennys Dias Lopes', '', '', '', '', 1, 1, 1, '', '', '111.111.111-11', '', '', '', ''),
-(2, 'Ana maria oliveira dias', NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 'Joana', 'rua  rogaciano leite ', '100', 'luciano cavalcante', NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(5, 'Sodexo', NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -204,6 +166,26 @@ INSERT INTO `pais` (`idpais`, `pais`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `tipovaga`
+--
+
+CREATE TABLE `tipovaga` (
+  `idtipovaga` int(11) NOT NULL,
+  `tipo` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tipovaga`
+--
+
+INSERT INTO `tipovaga` (`idtipovaga`, `tipo`) VALUES
+(2, 'CLT'),
+(3, 'Pessoa Jurídica'),
+(4, 'Freelancer');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `usuario`
 --
 
@@ -216,25 +198,59 @@ CREATE TABLE `usuario` (
   `cpf` varchar(14) NOT NULL,
   `cnpj` varchar(18) NOT NULL,
   `telefone` varchar(16) NOT NULL,
-  `idsolucao` int(11) NOT NULL,
   `idnivelacesso` int(11) NOT NULL,
   `datanascimento` date NOT NULL,
   `idcentrodecusto` bigint(20) NOT NULL,
   `usuarios` tinyint(1) NOT NULL,
   `alterarsenha` tinyint(1) NOT NULL,
   `painel` tinyint(1) NOT NULL,
-  `solucoes` tinyint(1) NOT NULL,
+  `candidatos` tinyint(1) NOT NULL,
   `nivelacesso` tinyint(1) NOT NULL,
   `centro` tinyint(1) NOT NULL,
-  `relatoriousuarios` tinyint(1) NOT NULL
+  `relatoriousuarios` tinyint(1) NOT NULL,
+  `vagas` tinyint(4) NOT NULL,
+  `tipodevaga` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Despejando dados para a tabela `usuario`
 --
 
-INSERT INTO `usuario` (`idusuario`, `nome`, `funcionario`, `login`, `senha`, `cpf`, `cnpj`, `telefone`, `idsolucao`, `idnivelacesso`, `datanascimento`, `idcentrodecusto`, `usuarios`, `alterarsenha`, `painel`, `solucoes`, `nivelacesso`, `centro`, `relatoriousuarios`) VALUES
-(3, 'Dennys Dias Lopes ', 'Dennys Dias Lopes', 'dennys', '123', '619.349.093-00', '18.331.736/0001-08', '(11) 11111-1111', 2, 4, '2021-02-01', 1, 1, 1, 1, 1, 1, 1, 1);
+INSERT INTO `usuario` (`idusuario`, `nome`, `funcionario`, `login`, `senha`, `cpf`, `cnpj`, `telefone`, `idnivelacesso`, `datanascimento`, `idcentrodecusto`, `usuarios`, `alterarsenha`, `painel`, `candidatos`, `nivelacesso`, `centro`, `relatoriousuarios`, `vagas`, `tipodevaga`) VALUES
+(3, 'Dennys Dias Lopes ', 'Dennys Dias Lopes', 'dennys', '123', '619.349.093-00', '18.331.736/0001-08', '(11) 11111-1111', 4, '2021-02-01', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `vagacandidato`
+--
+
+CREATE TABLE `vagacandidato` (
+  `idvagacandidato` int(11) NOT NULL,
+  `idvaga` int(11) NOT NULL,
+  `idcandidato` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `vagas`
+--
+
+CREATE TABLE `vagas` (
+  `idvaga` int(11) NOT NULL,
+  `descricao` varchar(200) NOT NULL,
+  `idtipovaga` int(11) NOT NULL,
+  `ativa` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `vagas`
+--
+
+INSERT INTO `vagas` (`idvaga`, `descricao`, `idtipovaga`, `ativa`) VALUES
+(2, ' Empresa: Alphacode - Desenvolvedor php  ', 2, 1),
+(6, 'Empresa: Neoprint - Desenvolvedor php', 3, 1);
 
 --
 -- Índices para tabelas despejadas
@@ -261,13 +277,6 @@ ALTER TABLE `cidade`
   ADD PRIMARY KEY (`idcidade`);
 
 --
--- Índices de tabela `cliente`
---
-ALTER TABLE `cliente`
-  ADD PRIMARY KEY (`idcliente`),
-  ADD UNIQUE KEY `idcliente` (`idcliente`);
-
---
 -- Índices de tabela `estado`
 --
 ALTER TABLE `estado`
@@ -286,11 +295,29 @@ ALTER TABLE `pais`
   ADD PRIMARY KEY (`idpais`);
 
 --
+-- Índices de tabela `tipovaga`
+--
+ALTER TABLE `tipovaga`
+  ADD PRIMARY KEY (`idtipovaga`);
+
+--
 -- Índices de tabela `usuario`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`idusuario`),
   ADD UNIQUE KEY `idusuario` (`idusuario`);
+
+--
+-- Índices de tabela `vagacandidato`
+--
+ALTER TABLE `vagacandidato`
+  ADD PRIMARY KEY (`idvagacandidato`);
+
+--
+-- Índices de tabela `vagas`
+--
+ALTER TABLE `vagas`
+  ADD PRIMARY KEY (`idvaga`);
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
@@ -300,7 +327,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `candidato`
 --
 ALTER TABLE `candidato`
-  MODIFY `idcandidato` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idcandidato` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de tabela `centrodecusto`
@@ -313,12 +340,6 @@ ALTER TABLE `centrodecusto`
 --
 ALTER TABLE `cidade`
   MODIFY `idcidade` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT de tabela `cliente`
---
-ALTER TABLE `cliente`
-  MODIFY `idcliente` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `estado`
@@ -339,10 +360,28 @@ ALTER TABLE `pais`
   MODIFY `idpais` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de tabela `tipovaga`
+--
+ALTER TABLE `tipovaga`
+  MODIFY `idtipovaga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
   MODIFY `idusuario` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+
+--
+-- AUTO_INCREMENT de tabela `vagacandidato`
+--
+ALTER TABLE `vagacandidato`
+  MODIFY `idvagacandidato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de tabela `vagas`
+--
+ALTER TABLE `vagas`
+  MODIFY `idvaga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

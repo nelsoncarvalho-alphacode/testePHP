@@ -86,6 +86,27 @@ if(isset($_POST["acao"])){
 		$usuario->setIdNivelAcesso($_POST["idnivelacesso"]);
 		$usuario->setIdCentroDeCusto($_POST["idcentrodecusto"]);
 		
+		if(!isset($_POST["candidatoschecked"])){
+			$candidatos = 0;	
+		}else{
+			$candidatos = $_POST["candidatoschecked"];
+		}	
+		$usuario->setCandidatos($candidatos);
+		
+		if(!isset($_POST["vagaschecked"])){
+			$vagas = 0;	
+		}else{
+			$vagas = $_POST["vagaschecked"];
+		}	
+		$usuario->setVagas($vagas);
+		
+		if(!isset($_POST["tipodevagachecked"])){
+			$tipodevaga = 0;	
+		}else{
+			$tipodevaga = $_POST["tipodevagachecked"];
+		}	
+		$usuario->setTipodeVaga($tipodevaga);
+				
 		if(!isset($_POST["centrochecked"])){
 			$centro = 0;	
 		}else{

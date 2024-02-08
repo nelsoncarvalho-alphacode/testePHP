@@ -1,5 +1,7 @@
 <?php
-include("administracao/conexao.php");
+session_start();
+include("seguranca.php");
+include("conexao.php");
 include("candidato.php");
 include("candidatodao.php");
 include("pais.php");
@@ -8,23 +10,18 @@ include("estado.php");
 include("estadodao.php");
 include("cidade.php");
 include("cidadedao.php");
-include("vaga.php");
-include("vagadao.php");
-
 
 $conexao = new Conexao();
 $conexao->abrirConexao();
 
-
-if(!empty($_POST["idvaga"])){
-	$vaga = new Vaga();
-	$vagaDao = new VagaDAO($conexao);
-	$vaga->setIdVaga($_POST["idvaga"]);
-	$query = $vagaDao->consultarVaga($vaga);
-	$resultsetvaga = $vagaDao->listarVaga($query);
+if(!empty($_POST["idcandidato"])){
+	$candidato = new Candidato();
+	$candidatoDao = new CandidatoDAO($conexao);
+	$candidato->setIdCandidato($_POST["idcandidato"]);
+	$query = $candidatoDao->consultarCandidato($candidato);
+	$resultset = $candidatoDao->listarCandidato($query);
 
 }
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -159,7 +156,7 @@ if(!empty($_POST["idvaga"])){
 		});
 		
 		$("#voltar").click(function() {
-		   formCandidato.action = "index.php";
+		   formCandidato.action = "candidatolista.php";
 		   formCandidato.submit();
 		});
 		 
@@ -215,46 +212,38 @@ if(!empty($_POST["idvaga"])){
   <body>
   
     <header>      
+     <?php include("menu.php");?>
     </header>
 	
     <main role="main">
 
 		<div id="cadastro" class="top col">
-		    <center>
-		    <img class="img-fluid" width="300" height="200" src="administracao/img/logo.png" alt="Alphacode">
-	        </center>
 			<form id="formCandidato" name="formCandidato" method="post" action="candidatocontroller.php">
-			    <input type="hidden" id="idvaga" name="idvaga" value="<?php echo isset($resultsetvaga["idvaga"])? $resultsetvaga["idvaga"]:"";?>" >
-                <input type="hidden" id="acao" name="acao" value="gravar">
-				<div class="card">
-					<h5 class="card-header">Quero me candidatar a vaga:</h5>
+				<input type="hidden" id="acao" name="acao" value="gravar">
+				<input type="hidden" id="idcandidato" name="idcandidato" value="<?php echo isset($resultset["idcandidato"])? $resultset["idcandidato"]:"";?>" >
+		        <div class="card">
+					<h5 class="card-header">Cadastro de candidato:</h5>
 					<div class="card-body">
-					    <div class="form-group">			
-						    <label for="nome">Vaga:</label>
-							<?php echo isset($resultsetvaga["idvaga"])? $resultsetvaga["idvaga"]."-":"";?>
-							<?php echo isset($resultsetvaga["descricao"])? $resultsetvaga["descricao"]:"";?>
-							<?php echo isset($resultsetvaga["tipo"])? $resultsetvaga["tipo"]:"";?>
-						</div>
 						<div class="form-group">			
 						    <label for="nome"><font color="red">*</font>Nome:</label>
-							<input type="text" id="nome" name="nome" class="form-control" value="" required autofocus>
+							<input type="text" id="nome" name="nome" class="form-control" value="<?php echo isset($resultset["nome"])? $resultset["nome"]:"";?>" required autofocus>
 						</div>  
 						<div class="form-group">
 							<label for="endereco">Endereço:</label>
-							<input type="text" id="endereco" name="endereco" class="form-control" value="">
+							<input type="text" id="endereco" name="endereco" class="form-control" value="<?php echo isset($resultset["endereco"])? $resultset["endereco"]:"";?>">
 						</div>
 						<div class="form-group row">
 							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 								<label for="numero">Nº:</label>
-								<input type="text" id="numero" name="numero" class="form-control" value="">
+								<input type="text" id="numero" name="numero" class="form-control" value="<?php echo isset($resultset["numero"])? $resultset["numero"]:"";?>">
 						    </div>
 							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 								<label for="bairro">Bairro:</label>
-								<input type="text" id="bairro" name="bairro" class="form-control" value="">
+								<input type="text" id="bairro" name="bairro" class="form-control" value="<?php echo isset($resultset["bairro"])? $resultset["bairro"]:"";?>">
 							</div>
 							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 								<label for="cep">Cep:</label>
-								<input type="text" id="cep" name="cep" class="form-control" value="">
+								<input type="text" id="cep" name="cep" class="form-control" value="<?php echo isset($resultset["cep"])? $resultset["cep"]:"";?>">
 						    </div>
 						</div>
 						<div class="form-group">
@@ -344,45 +333,49 @@ if(!empty($_POST["idvaga"])){
 						</div>
 						<div class="form-group">
 							<label for="email"><font color="red">*</font>Email:</label>
-							<input type="email" id="email" name="email" required class="form-control" value="">
+							<input type="email" id="email" name="email" required class="form-control" value="<?php echo isset($resultset["email"])? $resultset["email"]:"";?>">
 						</div>
 						<div class="form-group row">
 							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 								<label for="rg">Rg:</label>
-								<input type="text" id="rg" name="rg" class="form-control" value="">
+								<input type="text" id="rg" name="rg" class="form-control" value="<?php echo isset($resultset["rg"])? $resultset["rg"]:"";?>">
 							</div>
 							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 								<label for="cpf">Cpf:</label>
-								<input type="text" id="cpf" name="cpf" class="form-control" value="">
+								<input type="text" id="cpf" name="cpf" class="form-control" value="<?php echo isset($resultset["cpf"])? $resultset["cpf"]:"";?>">
 						    </div>
 							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 								<label for="cnpj">Cnpj:</label>
-								<input type="text" id="cnpj" name="cnpj" class="form-control" value="">
+								<input type="text" id="cnpj" name="cnpj" class="form-control" value="<?php echo isset($resultset["cnpj"])? $resultset["cnpj"]:"";?>">
 						    </div>
 						</div>
 						<div class="form-group row">
 						    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 								<label for="telefone">Telefone:</label>
-								<input type="tel" id="telefone" name="telefone" class="form-control" value="">
+								<input type="tel" id="telefone" name="telefone" class="form-control" value="<?php echo isset($resultset["telefone"])? $resultset["telefone"]:"";?>">
 							</div>
 							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 								<label for="celular"><font color="red">*</font>Celular:</label>
-								<input type="tel" id="celular" name="celular" required class="form-control" value="">
+								<input type="tel" id="celular" name="celular" required class="form-control" value="<?php echo isset($resultset["celular"])? $resultset["celular"]:"";?>">
 							</div>								
 						</div>
 						<div class="form-group">
 								<label for="obs">Observações:</label>
-								<textarea id="obs" name="obs" class="form-control" id="obs" rows="3"></textarea>
+								<textarea id="obs" name="obs" class="form-control" id="obs" rows="3"><?php echo isset($resultset["obs"])? $resultset["obs"]:"";?></textarea>
 						</div>
                         <div class="form-group">
-							<button class="btn btn-outline-secondary" type="submit" id="gravar" name="gravar">Candidatar-se</button>
-							<button class="btn btn-outline-secondary" type="button" id="voltar" name="voltar" >Voltar</button>
+							<button class="btn btn-outline-secondary" type="submit" id="gravar" name="gravar">Gravar</button>
+							<button class="btn btn-outline-secondary" type="button" id="voltar" name="voltar" >Voltar</button>									
 						</div>
 					</div>
 				</div>
 			</form>		
 		</div>
+ 
+     <?php include("footer.php");?>
+	  
     </main>
+  
   </body>
 </html>
 <?php 

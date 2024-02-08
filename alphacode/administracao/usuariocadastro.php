@@ -5,8 +5,6 @@ include("conexao.php");
 include("funcoes.php");
 include("usuario.php");
 include("usuariodao.php");
-include("solucao.php");
-include("solucaodao.php");
 include("nivelacesso.php");
 include("nivelacessodao.php");
 include("centrodecusto.php");
@@ -422,6 +420,48 @@ if(!empty($_POST["idusuario"])){
 										</div>
 										<div class="card-body" align="left">
 											<ul class="list-unstyled mt-3 mb-4" align="left">
+												<div class="form-check">
+													<?php
+														$checked ='';						  
+														if(isset($resultset["candidatos"])){
+															if($resultset["candidatos"]==1){ 
+																$checked ='checked="checked"';
+															}  
+														}	 
+													?>
+													<input class="form-check-input" type="checkbox" <?php echo isset($checked)? $checked:""; ?> value="1" id="candidatoschecked" name="candidatoschecked">
+													<label class="form-check-label" for="candidatoschecked">
+														Candidatos
+													</label>
+												</div>
+                                                <div class="form-check">
+													<?php
+														$checked ='';						  
+														if(isset($resultset["vagas"])){
+															if($resultset["vagas"]==1){ 
+																$checked ='checked="checked"';
+															}  
+														}	 
+													?>
+													<input class="form-check-input" type="checkbox" <?php echo isset($checked)? $checked:""; ?> value="1" id="vagaschecked" name="vagaschecked">
+													<label class="form-check-label" for="vagaschecked">
+														Vagas
+													</label>
+												</div>
+                                                <div class="form-check">
+													<?php
+														$checked ='';						  
+														if(isset($resultset["tipodevaga"])){
+															if($resultset["tipodevaga"]==1){ 
+																$checked ='checked="checked"';
+															}  
+														}	 
+													?>
+													<input class="form-check-input" type="checkbox" <?php echo isset($checked)? $checked:""; ?> value="1" id="tipodevagachecked" name="tipodevagachecked">
+													<label class="form-check-label" for="tipodevagachecked">
+														Tipo de vagas
+													</label>
+												</div>												
 												<div class="form-check">
 													<?php
 														$checked ='';						  

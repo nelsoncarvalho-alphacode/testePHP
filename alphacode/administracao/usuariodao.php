@@ -76,6 +76,9 @@ class UsuarioDAO {
 		$sql .= " ,datanascimento      ";
 		$sql .= " ,idnivelacesso       ";
 		$sql .= " ,idcentrodecusto     ";
+		$sql .= " ,candidatos          ";
+		$sql .= " ,vagas               ";
+		$sql .= " ,tipodevaga          ";
 		$sql .= " ,centro              ";
 		$sql .= " ,usuarios            ";
 		$sql .= " ,alterarsenha        ";
@@ -93,6 +96,9 @@ class UsuarioDAO {
 		$sql .= " , '".$usuario->getDataNascimento()."' ";
 		$sql .= " ,  ".$usuario->getIdNivelAcesso()." ";
 		$sql .= " ,  ".$usuario->getIdCentroDeCusto()." ";
+		$sql .= " , ".$usuario->getCandidatos()." ";
+		$sql .= " , ".$usuario->getVagas()." ";
+		$sql .= " , ".$usuario->getTipodeVaga()." ";
 		$sql .= " , ".$usuario->getCentro()."    ";
 		$sql .= " , ".$usuario->getUsuarios()." ";
 		$sql .= " , ".$usuario->getAlterarSenha()."    ";
@@ -115,7 +121,10 @@ class UsuarioDAO {
 		$sql .= " ,datanascimento = '".$usuario->getDataNascimento()."'  ";
 		$sql .= " ,idnivelacesso = ".$usuario->getIdNivelAcesso()."  ";
 		$sql .= " ,idcentrodecusto = ".$usuario->getIdCentroDeCusto()."  ";
-		$sql .= " ,centro = ".$usuario->getCentro()."  ";
+		$sql .= " ,candidatos = ".$usuario->getCandidatos()."  ";
+		$sql .= " ,vagas = ".$usuario->getVagas()."  ";
+		$sql .= " ,tipodevaga = ".$usuario->getTipodeVaga()."  ";
+	    $sql .= " ,centro = ".$usuario->getCentro()."  ";
 		$sql .= " ,usuarios = ".$usuario->getUsuarios()."  ";
 	    $sql .= " ,alterarsenha = ".$usuario->getAlterarSenha()."  ";
 		$sql .= " ,nivelacesso = ".$usuario->getNivelAcesso()."  ";

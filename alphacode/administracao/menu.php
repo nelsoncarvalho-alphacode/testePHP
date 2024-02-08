@@ -21,7 +21,10 @@ include("seguranca.php");
               
 				
 
-              <?php if($_SESSION["usuarios_session"]=="1" 
+              <?php if($_SESSION["candidatos_session"]=="1"
+			         || $_SESSION["vagas_session"]=="1"
+					 || $_SESSION["tipodevaga_session"]=="1"
+					 || $_SESSION["usuarios_session"]=="1" 
 			         || $_SESSION["alterarsenha_session"]=="1"
 					 || $_SESSION["solucoes_session"]=="1"
 					 || $_SESSION["nivelacesso_session"]=="1"
@@ -32,8 +35,14 @@ include("seguranca.php");
 					Controle de acesso
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-				  <?php if($_SESSION["usuarios_session"]=="1"){ ?>
+				  <?php if($_SESSION["candidatos_session"]=="1"){ ?>
 				  <a class="dropdown-item" href="candidatolista.php">Candidatos</a>
+				  <?php } ?>
+				  <?php if($_SESSION["vagas_session"]=="1"){ ?>
+				  <a class="dropdown-item" href="vagalista.php">Vagas</a>
+				  <?php } ?>
+				  <?php if($_SESSION["tipodevaga_session"]=="1"){ ?>
+				  <a class="dropdown-item" href="tipovagalista.php">Tipo de Vagas</a>
 				  <?php } ?>
                   <?php if($_SESSION["usuarios_session"]=="1"){ ?>
 				  <a class="dropdown-item" href="usuariolista.php">Usuários</a>

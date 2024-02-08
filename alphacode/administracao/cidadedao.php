@@ -1,4 +1,5 @@
 <?php
+include("seguranca.php");
 
 class CidadeDAO {
 

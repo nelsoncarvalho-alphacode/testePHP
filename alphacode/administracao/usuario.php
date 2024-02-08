@@ -15,6 +15,9 @@ class Usuario {
 	private $idCentroDeCusto;
 	
 	//permissões
+	private $candidatos;
+	private $vagas;
+	private $tipodevaga;
 	private $centro;
 	private $usuarios;
 	private $alterarSenha;
@@ -100,6 +103,30 @@ class Usuario {
 	
 	function getIdCentroDeCusto(){
 		return $this->idCentroDeCusto;
+	}
+	
+	function setCandidatos($candidatos){
+		$this->candidatos = $candidatos;
+	}
+	
+	function getCandidatos(){
+		return $this->candidatos;
+	}
+	
+	function setVagas($vagas){
+		$this->vagas = $vagas;
+	}
+	
+	function getVagas(){
+		return $this->vagas;
+	}
+	
+	function setTipodeVaga($tipodevaga){
+		$this->tipodevaga = $tipodevaga;
+	}
+	
+	function getTipodeVaga(){
+		return $this->tipodevaga;
 	}
 	
 	function setCentro($centro){

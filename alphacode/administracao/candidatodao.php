@@ -1,5 +1,5 @@
 <?php
-
+include("seguranca.php");
 
 class CandidatoDAO {
 
@@ -44,8 +44,26 @@ class CandidatoDAO {
 		return $this->conexao->query($sql);			
 	}
 	
-	function consultarUltimoCandidato(){
-		$sql   = " select max(idcandidato) as idcandidato from candidato c ";
+	function consultarDocumentos($candidato){
+		$sql   = " select c.*,e.sigla,e.estado,cid.cidade from candidato c ";
+		$sql  .= " inner join estado e on";
+		$sql  .= " c.idestado = e.idestado ";
+		$sql  .= " inner join cidade cid on";
+		$sql  .= " c.idcidade = cid.idcidade ";
+		$sql  .= " where 1=1 ";
+		
+	    if($candidato->getIdCandidato()>0){
+			$sql .= " and idcandidato <> ".$candidato->getIdCandidato()." ";
+		}
+		if($candidato->getRg()!=""){
+			$sql .= " and rg = '".$candidato->getRg()."' ";
+		}
+	    if($candidato->getCpf()!=""){
+			$sql .= " and cpf = '".$candidato->getCpf()."' ";
+		}
+		if($candidato->getCnpj()!=""){
+			$sql .= " and cnpj = '".$candidato->getCnpj()."' ";
+		}
 		return $this->conexao->query($sql);			
 	}
 	

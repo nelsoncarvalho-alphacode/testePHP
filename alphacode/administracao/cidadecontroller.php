@@ -1,5 +1,7 @@
 <?php
-include("administracao/conexao.php");
+session_start();
+include("seguranca.php");
+include("conexao.php");
 include("cidade.php");
 include("cidadedao.php");
 

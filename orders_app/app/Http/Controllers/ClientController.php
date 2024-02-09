@@ -25,12 +25,11 @@ class ClientController extends Controller
 
             $clientRepository->filter($request->search);
 
-            return response()->json($clientRepository->getResult(), 200);
+            return response()->json($clientRepository->getResultPaginate(2), 200);
         } else {
-            $clients = $this->client->get();
-
-            return response()->json($clients, 200);
+            $clients = $this->client->paginate(2);
         }
+        return response()->json($clients, 200);
     }
 
     public function store(ClientRequest $request)

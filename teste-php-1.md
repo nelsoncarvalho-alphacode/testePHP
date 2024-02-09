@@ -34,7 +34,7 @@ Devem ser utilizadas as seguintes tecnologias:
 
 - HTML
 - CSS
-- Javascript
+- Javascript 
 - PHP (Framework Opcional: Laravel, CodeIgnither)
 - Docker (construção do ambiente de desenvolvimento)
 - Mysql, Postgres ou SQLite

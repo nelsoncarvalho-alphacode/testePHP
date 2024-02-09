@@ -36,6 +36,20 @@ Olá caro desenvolvedor, nesse teste analisaremos seu conhecimento geral e inclu
 - Criei a pasta Repositories dentro de App
 
 
+## Instalações
+- composer require jwt-auth
+- composer require laravel\ui
+
+
+## Gerando o esqueleto do projeto com VueJS e autenticação nativa(scaffold)
+- php artisan ui vue --auth
+
+## Baixar dependências de front-end
+- npm install
+
+## Produzindo o bundle de front
+- npm run dev
+
 
 O desafio consiste em implementar uma aplicação web utilizando PHP, um banco de dados relacional (Mysql, Postgres ou SQLite), que terá como finalidade a inscrição de candidatos a uma oportunidade de emprego.
 

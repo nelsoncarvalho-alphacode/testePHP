@@ -22,4 +22,9 @@ class AbstractRepository {
     {
         return $this->model->get();
     }
+
+    public function getResultPaginate($numberByPages)
+    {
+        return $this->model->paginate();
+    }
 }

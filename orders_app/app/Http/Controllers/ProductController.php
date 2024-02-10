@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
@@ -21,21 +22,21 @@ class ProductController extends Controller
 
         if($request->has('search')){
 
-            $productRepository->filter($request->filter);
+            $productRepository->filter($request->search);
 
-            return response()->json($productRepository->getResult(), 200);
+            return response()->json($productRepository->getResultPaginate(20), 200);
         } else {
-            $products = $this->product->get();
+            $products = $this->product->paginate(20);
 
             return response()->json($products, 200);
         }
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $data = $request->all();
         $this->product->create($data);
-        return response()->json(['messge' => 'Produto cadastrado com sucesso!'], 201);
+        return response()->json(['message' => 'Produto cadastrado com sucesso!'], 201);
     }
 
     public function show(string $id)
@@ -48,7 +49,7 @@ class ProductController extends Controller
         return $product;
     }
 
-    public function update(Request $request, string $id)
+    public function update(ProductRequest $request, string $id)
     {
         $product = $this->product->find($id);
         if($product == null){
@@ -68,5 +69,12 @@ class ProductController extends Controller
 
         $product->delete();
         return response()->json(['message' => 'Produto deletado com sucesso'], 200);
+    }
+
+    public function getProducts()
+    {
+        $products = $this->product->get();
+
+        return response()->json($products, 200);
     }
 }

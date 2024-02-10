@@ -18,30 +18,39 @@ const app = createApp({});
 const pinia = createPinia();
 
 
-
-
-import ExampleComponent from './components/ExampleComponent.vue';
 import LoginComponent from './components/Login.vue'
 import HomeComponent from './components/Home.vue'
-import MainClientComponent from './components/clients/MainClientComponent.vue'
+
+import MainClientComponent from './components/modules/clients/MainClientComponent.vue'
+import MainProductComponent from './components/modules/products/MainProductComponent.vue'
+import MainOrderComponent from './components/modules/orders/MainOrderComponent.vue'
+
+import TableClientsComponent from './components/modules/clients/TableClientComponent.vue'
+import TableProductComponent from './components/modules/products/TableProductComponent.vue'
+import TableOrderComponent from './components/modules/orders/TableOrderComponent.vue'
+
 import InputSearchComponent from './components/utils/InputSearch.vue'
 import InputContainerComponent from './components/utils/inputContainer.vue'
-// import GenericCardComponent from './components/generics/Card.component.vue'
-import TableClientsComponent from './components/clients/TableClientComponent.vue'
 import GenericModalComponent from './components/generics/ModalComponent.vue'
 import ButtonNewItem from './components/utils/ButtonNewItem.vue'
 import ToastSuccess from './components/utils/ToastSuccess.vue';
 import AlertComponent from './components/utils/Alert.vue';
 import PaginateComponent from './components/utils/Paginate.vue'
 
-app.component('example-component', ExampleComponent);
 app.component('login-component', LoginComponent);
 app.component('home-component', HomeComponent);
+
 app.component('main-client-component', MainClientComponent);
+app.component('main-product-component', MainProductComponent);
+app.component('main-order-component', MainOrderComponent);
+
+// app.component('generic-card-component', GenericCardComponent);
+app.component('table-products-component', TableProductComponent);
+app.component('table-clients-component', TableClientsComponent);
+app.component('table-orders-component', TableOrderComponent)
+
 app.component('input-search-component', InputSearchComponent);
 app.component('input-container-component', InputContainerComponent);
-// app.component('generic-card-component', GenericCardComponent);
-app.component('table-clients-component', TableClientsComponent);
 app.component('generic-modal-component', GenericModalComponent);
 app.component('button-new-item', ButtonNewItem);
 app.component('toast-success', ToastSuccess);

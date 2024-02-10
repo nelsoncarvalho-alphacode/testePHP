@@ -20,7 +20,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/home') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -35,15 +35,10 @@
                                 <a href="{{route('clients')}}" class="nav-link">Clientes</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">Produtos</a>
+                                <a href="{{route('products')}}" class="nav-link">Produtos</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pedidos</a>
-                                <div class="dropdown-menu" style="background-color: #fffafa">
-                                    <a href="#" class="dropdown-item">Em Aberto</a>
-                                    <a href="#" class="dropdown-item">Pagos</a>
-                                    <a href="#" class="dropdown-item">Cancelados</a>
-                                </div>
+                            <li class="nav-item">
+                                <a href="{{route('orders')}}" class="nav-link">Pedidos</a>
                             </li>
                         @endauth
                     </ul>

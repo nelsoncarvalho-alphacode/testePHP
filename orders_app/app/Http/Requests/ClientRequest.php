@@ -23,8 +23,20 @@ class ClientRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'cpf' => 'required|unique:clients,cpf',
-            'email' => 'nullable|unique:clients,email'
+            'cpf' => 'required|min:0|max:11|unique:clients,cpf,'.$this->client,
+            'email' => 'nullable|unique:clients,email,'.$this->client
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'O campo Nome do Cliente é obrigatório',
+            'cpf.required' => 'O campo CPF é obrigatório',
+            'cpf.unique' => 'O CPF informado já existe!',
+            'cpf.min' => 'CPF dever ter valores positivos',
+            'cpf.max' => 'O CPF deve ter no máximo 11 caracteres',
+            'email.unique' => 'O Email informado já existe!'
         ];
     }
 }

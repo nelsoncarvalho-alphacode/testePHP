@@ -23,8 +23,19 @@ class ProductRequest extends FormRequest
     {
         return [
             'name' => 'string|nullable',
-            'barcode' => 'min:0|max:20|integer',
-            'price' => 'integer'
+            'barcode' => 'required|min:1|max:20',
+            'price' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.string' => 'O campo Nome do Produto deve ser string',
+            'barcode.min' => 'O Código de Barras deve ser positivo',
+            'barcode.max' => 'O Código de Barras deve ter no máximo 20 caracteres ',
+            'barcode.required' => 'O Código de Barras é obrigatório',
+            'price.required' => 'O campo Valor é obrigatório'
         ];
     }
 }

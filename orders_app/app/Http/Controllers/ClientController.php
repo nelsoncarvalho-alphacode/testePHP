@@ -27,7 +27,7 @@ class ClientController extends Controller
 
             return response()->json($clientRepository->getResultPaginate(2), 200);
         } else {
-            $clients = $this->client->paginate(2);
+            $clients = $this->client->paginate(20);
         }
         return response()->json($clients, 200);
     }
@@ -69,5 +69,12 @@ class ClientController extends Controller
 
         $client->delete();
         return response()->json(['message' => 'Cliente deletado com sucesso'], 200);
+    }
+
+    public function getClients()
+    {
+        $clients = $this->client->get();
+
+        return response()->json($clients, 200);
     }
 }

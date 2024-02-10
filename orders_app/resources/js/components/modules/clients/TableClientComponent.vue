@@ -10,8 +10,7 @@
                 </tr>
             </thead>
             <tbody >
-                <tr v-for="client in clientsArray" :key="client.id" style="justify-content: center; align-items: center;">
-                    <th scope="row">{{ client.id }}</th>
+                <tr v-for="client in clientsArray" style="justify-content: center; align-items: center;">
                     <td>{{ client.name }}</td>
                     <td>{{ client.email }}</td>
                     <td>{{ client.cpf }}</td>
@@ -34,7 +33,7 @@ import { useStore } from '@/stores/useStore'
 const store = useStore()
 
 const setStore = (entity) => {
-    store.item = entity
+    store.item = {...entity}
 }
 
 const props = defineProps({
@@ -58,5 +57,7 @@ const props = defineProps({
     }
 
 })
+
+console.log(props.clientsArray)
 
 </script>

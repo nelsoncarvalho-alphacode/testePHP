@@ -14,4 +14,9 @@ class Client extends Model
         'cpf',
         'email'
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'client_id');
+    }
 }

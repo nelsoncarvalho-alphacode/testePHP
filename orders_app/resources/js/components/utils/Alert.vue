@@ -19,7 +19,7 @@ const style = computed(() => 'alert alert-' + props.type)
 
 const visible = ref(true)
 onMounted(() => {
-  const timeoutDuration = 5000;
+  const timeoutDuration = 3000;
 
   setTimeout(() => {
     visible.value = false;

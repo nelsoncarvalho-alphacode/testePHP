@@ -29,6 +29,10 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function () {
     Route::apiResource('/clients', ClientController::class);
     Route::apiResource('/products', ProductController::class);
     Route::apiResource('/orders', OrderController::class);
+
+
+    Route::get('/all-clients', [ClientController::class, 'getClients']);
+    Route::get('/all-products', [ProductController::class, 'getProducts']);
 });
 
 

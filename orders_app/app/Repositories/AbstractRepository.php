@@ -18,6 +18,13 @@ class AbstractRepository {
 
     }
 
+    public function filterOrder($filters)
+    {
+        $search = explode(':', $filters);
+        $this->model = $this->model->with(['client', 'product'])->where($search[0], $search[1], $search[2]);
+
+    }
+
     public function getResult()
     {
         return $this->model->get();

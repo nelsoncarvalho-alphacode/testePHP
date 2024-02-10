@@ -13,14 +13,21 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->date('order_date');
             $table->unsignedBigInteger('client_id');
+            $table->unsignedBigInteger('product_id');
+            $table->integer('quantity');
+            $table->integer('promotion')->nullable();
             $table->enum('status', ['Em Aberto', 'Pago', 'Cancelado']);
             $table->timestamps();
 
             $table->foreign('client_id')
                   ->references('id')
                   ->on('clients')
+                  ->onDelete('cascade');
+
+            $table->foreign('product_id')
+                  ->references('id')
+                  ->on('products')
                   ->onDelete('cascade');
         });
     }

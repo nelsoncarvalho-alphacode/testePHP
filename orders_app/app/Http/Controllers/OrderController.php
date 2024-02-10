@@ -23,47 +23,34 @@ class OrderController extends Controller
 
         if($request->has('search')){
 
-            $orderRepository->filter($request->filter);
+            $orderRepository->filterOrder($request->search);
 
-            return response()->json($orderRepository->getResult(), 200);
+            return response()->json($orderRepository->getResultPaginate(20), 200);
         } else {
-            $orders = $this->order->get();
+            $orders = $this->order->with(['client', 'product'])->orderBy('created_at', 'desc')->paginate(2);
 
             return response()->json($orders, 200);
         }
     }
 
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
+        $data = $request->all();
+        //dd($data);
         // criando o pedido
-        $order = $this->order->create([
-            'client_id' => $request->input('client_id'),
-            'status' => $request->input('status'),
-            'order_date' => date("Y-m-d")
-        ]);
-
-        $items = $request['items'];
-
-        foreach($items as $item){
-            $orderItem = new OrderItem([
-                'product_id' => $item['product_id'],
-                'quantity' => $item['quantity']
-            ]);
-            // criando os items que pertencem a cada pedido
-            $order->items()->save($orderItem);
-        }
+        $this->order->create($data);
 
         return response()->json(['message' => 'Pedido cadastrado com sucesso!'], 201);
     }
 
     public function show(string $id)
     {
-        $order = $this->order->find($id);
+        $order = $this->order->with(['client', 'product'])->find($id);
         if($order === null){
             return response()->json(['erro' => 'O pedido informado não existe!'], 404);
         }
 
-        return $order;
+        return response()->json($order, 200);
     }
 
     public function update(Request $request, string $id)
@@ -75,17 +62,6 @@ class OrderController extends Controller
 
         $data = $request->all();
         $order->update($data);
-
-        $items = $request['items'];
-
-        foreach($items as $item){
-            $orderItem = new OrderItem([
-                'product_id' => $item['product_id'],
-                'quantity' => $item['quantity']
-            ]);
-        }
-
-        $order->items()->update($orderItem);
 
         return response()->json(['message' => 'Pedido atualizado com sucesso'], 200);
     }

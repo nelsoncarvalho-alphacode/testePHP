@@ -21,6 +21,15 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::get('/clients', function() {
     return view('app.clients');
 })->name('clients')->middleware('auth');
+
+Route::get('/products', function() {
+    return view('app.products');
+})->name('products')->middleware('auth');
+
+Route::get('/orders', function() {
+    return view('app.orders');
+})->name('orders')->middleware('auth');

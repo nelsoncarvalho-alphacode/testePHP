@@ -1,7 +1,7 @@
 <template>
-    <div class="col-6 col-md-4">
+    <div class="col-12">
         <div style="margin-top: 8px;">
-            <button class="btn btn-success btn-md">{{ title }}</button>
+            <button class="btn btn-success btn-md col-12 col-md-8">{{ title }}</button>
         </div>
     </div>
 </template>

@@ -27,7 +27,7 @@ class OrderController extends Controller
 
             return response()->json($orderRepository->getResultPaginate(20), 200);
         } else {
-            $orders = $this->order->with(['client', 'product'])->orderBy('created_at', 'desc')->paginate(2);
+            $orders = $this->order->with(['client', 'product'])->orderBy('created_at', 'desc')->paginate(20);
 
             return response()->json($orders, 200);
         }

@@ -25,9 +25,9 @@ class ClientController extends Controller
 
             $clientRepository->filter($request->search);
 
-            return response()->json($clientRepository->getResultPaginate(2), 200);
+            return response()->json($clientRepository->getResultPaginate(20), 200);
         } else {
-            $clients = $this->client->paginate(20);
+            $clients = $this->client->orderBy('created_at', 'desc')->paginate(20);
         }
         return response()->json($clients, 200);
     }

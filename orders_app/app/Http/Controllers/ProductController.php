@@ -26,7 +26,7 @@ class ProductController extends Controller
 
             return response()->json($productRepository->getResultPaginate(20), 200);
         } else {
-            $products = $this->product->paginate(20);
+            $products = $this->product->orderBy('created_at', 'desc')->paginate(20);
 
             return response()->json($products, 200);
         }

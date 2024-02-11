@@ -4,15 +4,29 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header d-flex">
-                        <button-new-item title="Novo Pedido" data-bs-toggle="modal" data-bs-target="#modalOrderSave">
-                        </button-new-item>
-                        <div class="col-md-4 mt-2"></div>
-                        <input-search-component>
-                            <template v-slot:input>
-                                <input @input="handleSearch()" type="text" class="form-control" id="searchId"
-                                    placeholder="Buscar..." v-model="searchObj.id">
-                            </template>
-                        </input-search-component>
+                        <div class="col-4">
+                            <button-new-item title="Novo" data-bs-toggle="modal" data-bs-target="#modalOrderSave">
+                            </button-new-item>
+                        </div>
+                        <div class="col-4 d-flex" style="margin-left: 10px;">
+                            <div class="mt-2 col-12 float-right">
+                                <select
+                                    class="form-select"
+                                    v-model="selectedFilter"
+                                >
+                                    <option selected disabled value="">Filtrar por</option>
+                                    <option v-for="(item, index) in itemsSearchObj" :key="index" :value="index">{{ item }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin-left: 8px;">
+                            <input-search-component>
+                                <template v-slot:input>
+                                    <input :disabled="selectedFilter == ''" @input="handleSearch()" type="text" class="form-control" id="searchId"
+                                        placeholder="Buscar..." v-model="searchQuery">
+                                </template>
+                            </input-search-component>
+                        </div>
                     </div>
 
                     <div class="card-body">
@@ -84,12 +98,7 @@ import DeleteOrder from './crud/DeleteOrder.vue';
 
 const store = useStore()
 
-const searchObj = ref({
-    id: '',
-    product: '',
-    client: '',
-    status: ''
-})
+const selectedFilter = ref("")
 
 const urlPaginate = ref("");
 const urlFilter = ref("");
@@ -97,28 +106,27 @@ const ordersArray = ref([]);
 
 const urlBase = ref('http://localhost:8000/api/v1/orders')
 
+let searchQuery = ref("")
+
+let itemsSearchObj = {
+    id: 'Número',
+    status: 'Status',
+    quantity: 'Quantidade'
+}
+
 const handleSearch = () => {
-    let filter = '';
-
-    for (let index in searchObj.value) {
-        const value = searchObj.value[index];
-
-        if (value != '') {
-            if (filter !== '') {
-                filter += ';';
-            }
-
-            filter += index + ':like:' + '%' + value + '%';
-        }
-
-    }
-    console.log(filter)
-    if (filter) {
+    if(searchQuery.value != ''){
         urlPaginate.value = 'page=1'
-        urlFilter.value = '&search=' + filter
+        if(selectedFilter.value == 'id' || selectedFilter.value == 'quantity'){
+            urlFilter.value = '&search='+selectedFilter.value+':like:'+'%'+Number(searchQuery.value)+'%'
+        } else {
+            urlFilter.value = '&search='+selectedFilter.value+':like:'+'%'+searchQuery.value+'%'
+            console.log(urlFilter.value)
+        }
     } else {
         urlFilter.value = ''
     }
+
     refreshList()
 }
 

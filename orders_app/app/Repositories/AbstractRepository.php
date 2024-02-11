@@ -15,7 +15,10 @@ class AbstractRepository {
     {
         $search = explode(':', $filters);
         $this->model = $this->model->where($search[0], $search[1], $search[2]);
-
+        // foreach ($filters as $filter) {
+        //     [$field, $operator, $value] = explode(':', $filter);
+        //     $this->model = $this->model->orWhere($field, $operator, $value);
+        // }
     }
 
     public function filterOrder($filters)

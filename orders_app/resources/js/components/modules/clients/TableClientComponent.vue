@@ -58,6 +58,4 @@ const props = defineProps({
 
 })
 
-console.log(props.clientsArray)
-
 </script>

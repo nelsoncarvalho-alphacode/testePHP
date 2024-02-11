@@ -4,17 +4,38 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header d-flex">
-                        <button-new-item title="Novo Cliente" data-bs-toggle="modal"
-                            data-bs-target="#modalClientSave">
-                        </button-new-item>
-                        <div class="col-md-4"></div>
-                        <input-search-component>
-                            <template v-slot:input>
-                                <input @input="handleSearch()" type="text" class="form-control" id="searchId"
-                                    placeholder="Buscar..." v-model="searchObj.name">
+                        <div class="col-4">
+                            <button-new-item title="Novo" data-bs-toggle="modal"
+                                data-bs-target="#modalClientSave">
+                            </button-new-item>
+                        </div>
+                        <div class="col-4 d-flex" style="margin-left: 10px;">
+                            <div class="mt-2 col-12 float-right">
+                                <select
+                                    class="form-select"
+                                    v-model="selectedFilter"
+                                >
+                                    <option selected disabled value="">Filtrar por</option>
+                                    <option v-for="(item, index) in itemsSearchObj" :key="index" :value="index">{{ item }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin-left: 8px;">
+                            <input-search-component>
+                                <template v-slot:input>
+                                    <input
+                                        @input="handleSearch()"
+                                        :disabled="selectedFilter == ''"
+                                        type="text"
+                                        class="form-control"
+                                        id="searchId"
+                                        placeholder="Buscar..."
+                                        v-model="searchQuery">
 
-                            </template>
-                        </input-search-component>
+                                </template>
+                            </input-search-component>
+                        </div>
+
                     </div>
 
                     <div class="card-body">
@@ -89,9 +110,7 @@ import DeleteClient from './crud/DeleteClient.vue'
 
 const store = useStore()
 
-const searchObj = ref({
-    name: ''
-})
+const selectedFilter = ref("")
 
 const urlPaginate = ref("");
 const urlFilter = ref("");
@@ -111,26 +130,28 @@ const getConfigHeaders = computed(() => {
     return config
 })
 
+let searchQuery = ref("")
+
+let itemsSearchObj = {
+    name: 'Nome',
+    email: 'Email',
+    cpf: 'CPF'
+}
 const handleSearch = () => {
-    let filter = '';
 
-    for (let index in searchObj.value) {
-        const value = searchObj.value[index];
-
-        if (value) {
-            if (filter != '') {
-                filter += ';'
-            }
-            filter += index + ':like:' + '%' + value + '%'
-        }
-
-    }
-    if (filter) {
+    if(searchQuery.value != ''){
         urlPaginate.value = 'page=1'
-        urlFilter.value = '&search=' + filter
+        if(selectedFilter.value == 'cpf'){
+            urlFilter.value = '&search='+selectedFilter.value+':like:'+'%'+Number(searchQuery.value)+'%'
+        } else {
+            urlFilter.value = '&search='+selectedFilter.value+':like:'+'%'+searchQuery.value+'%'
+            console.log(urlFilter.value)
+        }
     } else {
         urlFilter.value = ''
+        console.log('vazio')
     }
+
     refreshList()
 }
 
@@ -145,13 +166,12 @@ const config = ref(getConfigHeaders.value.headers)
 
 const loader = ref(false)
 const paginateData = ref([])
-const refreshList = async () => {
+const refreshList = async (query = '') => {
     loader.value = true
     let url = `${urlBase.value}?${urlPaginate.value}${urlFilter.value}`
     try {
         const response = await axios.get(url, { headers: config.value })
         clientsArray.value = response.data.data
-        console.log(clientsArray.value)
         paginateData.value = response.data
         loader.value = false
     } catch (e) {

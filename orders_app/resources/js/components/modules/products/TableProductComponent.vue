@@ -11,7 +11,6 @@
             </thead>
             <tbody >
                 <tr v-for="product in productsArray" :key="product.id" style="justify-content: center; align-items: center;">
-                    <th scope="row">{{ product.id }}</th>
                     <td>{{ product.name }}</td>
                     <td>{{ product.price }}</td>
                     <td>{{ product.barcode }}</td>

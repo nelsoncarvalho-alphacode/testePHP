@@ -4,16 +4,30 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header d-flex">
-                        <button-new-item title="Novo Produto" data-bs-toggle="modal" data-bs-target="#modalClientSave">
-                        </button-new-item>
-                        <div class="col-md-4"></div>
-                        <input-search-component>
-                            <template v-slot:input>
-                                <input @input="handleSearch()" type="text" class="form-control" id="searchId"
-                                    placeholder="Buscar..." v-model="searchObj.name">
+                        <div class="col-4">
+                            <button-new-item title="Novo" data-bs-toggle="modal" data-bs-target="#modalClientSave">
+                            </button-new-item>
+                        </div>
+                        <div class="col-4 d-flex" style="margin-left: 10px;">
+                            <div class="mt-2 col-12 float-right">
+                                <select
+                                    class="form-select"
+                                    v-model="selectedFilter"
+                                >
+                                    <option selected disabled value="">Filtrar por</option>
+                                    <option v-for="(item, index) in itemsSearchObj" :key="index" :value="index">{{ item }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin-left: 8px;">
+                            <input-search-component>
+                                <template v-slot:input>
+                                    <input :disabled="selectedFilter == ''" @input="handleSearch()" type="text" class="form-control" id="searchId"
+                                        placeholder="Buscar..." v-model="searchQuery">
 
-                            </template>
-                        </input-search-component>
+                                </template>
+                            </input-search-component>
+                        </div>
                     </div>
 
                     <div class="card-body">
@@ -27,7 +41,7 @@
                             :show="{ visible: true, dataToggle: 'modal', dataTarget: '#modalProductShow' }"
                             :update="{ visible: true, dataToggle: 'modal', dataTarget: '#modalProductUpdate' }"
                             :deleted="{ visible: true, dataToggle: 'modal', dataTarget: '#modalProductDelete' }"
-                            :table-titles="['ID', 'Nome', 'Valor', 'Código de Barras', 'Ações']"
+                            :table-titles="['Nome', 'Valor', 'Código de Barras', 'Ações']"
                             :products-array="productsArray">
                         </table-products-component>
                     </div>
@@ -88,10 +102,7 @@ import DeleteProduct from './crud/DeleteProduct.vue';
 
 const store = useStore()
 
-const searchObj = ref({
-    id: '',
-    name: ''
-})
+const selectedFilter = ref("")
 
 const urlPaginate = ref("");
 const urlFilter = ref("");
@@ -111,26 +122,27 @@ const getConfigHeaders = computed(() => {
     return config
 })
 
+let searchQuery = ref("")
+
+let itemsSearchObj = {
+    name: 'Nome',
+    price: 'Valor',
+    barcode: 'Código'
+}
+
 const handleSearch = () => {
-    let filter = '';
-
-    for (let index in searchObj.value) {
-        const value = searchObj.value[index];
-
-        if (value) {
-            if (filter != '') {
-                filter += ';'
-            }
-            filter += index + ':like:' + '%' + value + '%'
-        }
-
-    }
-    if (filter) {
+    if(searchQuery.value != ''){
         urlPaginate.value = 'page=1'
-        urlFilter.value = '&search=' + filter
+        if(selectedFilter.value == 'price' || selectedFilter.value == 'barcode'){
+            urlFilter.value = '&search='+selectedFilter.value+':like:'+Number(searchQuery.value)+'%'
+        } else {
+            urlFilter.value = '&search='+selectedFilter.value+':like:'+'%'+searchQuery.value+'%'
+        }
     } else {
         urlFilter.value = ''
+        console.log('vazio')
     }
+
     refreshList()
 }
 

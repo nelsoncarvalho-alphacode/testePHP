@@ -14,12 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ClientController;
 
 Route::get('/', [ProductController::class, 'index']);
 
-Route::get('/clientes', function () {
-    return view('clientes');
-});
 
 Route::get('/produtos', [ProductController::class, 'index'])->name('produtos.list');
 
@@ -32,6 +30,18 @@ Route::post('/store-produto', [ProductController::class, 'store'])->name('produt
 Route::put('/produtos/{id}', [ProductController::class, 'update'])->name('produto.update');
 
 Route::delete('/produtos/{id}', [ProductController::class, 'destroy'])->name('produto.destroy');
+
+Route::get('/clientes', [ClientController::class, 'index'])->name('clientes.list');
+
+Route::get('/novo-cliente', [ClientController::class, 'create'])->name('clientes.create');
+
+Route::get('/clientes/{id}/edit', [ClientController::class, 'edit'])->name('clientes.edit');
+
+Route::post('/store-cliente', [ClientController::class, 'store'])->name('produto.store');
+
+Route::put('/clientes/{id}', [ClientController::class, 'update'])->name('cliente.update');
+
+Route::delete('/clientes/{id}', [ClientController::class, 'destroy'])->name('cliente.destroy');
 
 Route::get('/pedidos', function () {
     return view('pedidos');

@@ -13,10 +13,10 @@
       <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
         <ul class="navbar-nav m-auto h5">
           <li class="nav-item active">
-            <a class="nav-link" href="/clientes">Clientes</a>
+            <a class="nav-link" href="/produtos">Produtos</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="/produtos">Produtos</a>
+            <a class="nav-link" href="/clientes">Clientes</a>
           </li>
           <li class="nav-item active">
             <a class="nav-link" href="/pedidos">Pedidos</a>

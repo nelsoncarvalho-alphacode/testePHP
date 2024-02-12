@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("nome", 100);
             $table->char("cpf", 11)->unique();
-            $table->string("email", 11)->unique();
+            $table->string("email", 100)->unique();
             $table->timestamps();
         });
     }

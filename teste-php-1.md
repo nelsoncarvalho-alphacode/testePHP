@@ -14,6 +14,10 @@ composer install
 
 php artisan key:generate
 
+# Executar migrations
+
+php artisan migrate
+
 # Acessar o projeto
 
 http://localhost:8989

@@ -5,7 +5,7 @@
             <alert-component type="danger" v-if="statusTransactionEdit == 'error'" :msg="statusMessageEdit"></alert-component>
         </template>
         <template v-slot:content>
-            <input-container-component title="Nome do Cliente">
+            <input-container-component title="Nome do Cliente *">
                 <div>
                     <span v-if="validationName"><small class="text-danger">{{ validationName[0] }}</small></span>
                     <input type="text" v-model="store.item.name" placeholder="Digite o nome do cliente" class="form-control">
@@ -14,7 +14,7 @@
             <input-container-component title="Email do Cliente">
                 <input type="email" v-model="store.item.email" placeholder="Digite o email do cliente" class="form-control">
             </input-container-component>
-            <input-container-component title="CPF">
+            <input-container-component title="CPF *">
                 <div>
                     <span v-if="validationCpf"><small class="text-danger">{{ validationCpf[0] }}</small></span>
                     <input type="text" v-model="store.item.cpf" placeholder="Digite o CPF do cliente" class="form-control">

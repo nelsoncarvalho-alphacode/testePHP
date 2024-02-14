@@ -116,7 +116,7 @@ const urlPaginate = ref("");
 const urlFilter = ref("");
 const clientsArray = ref([]);
 
-const urlBase = ref('http://localhost:8000/api/v1/clients')
+const urlBase = ref('http://localhost:8001/api/v1/clients')
 
 const getConfigHeaders = computed(() => {
     let tokenCookie = document.cookie.split(';')
@@ -145,11 +145,9 @@ const handleSearch = () => {
             urlFilter.value = '&search='+selectedFilter.value+':like:'+'%'+Number(searchQuery.value)+'%'
         } else {
             urlFilter.value = '&search='+selectedFilter.value+':like:'+'%'+searchQuery.value+'%'
-            console.log(urlFilter.value)
         }
     } else {
         urlFilter.value = ''
-        console.log('vazio')
     }
 
     refreshList()

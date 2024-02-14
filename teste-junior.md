@@ -26,6 +26,8 @@ MySQL
 - php artisan make:controller ClientController --resource
 - php artisan make:controller OrderController --resource
 
+yvvty
+xx
 
 ## Models e Migrations
 - php artisan make:model Client -m
@@ -41,7 +43,7 @@ MySQL
 
 
 ## Repositories
-- Criei a pasta Repositories dentro de App
+- Repositories criado dentro de App
 
 
 ## Instalações
@@ -60,23 +62,15 @@ MySQL
 - npm run dev
 
 
-
-
-
-
-## Falta fazer 
-  - Deve ser filtrável e ordenável por qualquer campo, e possuir paginação de 20 itens.
-
-## Bônus
-- Permitir deleção em massa de itens nos CRUDs.
-- Permitir que o usuário mude o número de itens por página.
-
-## O que iremos analisar
-
-- Organização do código;
-- Conhecimento de padrões (PSRs, design patterns, SOLID);
-- Separação de módulos e componentes;
-- Legibilidade;
-- Tratamento de erros;
-
-### Boa sorte!
+## Construindo ambiente (Docker)
+- php artisan sail:install
+- php artisan sail:publish
+- No arquivo docker-compose.yml:
+    -  Porta do container laravel.test alterada para 8001, apontando para porta 80 local
+- docker compose build (Constrói o container e images)
+- ./vendor/bin/sail up (Sobe o container)
+- docker ps (Verifica se o container está ativo)
+- docker exec -it <id_do_container> /bin/bash (Acessa o shell interativo do container cujo ID foi informado)
+- sudo chmod -R 777 storage (Comando para corrigir o erro de Permission danied no navegador)
+- php artisan migrate (cria as tabelas no banco de dados)
+- npm run dev (start frontend)

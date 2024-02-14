@@ -108,7 +108,7 @@ const urlPaginate = ref("");
 const urlFilter = ref("");
 const productsArray = ref([]);
 
-const urlBase = ref('http://localhost:8000/api/v1/products')
+const urlBase = ref('http://localhost:8001/api/v1/products')
 
 const getConfigHeaders = computed(() => {
     let tokenCookie = document.cookie.split(';')
@@ -140,7 +140,6 @@ const handleSearch = () => {
         }
     } else {
         urlFilter.value = ''
-        console.log('vazio')
     }
 
     refreshList()

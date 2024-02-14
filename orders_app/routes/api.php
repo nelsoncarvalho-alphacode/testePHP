@@ -33,6 +33,7 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function () {
 
     Route::get('/all-clients', [ClientController::class, 'getClients']);
     Route::get('/all-products', [ProductController::class, 'getProducts']);
+    Route::get('/all-orders', [OrderController::class, 'getOrders']);
 });
 
 

@@ -131,10 +131,10 @@ const handleUpdateItem = async () => {
 const allClients = ref([]);
 const allProducts = ref([]);
 onMounted(async () => {
-    const clientsResponse = await axios.get('http://localhost:8001/api/v1/all-clients', { headers: props.config });
+    const clientsResponse = await axios.get('http://localhost:8000/api/v1/all-clients', { headers: props.config });
     allClients.value = clientsResponse.data
 
-    const productsResponse = await axios.get('http://localhost:8001/api/v1/all-products', { headers: props.config });
+    const productsResponse = await axios.get('http://localhost:8000/api/v1/all-products', { headers: props.config });
     allProducts.value = productsResponse.data
 })
 </script>

@@ -104,7 +104,7 @@ const urlPaginate = ref("");
 const urlFilter = ref("");
 const ordersArray = ref([]);
 
-const urlBase = ref('http://localhost:8001/api/v1/orders')
+const urlBase = ref('http://localhost:8000/api/v1/orders')
 
 let searchQuery = ref("")
 

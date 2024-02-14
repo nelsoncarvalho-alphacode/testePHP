@@ -75,4 +75,11 @@ class OrderController extends Controller
 
         $order->delete();
     }
+
+    public function getOrders()
+    {
+        $orders = $this->order->get();
+
+        return response()->json($orders, 200);
+    }
 }

@@ -84,7 +84,7 @@ const password = ref("");
 
 const login = async (event) => {
 
-    let url = 'http://localhost:8001/api/login';
+    let url = 'http://localhost:8000/api/login';
     let data = {
         email: email.value,
         password: password.value

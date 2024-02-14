@@ -26,8 +26,6 @@ MySQL
 - php artisan make:controller ClientController --resource
 - php artisan make:controller OrderController --resource
 
-yvvty
-xx
 
 ## Models e Migrations
 - php artisan make:model Client -m
@@ -60,6 +58,10 @@ xx
 
 ## Produzindo o bundle de front
 - npm run dev
+
+
+## Comando para inserir dados no Banco
+- php artisan insert-data
 
 
 ## Construindo ambiente (Docker)

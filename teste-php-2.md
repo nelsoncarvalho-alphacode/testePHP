@@ -1,61 +1,53 @@
-# Teste para candidatos à vaga de Desenvolvedor PHP
+# Crie o Arquivo .env
 
-Olá caro desenvolvedor, nesse teste analisaremos seu conhecimento geral e inclusive velocidade de desenvolvimento. Abaixo explicaremos tudo o que será necessário.
+```bash
+cp .env.example .env
+```
 
-## Instruções
+## Atualize as variáveis de ambiente do arquivo .env
 
-O desafio consiste em implementar uma aplicação web utilizando PHP, um banco de dados relacional (Mysql, Postgres ou SQLite), que terá como finalidade a inscrição de candidatos a uma oportunidade de emprego.
+```bash
+APP_NAME="NomeDoApp"
+APP_URL=http://localhost:8989
 
-Sua aplicação deve possuir:
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=nome_que_desejar_db
+DB_USERNAME=root
+DB_PASSWORD=root
+```
 
-- CRUD de vagas:
-  - Criar, editar, excluir e listar vagas.
-  - A vaga pode ser CLT, Pessoa Jurídica ou Freelancer.
-- CRUD de candidatos:
-  - Criar, editar, excluir e listar candidatos.
-- Um cadidato pode se inscrever em uma ou mais vagas.
-- Deve ser ser possível "pausar" a vaga, evitando a inscrição de candidatos.
-- Cada CRUD:
-  - Deve ser filtrável e ordenável por qualquer campo, e possuir paginação de 20 itens.
-  - Deve possuir formulários para criação e atualização de seus itens.
-  - Deve permitir a deleção de qualquer item de sua lista.
-  - Implementar validações de campos obrigatórios e tipos de dados.
+## Suba os containers do projeto
 
-## Banco de dados
+```bash
+docker-compose up -d
+```
 
-- Você pode criar a modelagem e implementar as validações necessárias da camada da forma que julgar melhor.
+## Acesse o container app com o bash
 
-## Tecnologias a serem utilizadas
+```bash
+docker-compose exec app bash
+```
 
-Devem ser utilizadas as seguintes tecnologias:
+## Instale as dependências do projeto
 
-- HTML
-- CSS
-- Javascript
-- PHP (Framework Opcional: Laravel, CodeIgnither)
-- Docker (construção do ambiente de desenvolvimento)
-- Mysql, Postgres ou SQLite
+```bash
+composer install
+```
 
-## Entrega
+## Gere a key do projeto Laravel
 
-- Para iniciar o teste, faça um fork deste repositório; **Se você apenas clonar o repositório não vai conseguir fazer push.**
-- Crie uma branch com o seu nome completo;
-- Altere o arquivo teste-php.md com as informações necessárias para executar o seu teste (comandos, instalações, etc);
-- Depois de finalizado, envie-nos o pull request;
+```bash
+php artisan key:generate
+```
 
-## Bônus
+## Faça a migrate para instalar a migrations do banco de dados
 
-- API Rest JSON para todos os CRUDS listados acima.
-- Permitir deleção em massa de itens nos CRUDs.
-- Permitir que o usuário mude o número de itens por página.
-- Implementar autenticação de usuário na aplicação.
+```bash
+php artisan migrate
+```
 
-## O que iremos analisar
+## Para acessar o projeto fique dentro da bash do docker.
 
-- Organização do código;
-- Conhecimento de padrões (PSRs, design patterns, SOLID);
-- Separação de módulos e componentes;
-- Legibilidade;
-- Tratamento de erros;
-
-### Boa sorte!
+## Acesse o projeto http://localhost:8989

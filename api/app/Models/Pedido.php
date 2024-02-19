@@ -4,18 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Produto;
-use App\Models\Cliente;
 
 class Pedido extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        "produto_id",
+        "quantidade_prod_pedido",
+        "cliente_id",
+    ];
+
     public function produto(){
-        return $this->belongsTo(Produto::class);
+        return $this->belongsTo('App\Models\Produto');
     }
 
     public function cliente(){
-        return $this->belongsTo(Cliente::class);
+        return $this->belongsTo('App\Models\Cliente');
     }
 }

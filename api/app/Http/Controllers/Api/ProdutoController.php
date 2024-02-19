@@ -34,4 +34,8 @@ class ProdutoController extends Controller
             return $this->response("Produto cadastrado com sucesso", 201, $created);
         }
     }
+
+    public function show($id){
+        return $this->response("Produto encontrado com sucesso", 200, Produto::findOrFail($id));
+    }
 }

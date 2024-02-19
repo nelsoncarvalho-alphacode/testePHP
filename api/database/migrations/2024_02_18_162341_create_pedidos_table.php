@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("id_produto")->constrained("produtos");
             $table->integer("quantidade_prod_pedido");
-            $table->foreignId("id_cliente")->constrained("clientes");
+            $table->unsignedBigInteger('produto_id');
+            $table->unsignedBigInteger('cliente_id');
             $table->timestamps();
+
+            $table->foreign("produto_id")->references("id")->on("produtos")->onDelete('cascade');
+            $table->foreign("cliente_id")->references("id")->on("clientes")->onDelete('cascade');
         });
     }
 

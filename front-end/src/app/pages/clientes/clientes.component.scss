@@ -1,4 +1,23 @@
 .table-container {
   width: 70%;
   margin: 3rem auto;
+
+  .table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .no-clients {
+    text-align: center;
+    margin: 2rem;
+  }
+
+  .actions-icons {
+    .icon {
+      margin-right: 1rem;
+      cursor: pointer;
+      font-size: 22px;
+    }
+  }
 }

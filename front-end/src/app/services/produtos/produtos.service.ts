@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
+import { Produto } from '../../models/Produto';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,19 @@ export class ProdutosService {
     return this.httpClient.get<any>(this.url);
   }
 
-  getProdutoById(id: number) {
-    return this.httpClient.get<any>(this.url + id);
+  getAllProdutos() {
+    return this.httpClient.get<any>(this.url + '-all');
+  }
+
+  save(produto: Partial<Produto>) {
+    return this.httpClient.post(this.url, produto);
+  }
+
+  delete(id_produto: number) {
+    return this.httpClient.delete(this.url + `/${id_produto}`);
+  }
+
+  update(produto: Partial<Produto>, id: number) {
+    return this.httpClient.put(this.url + `/${id}`, produto);
   }
 }

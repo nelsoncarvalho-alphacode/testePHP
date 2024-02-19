@@ -1,0 +1,38 @@
+<div class="form-container">
+  <h2>Novo Produto</h2>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Nome</mat-label>
+    <input matInput [(ngModel)]="produto.nome" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Código de barras</mat-label>
+    <input matInput [(ngModel)]="produto.cod_barras" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Valor</mat-label>
+    <input matInput type="number" [(ngModel)]="produto.valor" />
+    <span matTextPrefix>R$ &nbsp;</span>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Quantidade</mat-label>
+    <input matInput type="number" [(ngModel)]="produto.qtd_prod" />
+  </mat-form-field>
+
+  <div class="buttons-container">
+    <button mat-button color="warn" (click)="goBack()" [disabled]="disableBtn">
+      Cancelar
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="save()"
+      [disabled]="disableBtn"
+    >
+      Salvar
+    </button>
+  </div>
+</div>

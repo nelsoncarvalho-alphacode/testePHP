@@ -1,4 +1,11 @@
 <div class="table-container">
+  <div class="table-header">
+    <h2>Pedidos</h2>
+    <button routerLink="/novo-pedido" mat-flat-button color="primary">
+      Novo Pedido
+    </button>
+  </div>
+  @if (dataSource){
   <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>Id</th>
@@ -22,9 +29,42 @@
       <td mat-cell *matCellDef="let element">{{ element.cliente.nome }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="data">
-      <th mat-header-cell *matHeaderCellDef>Data</th>
-      <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+    <ng-container matColumnDef="data-criacao">
+      <th mat-header-cell *matHeaderCellDef>Data de criação</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.created_at.slice(0, 10).split("-").reverse().join("/") }} -
+        {{ element.created_at.slice(11, 16) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="data-atualizacao">
+      <th mat-header-cell *matHeaderCellDef>Data de atualização</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.updated_at.slice(0, 10).split("-").reverse().join("/") }} -
+        {{ element.updated_at.slice(11, 16) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element" class="actions-icons">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Editar"
+          fontIcon="edit"
+          class="icon"
+          title="Editar"
+          (click)="edit(element)"
+        ></mat-icon>
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Excluir"
+          fontIcon="delete"
+          class="icon"
+          title="Excluir"
+          (click)="delete(element)"
+        ></mat-icon>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -33,8 +73,12 @@
 
   <mat-paginator
     [pageSizeOptions]="[5, 10, 20]"
+    pageSize="20"
     showFirstLastButtons
     aria-label="Select page of periodic elements"
   >
   </mat-paginator>
+  } @else {
+  <p class="no-orders">Nenhum pedido encontrado</p>
+  }
 </div>

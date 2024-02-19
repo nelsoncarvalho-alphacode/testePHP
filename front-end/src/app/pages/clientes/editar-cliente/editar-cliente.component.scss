@@ -1,0 +1,13 @@
+.form-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+}

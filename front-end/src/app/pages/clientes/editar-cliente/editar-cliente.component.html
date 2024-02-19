@@ -1,0 +1,32 @@
+<div class="form-container">
+  <h2>Editar Cliente</h2>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Nome</mat-label>
+    <input matInput [(ngModel)]="cliente.nome" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>CPF</mat-label>
+    <input matInput [(ngModel)]="cliente.cpf" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" [(ngModel)]="cliente.email" />
+  </mat-form-field>
+
+  <div class="buttons-container">
+    <button mat-button color="warn" (click)="goBack()" [disabled]="disableBtn">
+      Cancelar
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="save()"
+      [disabled]="disableBtn"
+    >
+      Salvar
+    </button>
+  </div>
+</div>

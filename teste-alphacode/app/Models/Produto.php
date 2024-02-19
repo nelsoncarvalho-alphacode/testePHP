@@ -10,9 +10,9 @@ class Produto extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nome',
-        'cod_barras',
-        'valor',
-        'qtd_prod'
+        "nome",
+        "cod_barras",
+        "valor",
+        "qtd_prod"
     ];
 }

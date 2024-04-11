@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Inscrição em Vagas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="page-title">
+        <h1>Inscrição em Vagas</h1>
+    </div>
+
+    <!-- Formulário de Inscrição -->
+    <form id="formInscricao">
+        <label for="email">Seu Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="vaga_id">Selecione a Vaga:</label>
+        <select id="vaga_id" name="vaga_id" required>
+            <!-- As opções de vaga serão preenchidas dinamicamente via JavaScript -->
+        </select><br>
+
+        <input type="submit" value="Inscrever-se">
+    </form>
+
+    <script src="inscricao.js"></script>
+</body>
+
+</html>

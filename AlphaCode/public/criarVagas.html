@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Criar Vaga</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="page-title">
+        <h1>Criar Vaga</h1>
+    </div>
+
+    <form action="../app/CriarVagas.php" method="POST">
+        <label for="titulo">Título:</label>
+        <input type="text" id="titulo" name="titulo" required><br>
+
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" name="tipo">
+            <option value="CLT">CLT</option>
+            <option value="Pessoa Jurídica">Pessoa Jurídica</option>
+            <option value="Freelancer">Freelancer</option>
+        </select><br>
+
+        <label>Status:</label><br>
+        <input type="checkbox" id="status" name="status" value="ativo" checked> Ativo<br>
+
+        <input type="submit" value="Criar Vaga">
+    </form>
+</body>
+
+</html>

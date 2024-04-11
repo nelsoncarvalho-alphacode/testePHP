@@ -1,0 +1,59 @@
+body {
+    font-family: 'Century Gothic', Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.page-title {
+    background-color: #005c8b; /* Cor de fundo para o título da página */
+    color: #fff; /* Cor do texto do título da página */
+    padding: 10px 0; /* Espaçamento interno no título da página */
+    text-align: center; /* Centralizar o texto */
+    margin-bottom: 20px; /* Adicionar margem abaixo do título */
+}
+
+h1 {
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center; /* Centralizar os links */
+}
+
+ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 10px; /* Adicionar um espaçamento interno aos links */
+    border: 1px solid #333; /* Adicionar uma borda aos links para destacá-los */
+    border-radius: 4px; /* Adicionar cantos arredondados aos links */
+    transition: background-color 0.3s ease; /* Adicionar transição suave de cor de fundo */
+}
+
+a:hover {
+    background-color: #005c8b; /* Alterar a cor de fundo ao passar o mouse */
+    color: #fff; /* Alterar a cor do texto ao passar o mouse */
+}
+
+/* Estilo específico para a página inicial */
+body.index {
+    background-color: #fff;
+}
+
+/* Estilo específico para a página de usuário ADM */
+body.userADM {
+    background-color: #fff;
+}
+
+/* Estilo específico para a página de usuário Candidato */
+body.userCandidato {
+    background-color: #fff;
+}

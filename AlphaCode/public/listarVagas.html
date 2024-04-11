@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Listagem de Vagas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="page-title">
+        <h1>Listagem de Vagas</h1>
+    </div>
+
+    <!-- Campo de pesquisa e ordenação -->
+    <form id="searchForm">
+        <label for="search">Pesquisar:</label>
+        <input type="text" id="search" name="search">
+        <label for="order_by">Ordenar por:</label>
+        <select id="order_by" name="order_by">
+            <option value="id">ID</option>
+            <option value="titulo">Título</option>
+            <option value="tipo">Tipo</option>
+            <option value="status">Status</option>
+        </select>
+        <input type="submit" value="Filtrar">
+    </form>
+
+    <!-- Tabela de Vagas -->
+    <table id="vagasTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Tipo</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="vagasBody">
+            <!-- Aqui serão adicionadas as linhas da tabela via JavaScript -->
+        </tbody>
+    </table>
+
+    <!-- Paginação -->
+    <div class="pagination" id="pagination"></div>
+
+    <!-- Script JavaScript -->
+    <script src="listarVagas.js"></script>
+</body>
+
+</html>

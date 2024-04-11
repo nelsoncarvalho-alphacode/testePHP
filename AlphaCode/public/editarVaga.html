@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Candidatos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="page-title">
+        <h1>Editar Candidatos</h1>
+    </div>
+
+    <!-- Campo de pesquisa e ordenação -->
+    <form id="searchForm">
+        <label for="search">Pesquisar:</label>
+        <input type="text" id="search" name="search">
+        <label for="order_by">Ordenar por:</label>
+        <select id="order_by" name="order_by">
+            <option value="id">ID</option>
+            <option value="nome">Nome</option>
+            <option value="email">Email</option>
+            <option value="telefone">Telefone</option>
+        </select>
+        <input type="submit" value="Filtrar">
+    </form>
+
+    <!-- Tabela de Candidatos -->
+    <table id="candidatosTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody id="candidatosBody"></tbody>
+    </table>
+
+    <!-- Paginação -->
+    <div class="pagination" id="pagination"></div>
+
+    <!-- Formulário de Edição de Candidato -->
+    <h2>Editar Candidato</h2>
+    <form id="formEditarCandidato">
+        <input type="hidden" id="edit_id" name="id">
+        <label for="edit_nome">Nome:</label>
+        <input type="text" id="edit_nome" name="nome" required><br>
+        <label for="edit_email">Email:</label>
+        <input type="email" id="edit_email" name="email" required><br>
+        <label for="edit_telefone">Telefone:</label>
+        <input type="text" id="edit_telefone" name="telefone" required><br>
+        <input type="submit" value="Salvar">
+    </form>
+
+    <script src="editarCandidatos.js"></script>
+</body>
+
+</html>

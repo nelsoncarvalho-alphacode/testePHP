@@ -1,58 +1,78 @@
-[![](https://site.alphacode.com.br/wp-content/uploads/2015/10/logocolor.png)](https://site.alphacode.com.br/)
+# Root Shop
 
-# Nossa empresa
+Este é um projeto Fullstack usando PHP, onde utilizei as seguintes tecnologias para criar uma loja totalmente funcional:
+- HTML, CSS e JS
+- Bootstrap, Jquery e DataTable
+- PHP e Laravel
+- Docker
 
-Nascida em 2015, a Alphacode é uma empresa que não para de crescer e de inovar.
-Formada por um time experiente de especialistas em tecnologia a empresa busca a cada dia trazer as soluções mais inovadoras do mercado mobile para os seus clientes.
-Todos os meses são novos aplicativos publicados nas lojas Play Store e Apple Store e um número maior de pessoas que utilizam nossas soluções para melhorar seu dia a dia.
-Seja para pedir uma pizza, assistir tv,  abrir o portão de casa ou pagar a conta de um churrasco com os amigos você pode estar usando um aplicativo criado por nós.
-E é com esse espirito inovador que a Alphacode vem se tornando referência no mercado mobile nacional.
+## Pré-requisitos para Uso
 
-## Conheça mais sobre a Alphacode
+Certifique-se de que você tem as seguintes ferramentas instaladas em seu sistema:
 
-https://site.alphacode.com.br/
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-https://www.linkedin.com/company/alphacodeit/
+## Passos para Configuração
 
-# Descrição da vaga
+1. **Clone o Repositório**
 
-Buscamos profissionais que sejam apaixonados por desenvolvimento, inovação e novas tecnologias, para integrar nosso time em projetos baseados em PHP, Ionic, Angular.
+Faça um clone em sua máquina local.
 
-## Requisitos
+```sh
+git clone https://github.com/crcami/root-shop.git
+cd root-shop
+```
 
-### **Obrigatórios:**
+## Crie o Arquivo .env
 
-- Mínimo 2 ano de experiência em desenvolvimento de sites e sistemas em PHP;
-- Desenvolvimento de APIs RESTful;
-- Conhecimentos em SQL e NoSQL;
-- Controle de versões (GIT).
+Copie o arquivo .env.example para .env e ajuste as configurações conforme necessário.
 
-### **Diferenciais:**
+```sh
+cp .env.example .env
+```
 
-- TDD;
-- Conhecimentos em Ionic;
-- Conhecimentos em serviços AWS;
-- Conhecimentos em Node.JS;
-- Experiência em metodologias ágeis (Scrum/Kanban).
+## Construa os Contêineres Docker
 
-## Benefícios
+Use o comando abaixo para construir os contêineres Docker:
 
-- Salário compatível com o mercado;
-- Vale Refeição;
-- Seguro de Vida;
-- Equipe unida, e divertida;
+```sh
+docker-compose build
+```
+## Suba os Contêineres Docker
 
-## Contratação
+Use o comando abaixo para iniciar os contêineres Docker:
 
-Regime: CLT
+```sh
+docker-compose up
+```
+## Instale as Dependências
 
-## Alocação
+*certifique-se de estar com seu terminal na pasta `root-shop`*
+```sh
+docker-compose exec app composer install
+```
 
-À definir
+## Execute as Migrações
 
-## Como se candidatar
+Após subir os contêineres, execute as migrações do banco de dados:
 
-Para se candidatar, basta acessar a url de acordo com o nível e realizar o teste para a vaga:
 
-- [Desenvolvedor PHP - Teste 1](teste-php-1.md)
-- [Desenvolvedor PHP - Teste 2](teste-php-2.md)
+```sh
+docker-compose exec app php artisan migrate
+
+# Caso deseje realizar uma migração limpando o DB
+docker-compose exec app php artisan migrate:fresh
+```
+
+## Popule o Banco de Dados
+
+Opcionalmente, você pode popular o banco de dados com dados iniciais usando seeds:
+
+```sh
+docker-compose exec app php artisan db:seed
+```
+
+## Acessando a Aplicação
+
+Após seguir os passos acima, a aplicação estará disponível em http://localhost:8000.

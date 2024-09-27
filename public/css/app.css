@@ -1,0 +1,105 @@
+/* Body Styles */
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-image: linear-gradient(to right, #c8f0dd, #ffffff, #c8f0dd);
+}
+
+
+body.base-body {
+    background-color: black;
+    background-image: url(../media/images/bg-plant.jpg);
+    background-size: 100% 100%;
+    background-attachment: fixed;
+
+    @media (orientation: landscape) {
+        background-size: 100% auto;
+    }
+
+    @media (orientation: portrait) {
+        background-size: auto 100%;
+        background-position: right;
+    }
+}
+
+body.auth-body {
+    background-color: black;
+    background-image: url(../media/images/flowers.jpg);
+    background-size: 100% 100%;
+
+    @media (orientation: landscape) {
+        background-size: 100% auto;
+    }
+
+    @media (orientation: portrait) {
+        background-size: auto 100%;
+    }
+}
+
+body.auth-body .card {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+/* Content Styles */
+.content {
+    flex: 1;
+}
+
+.title-login {
+    color: #636b6f;
+}
+
+.title-login a {
+    color: #636b6f;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: ease-in-out 300ms all;
+}
+
+.title-login a.select:hover,
+.title-login a.select:focus {
+    color: #062b3d;
+    text-decoration: underline;
+}
+
+.title-login a.active {
+    color: #35a7e0;
+}
+
+.brand-text {
+    color: #636b6f;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.product-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.card h1 {
+    font-size: 40px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.footer-base {
+    background-image: linear-gradient(to top, rgb(248, 249, 250) 85%, transparent);
+}

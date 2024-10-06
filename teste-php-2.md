@@ -1,3 +1,54 @@
+Olá pessoal da Alphacode, espero que estejam bem!
+
+[[Demosntração da aplicação no Youtube]](https://www.youtube.com/watch?v=n7xbOdmfEak)
+
+# Requisitos da aplicação:
+
+* PHP 8.1
+* MySQL 8.0
+* Servidor Apache e MySQL
+
+# Intruções para rodar a aplicação com o Docker:
+
+* Baixe o código da aplicação
+* Se optar rodar o ambiente de desenvolvimento com o Docker, rode comando:
+
+`` docker-compose up -d --build ``
+
+* No container da aplicação:
+
+* Rode o comando para rodar as migrations:
+
+`` php artisan migrate ``
+
+* Rode o comando para execução das seeds:
+
+`` php artisan db:seed --class=TiposContrato ``
+
+
+* E no container MySQL, crie um banco de dados chamado: "candidatos_empregos"
+
+# Instruções para rodar a aplicação manualmente:
+
+* Baixe o código da aplicação
+* Rode o comando para instalação das dependências:
+
+`` composer install ``
+
+* Ligue o servidor MySQL e crie um banco de dados chamado: "candidatos_empregos"
+* Rode o comando para rodar as migrations:
+
+`` php artisan migrate ``
+
+* Rode o comando para execução das seeds:
+
+`` php artisan db:seed --class=TiposContrato ``
+
+* Rode o comando para rodar o servidor Laravel:
+
+`` php artisan serve ``
+
+
 # Teste para candidatos à vaga de Desenvolvedor PHP
 
 Olá caro desenvolvedor, nesse teste analisaremos seu conhecimento geral e inclusive velocidade de desenvolvimento. Abaixo explicaremos tudo o que será necessário.

@@ -1,58 +1,86 @@
-[![](https://site.alphacode.com.br/wp-content/uploads/2015/10/logocolor.png)](https://site.alphacode.com.br/)
 
-# Nossa empresa
 
-Nascida em 2015, a Alphacode é uma empresa que não para de crescer e de inovar.
-Formada por um time experiente de especialistas em tecnologia a empresa busca a cada dia trazer as soluções mais inovadoras do mercado mobile para os seus clientes.
-Todos os meses são novos aplicativos publicados nas lojas Play Store e Apple Store e um número maior de pessoas que utilizam nossas soluções para melhorar seu dia a dia.
-Seja para pedir uma pizza, assistir tv,  abrir o portão de casa ou pagar a conta de um churrasco com os amigos você pode estar usando um aplicativo criado por nós.
-E é com esse espirito inovador que a Alphacode vem se tornando referência no mercado mobile nacional.
+# 🛍️ Sistema de Gerenciamento Integrado com Site de E-commerce
 
-## Conheça mais sobre a Alphacode
+**Autor:** Igor César de Andrade  
+**Data:** Junho/2025  
+**Projeto desenvolvido exclusivamente para fins de avaliação técnica**
 
-https://site.alphacode.com.br/
+---
 
-https://www.linkedin.com/company/alphacodeit/
+## 📌 Descrição Geral
 
-# Descrição da vaga
+Este projeto é um **sistema de gerenciamento integrado com um site de e-commerce**, desenvolvido com foco em organização, clareza do código e execução em ambiente Docker. Foi construído com:
 
-Buscamos profissionais que sejam apaixonados por desenvolvimento, inovação e novas tecnologias, para integrar nosso time em projetos baseados em PHP, Ionic, Angular.
+- PHP + Apache
+- MySQL
+- Docker + Docker Compose
+- phpMyAdmin
 
-## Requisitos
+A aplicação é dividida em:
 
-### **Obrigatórios:**
+- **Site público do e-commerce** – para exibição de produtos
+- **Sistema interno (/sistema)** – para gerenciamento dos dados (admin)
 
-- Mínimo 2 ano de experiência em desenvolvimento de sites e sistemas em PHP;
-- Desenvolvimento de APIs RESTful;
-- Conhecimentos em SQL e NoSQL;
-- Controle de versões (GIT).
+---
 
-### **Diferenciais:**
+## 🎯 Objetivo
 
-- TDD;
-- Conhecimentos em Ionic;
-- Conhecimentos em serviços AWS;
-- Conhecimentos em Node.JS;
-- Experiência em metodologias ágeis (Scrum/Kanban).
+Simular um ambiente de e-commerce com painel administrativo, utilizando boas práticas de organização de código, estrutura clara e integração com banco de dados relacional (MySQL).
 
-## Benefícios
+---
 
-- Salário compatível com o mercado;
-- Vale Refeição;
-- Seguro de Vida;
-- Equipe unida, e divertida;
+## 🔧 Tecnologias Utilizadas
 
-## Contratação
+| Tecnologia      | Função                              |
+|------------------|-------------------------------------|
+| PHP 8.1 + Apache | Backend da aplicação                |
+| MySQL 5.7        | Armazenamento de dados              |
+| Docker / Compose | Ambientes isolados e reprodutíveis  |
+| phpMyAdmin       | Interface de gerenciamento do banco |
+| PDO / mysqli     | Acesso seguro ao banco de dados     |
 
-Regime: CLT
+---
 
-## Alocação
+## 🚀 Como Executar o Projeto com Docker
 
-À definir
+### 1. Pré-requisitos
+- Docker instalado (Docker Desktop)
 
-## Como se candidatar
+### 2. Clonar o repositório
+```bash
+git clone https://github.com/igorprogrammer93/testePHP_Pleno.git
+cd testePHP_Pleno
 
-Para se candidatar, basta acessar a url de acordo com o nível e realizar o teste para a vaga:
+3. Executar o ambiente Docker
 
-- [Desenvolvedor PHP - Teste 1](teste-php-1.md)
-- [Desenvolvedor PHP - Teste 2](teste-php-2.md)
+docker-compose up --build
+
+4. Acessar no navegador
+Seção	URL
+Site E-commerce	http://localhost:8080
+Sistema Interno	http://localhost:8080/sistema
+phpMyAdmin	http://localhost:8081
+
+    phpMyAdmin Login
+    Usuário: root
+    Senha: root
+
+🧠 Estrutura de Pastas
+
+/testePHP_Pleno
+├── index.php              # Página principal do e-commerce
+├── /sistema               # Painel administrativo do sistema
+│   ├── conexao.php        # Conexão com o banco
+│   ├── páginas internas   # (ex: cadastro, edição)
+├── Dockerfile             # Configuração PHP + Apache
+├── docker-compose.yml     # Orquestração dos serviços
+├── README.md              # Este documento
+
+🛡️ Direitos Autorais e Uso
+
+Este projeto foi desenvolvido exclusivamente para o processo seletivo da empresa Alphacode.
+
+    Proibido o uso, cópia ou distribuição parcial ou total sem autorização expressa.
+
+Todos os direitos reservados © Igor César de Andrade – 2025.

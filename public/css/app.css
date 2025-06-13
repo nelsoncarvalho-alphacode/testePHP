@@ -1,0 +1,77 @@
+table a:not(.btn),
+table a:visited:not(.btn),
+table a:hover:not(.btn),
+table a:active:not(.btn) {
+    text-decoration: none;
+    color: rgb(158 197 255);
+    font-weight: 600;
+}
+
+table .btn {
+    margin: 8px;
+}
+
+table tr th:last-child,
+table tr td:last-child {
+    text-align: center;
+}
+
+.pagination-wrapper .text-muted {
+    color: white !important;
+    opacity: 0.6;
+}
+
+.pagination-wrapper .page-link {
+    background-color: #212529;
+    color: #fff;
+    border-color: #444;
+}
+
+.pagination-wrapper .page-item.active .page-link {
+    background-color: #4f5459;
+    border-color: #4f5459;
+    color: #fff;
+}
+
+.pagination-wrapper .page-link:hover {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.pagination-wrapper .page-item.disabled .page-link {
+    background-color: #1f1f1f;
+    border-color: #4f5459;
+    color: #5c5c5c;
+}
+
+.navbar {
+    box-shadow: rgba(255, 255, 255, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.navbar .navbar-brand {
+    font-weight: 100;
+    font-size: 40px
+}
+
+.navbar ul {
+    font-weight: 600;
+    font-size: 15px
+}
+
+.produto-total-display h4 {
+    margin: 10px;
+    text-align: right;
+}
+
+
+.pedido-produto-section {
+    margin: 15px 0 0 0 !important;
+}
+
+.pedido-produto-section-title {
+    font-size: calc(1.3rem + .6vw);
+}
+
+.add-produto {
+    max-width: fit-content !important;
+}

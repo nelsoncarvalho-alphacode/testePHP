@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Vagas;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BulkDeleteVagaRequest;
-use App\Http\Requests\StoreVagaRequest;
-use App\Http\Requests\UpdateVagaRequest;
+use App\Http\Requests\Vaga\BulkDeleteVagaRequest;
+use App\Http\Requests\Vaga\StoreVagaRequest;
+use App\Http\Requests\Vaga\UpdateVagaRequest;
 use App\Models\Vaga;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Candidato\CandidatoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Usuario\UserController;
 use App\Http\Controllers\Vagas\VagaController;
@@ -22,9 +23,12 @@ Route::middleware('auth')->group(function () {
 
 
 Route::delete('/vagas/bulk-delete', [VagaController::class, 'bulkDelete'])->name('vagas.bulk-delete');
-Route::resource('vagas', VagaController::class);
+Route::resource('/vagas', VagaController::class);
 
-Route::resource('users', UserController::class);
+Route::resource('/users', UserController::class);
+
+Route::delete('/candidatos/bulk-destroy', [CandidatoController::class, 'bulkDestroy'])->name('candidatos.bulk_destroy');
+Route::resource('/candidatos', CandidatoController::class);
 
 
 require __DIR__.'/auth.php';

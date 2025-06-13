@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Vaga;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreVagaRequest extends FormRequest
+class UpdateVagaRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -22,7 +22,7 @@ class StoreVagaRequest extends FormRequest
         ];
     }
 
-     public function messages(): array
+    public function messages(): array
     {
         return [
             'titulo.required' => 'O título da vaga é obrigatório.',

@@ -11,11 +11,14 @@ return new class extends Migration
     {
         Schema::create('candidatos', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
-            $table->string('email')->unique();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->unique(); 
+            $table->string('cpf')->nullable()->unique();
             $table->string('telefone')->nullable();
-            $table->text('curriculo')->nullable();
-
+            $table->text('endereco')->nullable(); 
+            $table->text('formacao')->nullable();
+            $table->text('experiencia_profissional')->nullable();
+            $table->text('habilidades')->nullable();
+            $table->text('curriculo')->nullable(); 
             $table->timestamps();
         });
     }

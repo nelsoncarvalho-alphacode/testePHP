@@ -27,4 +27,9 @@ public function vagas()
     return $this->belongsToMany(Vaga::class, 'candidato_vaga');
 }
 
+ public function applications()
+{
+    return $this->hasMany(Application::class);
+}
+
 }

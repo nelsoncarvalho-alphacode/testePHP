@@ -67,6 +67,8 @@ class VagaController extends Controller
 
     public function show(Vaga $vaga)
     {
+        $vaga->load(['applications.candidato.user']);
+        
         return view('vagas.show', compact('vaga'));
     }
 

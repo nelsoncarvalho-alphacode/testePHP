@@ -18,4 +18,9 @@ class Vaga extends Model
         return $this->belongsToMany(Candidato::class, 'candidato_vaga')
                     ->withTimestamps();
     }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
 }

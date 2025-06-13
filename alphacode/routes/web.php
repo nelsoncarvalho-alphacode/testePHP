@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Usuario\UserController;
 use App\Http\Controllers\Vagas\VagaController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,9 +22,9 @@ Route::middleware('auth')->group(function () {
 
 
 Route::delete('/vagas/bulk-delete', [VagaController::class, 'bulkDelete'])->name('vagas.bulk-delete');
-
 Route::resource('vagas', VagaController::class);
 
+Route::resource('users', UserController::class);
 
 
 require __DIR__.'/auth.php';

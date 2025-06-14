@@ -1,61 +1,158 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Nome: Rafael_Ribeiro_Domingues
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Teste: teste-php-2 (vagas/candidatos)
 
-## About Laravel
+Este é um projeto Laravel construído com Laravel Sail, Tailwind CSS e MySQL. Ele utiliza o Laravel Sail para gerenciar o ambiente de desenvolvimento via Docker, simplificando a configuração de todas as dependências necessárias.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Pré-requisitos
+Antes de começar, certifique-se de ter o Docker Desktop (para Windows/macOS) ou o Docker Engine (para Linux) instalado e rodando em sua máquina.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Docker: https://www.docker.com/get-started/
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Instalação e Execução
+Siga os passos abaixo para configurar e rodar o projeto localmente:
 
-## Learning Laravel
+Clonar o repositório e navegar até ele:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+git clone https://github.com/rdRafael/testePHP.git
+cd nome-do-seu-projetoNome: Rafael_Ribeiro_Domingues
+Teste: teste-php-2 (candidatos/vagas)
+Este é um projeto Laravel construído com Laravel Sail, Tailwind CSS e MySQL. Ele utiliza o Laravel Sail para gerenciar o ambiente de desenvolvimento via Docker, simplificando a configuração de todas as dependências necessárias.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+O código-fonte do projeto principal está localizado na pasta alphacode.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Pré-requisitos
+Antes de começar, certifique-se de ter o Docker Desktop (para Windows/macOS) ou o Docker Engine (para Linux) instalado e rodando em sua máquina.
 
-## Laravel Sponsors
+Docker: https://www.docker.com/get-started/
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Instalação e Execução
+Siga os passos abaixo para configurar e rodar o projeto localmente:
 
-### Premium Partners
+Clonar o repositório e navegar até ele:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+git clone https://https://github.com/rdRafael/testePHP.git
+cd alphacode
 
-## Contributing
+Observação: O código principal do projeto está na subpasta alphacode.
+Iniciar o Laravel Sail:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Este comando iniciará todos os serviços Docker necessários (PHP, Nginx, MySQL, etc.) em segundo plano.
 
-## Code of Conduct
+./vendor/bin/sail up -d
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Instalar dependências PHP:
 
-## Security Vulnerabilities
+Instale as dependências do Composer dentro do contêiner do Sail.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+./vendor/bin/sail composer install
 
-## License
+Copiar o arquivo .env e gerar a chave da aplicação:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Crie o arquivo de configuração de ambiente e gere a chave única da aplicação.
+
+cp .env.example .env
+./vendor/bin/sail artisan key:generate
+
+Se necessário, edite o arquivo .env para ajustar quaisquer variáveis de ambiente específicas do seu ambiente local.
+
+Rodar migrações do banco de dados 
+
+Execute as migrações para criar as tabelas no banco de dados 
+
+./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan db:seed ## criar o admin
+
+Instalar dependências JavaScript/CSS e compilar assets (se aplicável):
+
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run dev 
+Acesso à Aplicação
+Após seguir todos os passos de instalação e com o Sail rodando (./vendor/bin/sail up -d), você pode acessar a aplicação no seu navegador através do seguinte endereço:
+
+http://localhost
+
+Credenciais de Login (Admin)
+Para acessar a área administrativa ou funcionalidades de teste, utilize as seguintes credenciais:
+
+Email: admin@gmail.com
+
+Senha: password
+
+Comandos Úteis do Sail
+Você pode simplificar o uso dos comandos do Sail criando um alias no seu terminal (adicione alias sail='bash vendor/bin/sail' ao seu ~/.bashrc ou ~/.zshrc). Assim, em vez de ./vendor/bin/sail, você pode usar apenas sail.
+
+Parar os serviços do Sail: sail down
+
+Reconstruir as imagens do Docker (útil após alterações nos Dockerfiles): sail build --no-cache
+
+Executar comandos Artisan: sail artisan [comando] (ex: sail artisan make:model User)
+
+Acessar o terminal dentro do contêiner da aplicação: sail bash
+
+Estrutura do Repositório e Branches
+Observação: Para trabalhar com a branch Rafael_Ribeiro_Domingues, você pode usar git checkout Rafael_Ribeiro_Domingues após clonar o repositório.
+
+
+
+Certifique-se de substituir https://github.com/usuario/nome-do-seu-projeto.git pelo URL real do seu repositório.
+
+Iniciar o Laravel Sail:
+
+Este comando iniciará todos os serviços Docker necessários (PHP, Nginx, MySQL, etc.) em segundo plano.
+
+./vendor/bin/sail up -d
+
+Instalar dependências PHP:
+
+Instale as dependências do Composer dentro do contêiner do Sail.
+
+./vendor/bin/sail composer install
+
+Copiar o arquivo .env e gerar a chave da aplicação:
+
+Crie o arquivo de configuração de ambiente e gere a chave única da aplicação.
+
+cp .env.example .env
+./vendor/bin/sail artisan key:generate
+
+Se necessário, edite o arquivo .env para ajustar quaisquer variáveis de ambiente específicas do seu ambiente local.
+
+Rodar migrações do banco de dados (e seeders, se houver):
+
+Execute as migrações para criar as tabelas no banco de dados e, opcionalmente, os seeders para popular com dados iniciais/de teste.
+
+./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan db:seed # Opcional: só se o projeto tiver seeders para popular o banco de dados
+
+Instalar dependências JavaScript/CSS e compilar assets (se aplicável):
+
+Se o projeto utiliza assets front-end que precisam ser compilados (ex: via Vite, Webpack, ou Laravel Mix), execute os comandos abaixo:
+
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run dev # Para desenvolvimento (compila e monitora alterações)
+# Ou
+# ./vendor/bin/sail npm run build # Para produção (otimiza os assets)
+
+Acesso à Aplicação
+Após seguir todos os passos de instalação e com o Sail rodando (./vendor/bin/sail up -d), você pode acessar a aplicação no seu navegador através do seguinte endereço:
+
+http://localhost
+
+Credenciais de Login (Admin)
+Para acessar a área administrativa ou funcionalidades de teste, utilize as seguintes credenciais:
+
+Email: admin@gmail.com
+
+Senha: password
+
+Comandos Úteis do Sail
+Você pode simplificar o uso dos comandos do Sail criando um alias no seu terminal (adicione alias sail='bash vendor/bin/sail' ao seu ~/.bashrc ou ~/.zshrc). Assim, em vez de ./vendor/bin/sail, você pode usar apenas sail.
+
+Parar os serviços do Sail: sail down
+
+Reconstruir as imagens do Docker (útil após alterações nos Dockerfiles): sail build --no-cache
+
+Executar comandos Artisan: sail artisan [comando] (ex: sail artisan make:model User)
+
+Acessar o terminal dentro do contêiner da aplicação: sail bash

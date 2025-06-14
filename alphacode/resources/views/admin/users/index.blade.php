@@ -21,6 +21,7 @@
                             <span>{{ session('error') }}</span>
                         </div>
                     @endif
+                    {{-- Erros de validação --}}
                     @if ($errors->any())
                         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
                             <strong class="font-bold">Validação falhou!</strong>
@@ -32,8 +33,8 @@
                         </div>
                     @endif
 
-                    <div class="mb-6">
-                        <form action="{{ route('admin.users.index') }}" method="GET" class="flex flex-wrap items-end gap-4">
+                    <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+                        <form action="{{ route('admin.users.index') }}" method="GET" class="flex flex-grow flex-wrap items-end gap-4">
                             <div class="flex-grow">
                                 <label for="search" class="block text-sm font-medium text-gray-700">Buscar por Nome/Email</label>
                                 <input type="text" name="search" id="search" value="{{ request('search') }}" placeholder="Ex: João, joao@example.com" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
@@ -52,13 +53,17 @@
                                 <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 h-10">
                                     {{ __('Filtrar') }}
                                 </button>
-                                <a href="{{ route('admin.users.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-800 uppercase tracking-widest hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150 h-10">
+                                <a href="{{ route('admin.users.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-800 uppercase tracking-widest hover:bg-gray-300 focus:outline-none focus:ring-2 focus://ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150 h-10">
                                     {{ __('Limpar Filtros') }}
                                 </a>
                             </div>
                         </form>
+                        <div>
+                            <a href="{{ route('admin.users.create') }}" class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150 h-10">
+                                {{ __('Criar Novo Admin') }}
+                            </a>
+                        </div>
                     </div>
-
                     @if ($users->isEmpty())
                         <p class="text-gray-600">Nenhum usuário encontrado.</p>
                     @else
@@ -106,6 +111,7 @@
                             </table>
                         </div>
 
+                        {{-- Links de paginação --}}
                         <div class="mt-6">
                             {{ $users->links() }}
                         </div>

@@ -79,6 +79,7 @@ class applicationController extends Controller
             return redirect()->back()->with('error', 'Ocorreu um erro ao atualizar o status da candidatura.');
         }
     }
+    
 
     public function myApplications()
     {

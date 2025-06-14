@@ -9,7 +9,7 @@ class UserPolicy
 {
     public function before(User $user, string $ability)
     {
-        if (!$user->candidato) {
+        if (!$user->candidato == 'candidato') {
             return true; 
         }
 

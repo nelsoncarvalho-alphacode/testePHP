@@ -40,6 +40,8 @@ Route::put('/applications/{application}', [ApplicationController::class, 'update
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
     Route::put('/users/{user}/role', [AdminUserController::class, 'updateRole'])->name('users.updateRole');
+    Route::get('/users/create', [AdminUserController::class, 'create'])->name('users.create'); 
+    Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');   
 });
 
 require __DIR__.'/auth.php';

@@ -55,7 +55,7 @@ class applicationController extends Controller
         Gate::authorize('view', $application);
 
         $application->load('vaga', 'candidato.user');
-        return view('applications.show', compact('application'));
+        return view('recruitment.show', compact('application'));
     }
 
     public function update(Request $request, Application $application)
@@ -93,7 +93,7 @@ class applicationController extends Controller
                                    ->orderBy('created_at', 'desc')
                                    ->paginate(10);
 
-        return view('applications.my-applications', compact('applications'));
+        return view('candidatos.recruitment.index', compact('applications'));
     }
 
 }

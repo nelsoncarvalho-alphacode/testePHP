@@ -4,7 +4,7 @@
             {{ __('Detalhes da Candidatura') }}
         </h2>
     </x-slot>
-
+    
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -49,7 +49,7 @@
                                     {{ ucfirst(str_replace('_', ' ', $application->status)) }}
                                 </span>
                             </p>
-                            <a href="{{ route('profile.edit', ['user' => $application->candidato->user->id]) }}" class="text-indigo-600 hover:text-indigo-900 text-sm">Ver Perfil Completo do Usuário</a>
+                             <a class="text-indigo-600 hover:text-indigo-900 text-sm" href=" {{route('candidatos.edit', Auth::user()->candidato) }} ">Meu curriculo</a>
                         </div>
                     </div>
 

@@ -47,7 +47,6 @@ class AdminUserController extends Controller
 
     public function store(Request $request)
     {
-        Gate::authorize('create', User::class);
 
         try {
             $request->validate([

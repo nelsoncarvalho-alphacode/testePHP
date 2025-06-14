@@ -110,7 +110,7 @@ class CandidatoController extends Controller
         try {
             $candidato->update($request->validated());
 
-            return redirect()->route('candidatos.show', $candidato)->with('success', 'Candidato atualizado com sucesso!');
+            return redirect()->route('vagas.index', $candidato)->with('success', 'Candidato atualizado com sucesso!');
 
         } catch (\Exception | \Error $e) {
             Log::error('Erro ao atualizar candidato (ID: ' . $candidato->id . '): ' . $e->getMessage() . ' no arquivo ' . $e->getFile() . ' na linha ' . $e->getLine());

@@ -15,9 +15,12 @@
                         {{ __('Vagas') }}
                     </x-nav-link>
                     @auth
-                        @if (Auth::user()->candidato)
-                            <x-nav-link :href="route('applications.my-applications')" :active="request()->routeIs('applications.my-applications')">
+                        @if (Auth::user()?->candidato)
+                            <x-nav-link :href="route('applications.my-applications', Auth::user()->candidato)" :active="request()->routeIs('applications.my-applications')">
                                 {{ __('Minhas Candidaturas') }}
+                            </x-nav-link>
+                             <x-nav-link :href="route('candidatos.edit', Auth::user()->candidato)" :active="request()->routeIs('candidatos.edit')">
+                                {{ __('Meu Currículo') }}
                             </x-nav-link>
                         @else
                             <x-nav-link :href="route('vagas.index', ['status' => 'all'])" :active="request()->routeIs('vagas.index') && request('status') == 'all'">

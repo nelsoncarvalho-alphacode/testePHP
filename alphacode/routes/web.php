@@ -1,0 +1,47 @@
+<?php
+
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Candidato\CandidatoController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Recruitment\applicationController;
+use App\Http\Controllers\Usuario\UserController;
+use App\Http\Controllers\Vagas\VagaController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return redirect()->route('vagas.index');
+});
+
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
+Route::delete('/vagas/bulk-delete', [VagaController::class, 'bulkDelete'])->name('vagas.bulk-delete');
+Route::resource('/vagas', VagaController::class);
+
+Route::resource('/users', UserController::class);
+
+Route::delete('/candidatos/bulk-destroy', [CandidatoController::class, 'bulkDestroy'])->name('candidatos.bulk_destroy');
+Route::resource('/candidatos', CandidatoController::class);
+
+Route::post('/applications', [ApplicationController::class, 'store'])->name('applications.store');
+Route::get('/applications/my-applications', [ApplicationController::class, 'myApplications'])->name('applications.my-applications');
+Route::get('/applications/{application}', [ApplicationController::class, 'show'])->name('applications.show');
+Route::put('/applications/{application}', [ApplicationController::class, 'update'])->name('applications.update');
+
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+    Route::put('/users/{user}/role', [AdminUserController::class, 'updateRole'])->name('users.updateRole');
+    Route::get('/users/create', [AdminUserController::class, 'create'])->name('users.create'); 
+    Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');   
+});
+
+require __DIR__.'/auth.php';

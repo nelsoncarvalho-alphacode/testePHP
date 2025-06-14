@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Candidato\CandidatoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Recruitment\applicationController;
@@ -31,16 +32,14 @@ Route::resource('/users', UserController::class);
 Route::delete('/candidatos/bulk-destroy', [CandidatoController::class, 'bulkDestroy'])->name('candidatos.bulk_destroy');
 Route::resource('/candidatos', CandidatoController::class);
 
-Route::post('/applications', [applicationController::class, 'store'])->name('applications.store')->middleware('auth');
+Route::post('/applications', [ApplicationController::class, 'store'])->name('applications.store');
+Route::get('/applications/my-applications', [ApplicationController::class, 'myApplications'])->name('applications.my-applications');
+Route::get('/applications/{application}', [ApplicationController::class, 'show'])->name('applications.show');
+Route::put('/applications/{application}', [ApplicationController::class, 'update'])->name('applications.update');
 
-Route::middleware('auth')->group(function () {
-    Route::resource('applications', ApplicationController::class)->only([
-        'show', 'store', 'update'
-    ]);
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+    Route::put('/users/{user}/role', [AdminUserController::class, 'updateRole'])->name('users.updateRole');
 });
-
-Route::get('/my-applications', [ApplicationController::class, 'candidateIndex'])->name('applications.my-applications');
-
-
 
 require __DIR__.'/auth.php';

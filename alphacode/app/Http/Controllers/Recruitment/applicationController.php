@@ -4,91 +4,95 @@ namespace App\Http\Controllers\Recruitment;
 
 use App\Http\Controllers\Controller;
 use App\Models\Application;
+use App\Models\Candidato;
+use App\Models\Vaga;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\ValidationException;
 
 class applicationController extends Controller
 {
-    public function store(Request $request)
+   public function store(Request $request)
     {
         $request->validate([
             'vaga_id' => 'required|exists:vagas,id',
             'candidato_id' => 'required|exists:candidatos,id',
         ]);
 
-        if ($request->candidato_id != Auth::user()->candidato->id) {
-            abort(403, 'Ação não autorizada. O candidato não corresponde ao usuário logado.');
+        if (Auth::user()?->candidato?->id != $request->candidato_id) {
+            abort(403, 'Você não tem permissão para submeter candidaturas por outro candidato.');
         }
 
-        $existingApplication = Application::where('candidato_id', $request->candidato_id)
-                                         ->where('vaga_id', $request->vaga_id)
-                                         ->first();
+        $vaga = Vaga::find($request->vaga_id);
+        $candidato = Candidato::find($request->candidato_id);
 
-        if ($existingApplication) {
-            return redirect()->back()->with('error', 'Você já se candidatou a esta vaga anteriormente.');
+        if (!$vaga->ativa) {
+            return redirect()->back()->with('error', 'Não é possível candidatar-se a uma vaga inativa.');
+        }
+
+        if ($candidato->applications()->where('vaga_id', $vaga->id)->exists()) {
+            return redirect()->back()->with('error', 'Você já se candidatou a esta vaga.');
         }
 
         try {
             Application::create([
-                'candidato_id' => $request->candidato_id,
-                'vaga_id' => $request->vaga_id,
-                'status' => 'pendente', 
+                'vaga_id' => $vaga->id,
+                'candidato_id' => $candidato->id,
+                'status' => 'em_analise', // Status inicial
             ]);
 
-            return redirect()->back()->with('success', 'Sua candidatura foi enviada com sucesso!');
-
-        } catch (\Illuminate\Database\QueryException $e) {
-            if ($e->getCode() == 23000) {
-                return redirect()->back()->with('error', 'Erro ao candidatar-se: Você já enviou uma candidatura para esta vaga.');
-            }
-            return redirect()->back()->with('error', 'Ocorreu um erro ao processar sua candidatura. Tente novamente.');
+            return redirect()->back()->with('success', 'Candidatura enviada com sucesso!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Ocorreu um erro inesperado: ' . $e->getMessage());
+            Log::error('Erro ao submeter candidatura: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Ocorreu um erro ao enviar sua candidatura.');
         }
     }
 
     public function show(Application $application)
     {
-        $application->load(['candidato.user', 'vaga']);
+        Gate::authorize('view', $application);
 
-         if (!Auth::user()->candidato || Auth::user()->candidato->id !== $application->candidato_id) {
-            if (Auth::user()->candidato && Auth::user()->candidato->id !== $application->candidato_id) {
-                abort(403, 'Você não tem permissão para visualizar esta candidatura.');
-            }
-        }
-
-        return view('recruitment.show', compact('application'));
+        $application->load('vaga', 'candidato.user');
+        return view('applications.show', compact('application'));
     }
 
     public function update(Request $request, Application $application)
     {
-        $request->validate([
-            'status' => 'required|in:pendente,em análise,aprovada,rejeitada', 
-            'observacoes' => 'nullable|string|max:1000',
-        ]);
+        Gate::authorize('update', $application);
 
-        $application->update([
-            'status' => $request->status,
-            'observacoes' => $request->observacoes,
-        ]);
+        try {
+            $request->validate([
+                'status' => 'required|in:em_analise,aprovado,rejeitado',
+            ]);
 
-        return redirect()->back()->with('success', 'Status da candidatura atualizado com sucesso!');
+            $application->update([
+                'status' => $request->status,
+            ]);
+
+            return redirect()->back()->with('success', 'Status da candidatura atualizado com sucesso!');
+        } catch (ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            Log::error('Erro ao atualizar status da candidatura ' . $application->id . ': ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Ocorreu um erro ao atualizar o status da candidatura.');
+        }
     }
 
-    public function candidateIndex()
+    public function myApplications()
     {
-        if (!Auth::user()->candidato) {
-            return redirect()->route('dashboard')->with('error', 'Você não tem um perfil de candidato para visualizar candidaturas.');
+        if (!Auth::check() || !Auth::user()->candidato) {
+            abort(403, 'Você não possui um perfil de candidato para ver suas candidaturas.');
         }
 
         $candidatoId = Auth::user()->candidato->id;
-
         $applications = Application::where('candidato_id', $candidatoId)
-                                   ->with('vaga') 
-                                   ->latest() 
-                                   ->get();
+                                   ->with('vaga')
+                                   ->orderBy('created_at', 'desc')
+                                   ->paginate(10);
 
-        return view('candidate.recruitment.index', compact('applications'));
+        return view('applications.my-applications', compact('applications'));
     }
 
 }

@@ -1,0 +1,81 @@
+services:
+  app:
+    build:
+      context: ./src
+      dockerfile: ../Dockerfile
+    container_name: laravel-app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./src:/var/www:cached
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - /var/www/vendor
+      - /var/www/node_modules
+      - laravel_storage:/var/www/storage
+      - laravel_bootstrap_cache:/var/www/bootstrap/cache
+    networks:
+      - laravel
+    depends_on:
+      - db
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+
+  nginx:
+    image: nginx:alpine
+    container_name: laravel-nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d
+    networks:
+      - laravel
+    depends_on:
+      - app
+
+  db:
+    image: mysql:8.0
+    container_name: laravel-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: teste_alphacode_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: 123456
+      MYSQL_USER: admin
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    ports:
+      - "3306:3306"
+    networks:
+      - laravel
+    command: --default-authentication-plugin=mysql_native_password --innodb-buffer-pool-size=256M
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: laravel-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+      - "8081:80"
+    networks:
+      - laravel
+    depends_on:
+      - db
+
+volumes:
+  mysql_data:
+    driver: local
+  laravel_storage:
+    driver: local
+  laravel_bootstrap_cache:
+    driver: local
+
+networks:
+  laravel:
+    driver: bridge

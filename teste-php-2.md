@@ -1,61 +1,20 @@
-# Teste para candidatos à vaga de Desenvolvedor PHP
+# Teste 2 para vaga de desenvolvedor PHP
 
-Olá caro desenvolvedor, nesse teste analisaremos seu conhecimento geral e inclusive velocidade de desenvolvimento. Abaixo explicaremos tudo o que será necessário.
+## Instruções iniciais
+1) Clonar o projeto num caminho semelhante a: **\\wsl.localhost\Ubuntu\home\usuario\projects**
+2) executar o comando via terminal WSL: **composer update**
+3) executar o comando via terminal WSL: **npm update**
+4) executar o comando via terminal WSL: **./vendor/bin/sail up -d (pode demorar um pouco)**
+5) executar o comando via terminal WSL: **./vendor/bin/sail artisan migrate**
+6) executar o comando via terminal WSL: **./vendor/bin/sail artisan db:seed --class EmpresasTableSeeder**
 
-## Instruções
+## CRUD vagas
+1) Faça login com username **rh@alphacode.com** e senha **123456** marcando a opção "empresa" para CRIAR, LER, EDITAR e EXCLUIR vagas.
 
-O desafio consiste em implementar uma aplicação web utilizando PHP, um banco de dados relacional (Mysql, Postgres ou SQLite), que terá como finalidade a inscrição de candidatos a uma oportunidade de emprego.
+## CRUD candidato
+1) Cadastre-se como candidato cliclando em "Cadastrar-se".
+2) Faça login como candidato marcando a opção "candidato" e digitando o e-mail e senha respectivos.
 
-Sua aplicação deve possuir:
+## Informações adicionais
+1) É importante clonar o projeto no diretório do linux indicado pois os carregamentos ficam mais rápidos, porém, o projeto podem ser executado também nos diretórios do Windows, mas a o sistema ficará um pouco mais lento.
 
-- CRUD de vagas:
-  - Criar, editar, excluir e listar vagas.
-  - A vaga pode ser CLT, Pessoa Jurídica ou Freelancer.
-- CRUD de candidatos:
-  - Criar, editar, excluir e listar candidatos.
-- Um cadidato pode se inscrever em uma ou mais vagas.
-- Deve ser ser possível "pausar" a vaga, evitando a inscrição de candidatos.
-- Cada CRUD:
-  - Deve ser filtrável e ordenável por qualquer campo, e possuir paginação de 20 itens.
-  - Deve possuir formulários para criação e atualização de seus itens.
-  - Deve permitir a deleção de qualquer item de sua lista.
-  - Implementar validações de campos obrigatórios e tipos de dados.
-
-## Banco de dados
-
-- Você pode criar a modelagem e implementar as validações necessárias da camada da forma que julgar melhor.
-
-## Tecnologias a serem utilizadas
-
-Devem ser utilizadas as seguintes tecnologias:
-
-- HTML
-- CSS
-- Javascript
-- PHP (Framework Opcional: Laravel, CodeIgnither)
-- Docker (construção do ambiente de desenvolvimento)
-- Mysql, Postgres ou SQLite
-
-## Entrega
-
-- Para iniciar o teste, faça um fork deste repositório; **Se você apenas clonar o repositório não vai conseguir fazer push.**
-- Crie uma branch com o seu nome completo;
-- Altere o arquivo teste-php.md com as informações necessárias para executar o seu teste (comandos, instalações, etc);
-- Depois de finalizado, envie-nos o pull request;
-
-## Bônus
-
-- API Rest JSON para todos os CRUDS listados acima.
-- Permitir deleção em massa de itens nos CRUDs.
-- Permitir que o usuário mude o número de itens por página.
-- Implementar autenticação de usuário na aplicação.
-
-## O que iremos analisar
-
-- Organização do código;
-- Conhecimento de padrões (PSRs, design patterns, SOLID);
-- Separação de módulos e componentes;
-- Legibilidade;
-- Tratamento de erros;
-
-### Boa sorte!

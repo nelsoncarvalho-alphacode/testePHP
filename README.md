@@ -1,58 +1,20 @@
-[![](https://site.alphacode.com.br/wp-content/uploads/2015/10/logocolor.png)](https://site.alphacode.com.br/)
+# Teste 2 para vaga de desenvolvedor PHP
 
-# Nossa empresa
+## Instruções iniciais
+1) Clonar o projeto num caminho semelhante a: **\\wsl.localhost\Ubuntu\home\usuario\projects**
+2) executar o comando via terminal WSL: **composer update**
+3) executar o comando via terminal WSL: **npm update**
+4) executar o comando via terminal WSL: **./vendor/bin/sail up -d**
+5) executar o comando via terminal WSL: **./vendor/bin/sail artisan migrate**
+6) executar o comando via terminal WSL: **./vendor/bin/sail artisan db:seed --class EmpresasTableSeeder**
 
-Nascida em 2015, a Alphacode é uma empresa que não para de crescer e de inovar.
-Formada por um time experiente de especialistas em tecnologia a empresa busca a cada dia trazer as soluções mais inovadoras do mercado mobile para os seus clientes.
-Todos os meses são novos aplicativos publicados nas lojas Play Store e Apple Store e um número maior de pessoas que utilizam nossas soluções para melhorar seu dia a dia.
-Seja para pedir uma pizza, assistir tv,  abrir o portão de casa ou pagar a conta de um churrasco com os amigos você pode estar usando um aplicativo criado por nós.
-E é com esse espirito inovador que a Alphacode vem se tornando referência no mercado mobile nacional.
+## CRUD vagas
+1) Faça login com username **rh@alphacode.com** e senha **123456** marcando a opção "empresa" para CRIAR, LER, EDITAR e EXCLUIR vagas.
 
-## Conheça mais sobre a Alphacode
+## CRUD candidato
+1) Cadastre-se como candidato cliclando em "Cadastrar-se".
+2) Faça login como candidato marcando a opção "candidato" e digitando o e-mail e senha respectivos.
 
-https://site.alphacode.com.br/
+## Informações adicionais
+1) É importante clonar o projeto no diretório do linux indicado pois os carregamentos ficam mais rápidos, porém, o projeto podem ser executado também nos diretórios do Windows, mas a o sistema ficará um pouco mais lento.
 
-https://www.linkedin.com/company/alphacodeit/
-
-# Descrição da vaga
-
-Buscamos profissionais que sejam apaixonados por desenvolvimento, inovação e novas tecnologias, para integrar nosso time em projetos baseados em PHP, Ionic, Angular.
-
-## Requisitos
-
-### **Obrigatórios:**
-
-- Mínimo 2 ano de experiência em desenvolvimento de sites e sistemas em PHP;
-- Desenvolvimento de APIs RESTful;
-- Conhecimentos em SQL e NoSQL;
-- Controle de versões (GIT).
-
-### **Diferenciais:**
-
-- TDD;
-- Conhecimentos em Ionic;
-- Conhecimentos em serviços AWS;
-- Conhecimentos em Node.JS;
-- Experiência em metodologias ágeis (Scrum/Kanban).
-
-## Benefícios
-
-- Salário compatível com o mercado;
-- Vale Refeição;
-- Seguro de Vida;
-- Equipe unida, e divertida;
-
-## Contratação
-
-Regime: CLT
-
-## Alocação
-
-À definir
-
-## Como se candidatar
-
-Para se candidatar, basta acessar a url de acordo com o nível e realizar o teste para a vaga:
-
-- [Desenvolvedor PHP - Teste 1](teste-php-1.md)
-- [Desenvolvedor PHP - Teste 2](teste-php-2.md)

@@ -32,7 +32,7 @@
     </div>
     <script>
         function listarUsuarios() {
-            fetch('http://localhost/usuarios')
+            fetch('http://orders-app.test/app/usuarios')
             .then(response => response.json())
             .then(users => {
                 const tbody = document.getElementById('userTable');
@@ -41,7 +41,7 @@
                     users.forEach(user => {
                         tbody.innerHTML += `<tr>
                             <td>${user.id}</td>
-                            <td>${user.nome}</td>
+                            <td>${user.name}</td>
                         </tr>`;
                     });
                 } else {

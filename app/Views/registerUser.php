@@ -16,8 +16,8 @@
                     <div class="card-body">
                         <form id="userForm">
                             <div class="mb-3">
-                                <label for="nome" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="nome" name="nome" required>
+                                <label for="name" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
                             </div>
                             <button type="submit" class="btn btn-success">Criar Usuário</button>
                         </form>
@@ -30,11 +30,11 @@
     <script>
         document.getElementById('userForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const nome = document.getElementById('nome').value;
+            const name = document.getElementById('name').value;
             fetch('/app/user/create', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nome })
+                body: JSON.stringify({ name })
             })
             .then(response => response.json())
             .then(data => {

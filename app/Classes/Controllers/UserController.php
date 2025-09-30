@@ -14,7 +14,7 @@ class UserController
         $users = $repo->list();
         header('Content-Type: application/json');
         echo json_encode($users);
-        echo 'Método chamado';
+        // echo 'Método chamado';
     }
     
 

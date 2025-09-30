@@ -18,7 +18,7 @@ $routes = RoutesUtil::getRoutes();
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
 
-if ($routes[1] === 'usuarios') {
+if ($routes[1] === 'usuarios' && empty($routes[2])) {
     if ($method === 'GET') {
         UserController::list();
         exit;
@@ -38,7 +38,14 @@ if ($routes[1] === 'usuarios') {
         UserController::delete($routes[1]);
         exit;
     }
+}
 
+
+    if ($routes[1] === 'usuarios' && isset($routes[2]) && $routes[2] === 'listar') {
+    if ($method === 'GET') {
+    require __DIR__ . '/Views/listUsers.php';   
+        exit;
+    }
 
     // Configura erro 404
     http_response_code(404);

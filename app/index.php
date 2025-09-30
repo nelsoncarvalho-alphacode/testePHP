@@ -18,7 +18,7 @@ $routes = RoutesUtil::getRoutes();
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
 
-if ($routes[1] === 'usuarios' && empty($routes[2])) {
+if ($routes[1] === 'usuarios') {
     if ($method === 'GET') {
         UserController::list();
         exit;
@@ -29,19 +29,19 @@ if ($routes[1] === 'usuarios' && empty($routes[2])) {
         exit;
     }
 
-    if ($method === 'PUT' && !empty($routes[1])) {
+    if ($method === 'PUT' && !empty($routes[2])) {
         UserController::update($routes[1]);
         exit;
     }
 
-    if ($method === "DELETE" && !empty($routes[1])) {
-        UserController::delete($routes[1]);
+    if ($method === 'DELETE' && !empty($routes[2])) {
+        UserController::delete($routes[2]);
         exit;
     }
 }
 
 
-    if ($routes[1] === 'usuarios' && isset($routes[2]) && $routes[2] === 'listar') {
+    if ($routes[1] === 'clientes') {
     if ($method === 'GET') {
     require __DIR__ . '/Views/listUsers.php';   
         exit;

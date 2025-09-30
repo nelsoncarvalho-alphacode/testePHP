@@ -14,12 +14,12 @@
                         <h4 class="mb-0">Usuários Cadastrados</h4>
                     </div>
                     <div class="card-body">
-                        <button class="btn btn-info mb-3" onclick="listarUsuarios()">Atualizar Lista</button>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Nome</th>
+                                    <th style="width: 160px;">Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="userTable"></tbody>
@@ -31,7 +31,7 @@
         </div>
     </div>
     <script>
-        function listarUsuarios() {
+        function listUsers() {
             fetch('http://orders-app.test/app/usuarios')
             .then(response => response.json())
             .then(users => {
@@ -42,6 +42,10 @@
                         tbody.innerHTML += `<tr>
                             <td>${user.id}</td>
                             <td>${user.name}</td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm me-2" onclick="editUser(${user.id})">Editar</button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})">Excluir</button>
+                                </td>
                         </tr>`;
                     });
                 } else {
@@ -52,8 +56,29 @@
                 document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao listar usuários.</div>`;
             });
         }
+
+            function editUser(id) {
+                alert('Função de editar usuário ' + id + ' ainda não implementada.');
+            }
+
+            function deleteUser(id) {
+                if (confirm('Tem certeza que deseja excluir o usuário?')) {
+                    fetch(`http://orders-app.test/app/usuarios/${id}`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message || data.error);
+                        listUsers();
+                    })
+                    .catch(() => {
+                        alert('Erro ao excluir usuário.');
+                    });
+                }
+            }
+
         // Carregar lista ao abrir
-        listarUsuarios();
+        listUsers();
     </script>
 </body>
 </html>

@@ -61,7 +61,8 @@ class UserController
         if($success) {
             echo json_encode(['message' => "Usuário com ID $id atualizado com sucesso"]);
         } else {
-
+            http_response_code(404);
+            echo json_encode(['message' => "Algo deu errado, verifique as informações"]);
         }
     }
 

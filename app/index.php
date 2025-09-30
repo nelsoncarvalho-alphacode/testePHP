@@ -41,13 +41,22 @@ if ($routes[1] === 'usuarios') {
 }
 
 
-    if ($routes[1] === 'clientes') {
+if ($routes[1] === 'clientes') {
+
     if ($method === 'GET') {
-    require __DIR__ . '/Views/listUsers.php';   
+        require __DIR__ . '/Views/listUsers.php';
         exit;
     }
-
-    // Configura erro 404
-    http_response_code(404);
-    echo json_encode(['error' => 'Rota não encontrada']);
 }
+
+if ($routes[1] === 'cadastro') {
+
+    if ($method === 'GET') {
+        require __DIR__ . '/Views/registerUser.php';
+        exit;
+    }
+}
+
+// Configura erro 404
+http_response_code(404);
+echo json_encode(['error' => 'Rota não encontrada']);

@@ -10,12 +10,10 @@ class ClienteController extends Controller
 {
     public function index(Request $request)
     {
-        // campos permitidos para filtro/ordenação (evita SQL injection)
         $allowed = ['id', 'nome', 'cpf', 'email', 'created_at', 'updated_at'];
 
         $query = Cliente::query();
 
-        // filtros por campo (se vier no querystring)
         foreach ($allowed as $field) {
             $value = $request->get($field);
             if ($value !== null && $value !== '') {
@@ -27,7 +25,6 @@ class ClienteController extends Controller
             }
         }
 
-        // ordenação
         $sort = $request->get('sort');
         $direction = $request->get('direction') === 'desc' ? 'desc' : 'asc';
         if (in_array($sort, $allowed)) {
@@ -36,7 +33,6 @@ class ClienteController extends Controller
             $query->orderBy('id', 'desc');
         }
 
-        // paginação 20 por página
         $clientes = $query->paginate(20)->withQueryString();
 
         return view('clientes.index', compact('clientes'));

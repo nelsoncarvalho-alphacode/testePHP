@@ -19,6 +19,8 @@ function autoload($class)
     // - Adiciona a extensão .php
     $class = $baseDirectory.'Classes'.DS.str_replace('\\', DS, $class).'.php';
 
+    // var_dump($class);
+
     // Se o arquivo existir e não for um diretório, inclui o arquivo (carrega a classe)
     if (file_exists($class) && !is_dir($class)) {
         include $class;

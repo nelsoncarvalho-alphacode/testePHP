@@ -19,7 +19,7 @@ class RoutesUtil
     public static function getUrls()
     {
         // Defina o nome do diretório do projeto conforme sua estrutura
-        $dirProjeto = 'api-php';
+        $dirProjeto = 'orders-app';
         $uri = $_SERVER['REQUEST_URI'] ?? '';
         $uri = str_replace('/' . $dirProjeto, '', $uri);
         // Remove query string

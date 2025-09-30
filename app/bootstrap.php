@@ -15,7 +15,7 @@
 
     // Constantes de diretórios
     define('DS', DIRECTORY_SEPARATOR);
-    define('DIR_APP', '\\laragon\\www\\api-php');
+    define('DIR_APP', '\\laragon\\www\\orders-app\\app');
 
     // Inclui o autoload para carregar as classes automaticamente
     if (file_exists(filename: 'autoload.php')) {

@@ -3,6 +3,7 @@
 namespace Repository;
 
 use DB\DBConnection;
+use Controllers\UserController;
 
 class UserRepository {
     private $conn;
@@ -12,19 +13,29 @@ class UserRepository {
         $this->conn = (new DBConnection())->connect();
     }
 
-    public function show() {
-
+    public function list() {
+        $stmt = $this->conn->query("SELECT * FROM users");
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function create() {
-
+    public function find() {
+        $stmt = $this->conn->query("SELECT * FROM users");
+        return $stmt->fetchAll((\PDO::FETCH_ASSOC));
     }
 
-    public function update() {
-
+    public function create(array $data) {
+        $stmt = $this->conn->prepare("INSERT INTO users (name) VALUES (?)");
+        $stmt->execute([$data['name']]);
+        return $this->conn->lastInsertId();
     }
 
-    public function delete() {
-        
+    public function update($id, array $data) {
+        $stmt = $this->conn->prepare("UPDATE users SET name = ? WHERE id = ?");
+        return $stmt->execute([$data['name'], $id]);
+    }
+
+    public function delete($id) {
+        $stmt = $this->conn->prepare("DELETE FROM users WHERE id = ?");
+        return $stmt->execute([$id]);
     }
 }

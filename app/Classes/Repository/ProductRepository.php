@@ -36,8 +36,8 @@ class ProductRepository
 
     public function update($id, array $data)
     {
-        $stmt = $this->conn->prepare("UPDATE products SET name = ? WHERE id = ?");
-        return $stmt->execute([$data['name'], $id]);
+        $stmt = $this->conn->prepare("UPDATE products SET name = ?, description = ?, img = ? WHERE id = ?");
+        return $stmt->execute([$data['name'], $data['description'], $data['img'], $id]);
     }
 
     public function delete($id)

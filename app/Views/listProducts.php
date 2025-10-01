@@ -69,7 +69,7 @@
 
         function deleteProduct(id) {
             if (confirm('Tem certeza que deseja excluir o produto?')) {
-                fetch(`/app/produtos/${id}`, { method: 'DELETE' })
+                fetch(`http://orders-app.test/app/products/${id}`, { method: 'DELETE' })
                 .then(response => response.json())
                 .then(data => {
                     alert(data.message || data.error);

@@ -47,18 +47,18 @@ if ($routes[1] === 'products') {
         exit;
     }
 
+    if ($method === 'POST' && !empty($routes[2])) {
+        ProductController::update($routes[2]);
+        exit;
+    }
+
     if ($method === 'POST') {
         ProductController::create();
         exit;
     }
 
-    if ($method === 'PUT' && !empty($routes[2])) {
-        UserController::update($routes[1]);
-        exit;
-    }
-
     if ($method === 'DELETE' && !empty($routes[2])) {
-        UserController::delete($routes[2]);
+        ProductController::delete($routes[2]);
         exit;
     }
 }
@@ -100,6 +100,14 @@ if ($routes[1] === 'cadastro-produto') {
 
     if ($method === 'GET') {
         require __DIR__ . '/Views/registerProduct.php';
+        exit;
+    }
+}
+
+if ($routes[1] === 'editar-produto') {
+
+    if ($method === 'GET') {
+        require __DIR__ . '/Views/editProduct.php';
         exit;
     }
 }

@@ -22,7 +22,7 @@ class ProductController
     }
 
 
-    // Método para encontrar usuário por ID
+    // Método para encontrar produto por ID
     public static function find($id)
     {
         $repo = new ProductRepository();
@@ -37,12 +37,12 @@ class ProductController
         }
     }
 
-    // Método para criar novo usuário
+    // Método para criar novo produto
     public static function create()
     {
         $name = $_POST['name'] ?? '';
         $description = $_POST['description'] ?? '';
-        $img = isset($_FILES['productImage']) ? file_get_contents($_FILES['productImage']['tmp_name']) : null;
+        $img = (isset($_FILES['productImage']) && !empty($_FILES['productImage']['tmp_name'])) ? file_get_contents($_FILES['productImage']['tmp_name']) : null;
 
         if (empty($name)) {
             http_response_code(400);
@@ -57,23 +57,54 @@ class ProductController
         echo json_encode(['message' => 'Produto criado com sucesso!', 'id' => $id]);
     }
 
-    // Método para atualizar informações do usuário
+    // Método para atualizar informações do produto
     public static function update($id)
     {
-        $data = json_decode((file_get_contents(('php://input'))), true);
-        $repo = new ProductRepository();
-        $success = $repo->update($id, $data);
-        header('Content-Type: application/json');
-
-        if ($success) {
-            echo json_encode(['message' => "Usuário com ID $id atualizado com sucesso"]);
+        // Suporte a PUT multipart/form-data
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+            // Parse multipart/form-data manualmente
+            // Usar php://input para pegar o corpo cru
+            $rawData = file_get_contents('php://input');
+            // Usar uma biblioteca para parsear multipart, ou aceitar apenas JSON para PUT
+            // Aqui, exemplo para JSON:
+            $data = json_decode($rawData, true);
+            // Se vier como FormData, não há suporte nativo, então recomendável usar POST para arquivos
+            // Para PUT, só atualize campos textuais
+            $name = $data['name'] ?? '';
+            $description = $data['description'] ?? '';
+            $img = null; // Não há suporte para arquivos via PUT nativo
+            $repo = new ProductRepository();
+            $success = $repo->update($id, ['name' => $name, 'description' => $description, 'img' => $img]);
+            header('Content-Type: application/json');
+            if ($success) {
+                echo json_encode(['message' => "Produto com ID $id atualizado com sucesso"]);
+            } else {
+                http_response_code(404);
+                echo json_encode(['message' => "Algo deu errado, verifique as informações"]);
+            }
         } else {
-            http_response_code(404);
-            echo json_encode(['message' => "Algo deu errado, verifique as informações"]);
+            // Fallback para POST (com arquivos)
+            $name = $_POST['name'] ?? '';
+            $description = $_POST['description'] ?? '';
+            $img = (isset($_FILES['productImage']) && !empty($_FILES['productImage']['tmp_name'])) ? file_get_contents($_FILES['productImage']['tmp_name']) : null;
+            $repo = new ProductRepository();
+            // Se não enviou imagem, busca a atual
+            if ($img === null) {
+                $produtoAtual = $repo->find($id);
+                $img = $produtoAtual['img'] ?? null;
+            }
+            $success = $repo->update($id, ['name' => $name, 'description' => $description, 'img' => $img]);
+            header('Content-Type: application/json');
+            if ($success) {
+                echo json_encode(['message' => "Produto $id atualizado com sucesso"]);
+            } else {
+                http_response_code(404);
+                echo json_encode(['message' => "Algo deu errado, verifique as informações"]);
+            }
         }
     }
 
-    // Método para remover usuário
+    // Método para remover produto
     public static function delete($id)
     {
         $repo = new ProductRepository;
@@ -81,10 +112,10 @@ class ProductController
         header('Content-Type: application/json');
 
         if ($success) {
-            echo json_encode(['message' => "Usuário com ID $id deletado com sucesso"]);
+            echo json_encode(['message' => "Produto $id deletado com sucesso"]);
         } else {
             http_response_code(404);
-            echo json_encode(['message' => "Usuário não encontrado"]);
+            echo json_encode(['message' => "Produto não encontrado"]);
         }
     }
 }

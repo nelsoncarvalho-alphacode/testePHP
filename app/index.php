@@ -3,6 +3,7 @@
 use Util\RoutesUtil;
 use Validator\RequestValidator;
 use Controllers\UserController;
+use Controllers\ProductController;
 use Repository\UserRepository;
 
 include 'bootstrap.php';
@@ -21,6 +22,28 @@ $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 if ($routes[1] === 'usuarios') {
     if ($method === 'GET') {
         UserController::list();
+        exit;
+    }
+
+    if ($method === 'POST') {
+        UserController::create();
+        exit;
+    }
+
+    if ($method === 'PUT' && !empty($routes[2])) {
+        UserController::update($routes[1]);
+        exit;
+    }
+
+    if ($method === 'DELETE' && !empty($routes[2])) {
+        UserController::delete($routes[2]);
+        exit;
+    }
+}
+
+if ($routes[1] === 'products') {
+    if ($method === 'GET') {
+        ProductController::list();
         exit;
     }
 
@@ -64,6 +87,23 @@ if ($routes[1] === 'editar-informacoes') {
         exit;
     }
 }
+
+if ($routes[1] === 'produtos') {
+
+    if ($method === 'GET') {
+        require __DIR__ . '/Views/listProducts.php';
+        exit;
+    }
+}
+
+if ($routes[1] === 'cadastro-produto') {
+
+    if ($method === 'GET') {
+        require __DIR__ . '/Views/registerProduct.php';
+        exit;
+    }
+}
+
 
 // Configura erro 404
 http_response_code(404);

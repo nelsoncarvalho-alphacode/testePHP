@@ -58,9 +58,8 @@ if ($id) {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const userId = <?php echo json_encode($id); ?>;
-            const url = userId ? `http://orders-app.test/app/api/users/${userId}` : 'http://orders-app.test/app/api/users';
-            fetch(url, {
-                method: 'POST',
+            fetch(`http://orders-app.test/app/api/users/${userId}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },

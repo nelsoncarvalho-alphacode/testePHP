@@ -10,7 +10,7 @@ if ($routes[2] === 'users') {
         exit;
     }
 
-    if ($method === 'POST' && !empty($routes[3])) {
+    if ($method === 'PUT' && !empty($routes[3])) {
         UserController::update($routes[3]);
         exit;
     }

@@ -19,99 +19,11 @@ try {
 $routes = RoutesUtil::getRoutes();
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
-if ($routes[1] === 'usuarios') {
-    if ($method === 'GET') {
-        UserController::list();
-        exit;
-    }
-
-    if ($method === 'POST') {
-        UserController::create();
-        exit;
-    }
-
-    if ($method === 'PUT' && !empty($routes[2])) {
-        UserController::update($routes[1]);
-        exit;
-    }
-
-    if ($method === 'DELETE' && !empty($routes[2])) {
-        UserController::delete($routes[2]);
-        exit;
-    }
+if ($routes[1] === 'api') {
+    require __DIR__ . '\Routes\apiRoutes.php';
+} else {
+    require __DIR__ . '\Routes\appRoutes.php';
 }
-
-if ($routes[1] === 'products') {
-    if ($method === 'GET') {
-        ProductController::list();
-        exit;
-    }
-
-    if ($method === 'POST' && !empty($routes[2])) {
-        ProductController::update($routes[2]);
-        exit;
-    }
-
-    if ($method === 'POST') {
-        ProductController::create();
-        exit;
-    }
-
-    if ($method === 'DELETE' && !empty($routes[2])) {
-        ProductController::delete($routes[2]);
-        exit;
-    }
-}
-
-
-if ($routes[1] === 'clientes') {
-
-    if ($method === 'GET') {
-        require __DIR__ . '/Views/listUsers.php';
-        exit;
-    }
-}
-
-if ($routes[1] === 'cadastro') {
-
-    if ($method === 'GET') {
-        require __DIR__ . '/Views/registerUser.php';
-        exit;
-    }
-}
-
-if ($routes[1] === 'editar-informacoes') {
-
-    if ($method === 'GET') {
-        require __DIR__ . '/Views/editUser.php';
-        exit;
-    }
-}
-
-if ($routes[1] === 'produtos') {
-
-    if ($method === 'GET') {
-        require __DIR__ . '/Views/listProducts.php';
-        exit;
-    }
-}
-
-if ($routes[1] === 'cadastro-produto') {
-
-    if ($method === 'GET') {
-        require __DIR__ . '/Views/registerProduct.php';
-        exit;
-    }
-}
-
-if ($routes[1] === 'editar-produto') {
-
-    if ($method === 'GET') {
-        require __DIR__ . '/Views/editProduct.php';
-        exit;
-    }
-}
-
 
 // Configura erro 404
 http_response_code(404);

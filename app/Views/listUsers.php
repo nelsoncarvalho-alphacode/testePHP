@@ -33,7 +33,7 @@
     </div>
     <script>
         function listUsers() {
-            fetch('http://orders-app.test/app/usuarios')
+            fetch('http://orders-app.test/app/api/users')
             .then(response => response.json())
             .then(users => {
                 const tbody = document.getElementById('userTable');
@@ -64,7 +64,7 @@
 
             function deleteUser(id) {
                 if (confirm('Tem certeza que deseja excluir o usuário?')) {
-                    fetch(`http://orders-app.test/app/usuarios/${id}`, {
+                    fetch(`http://orders-app.test/app/api/users/${id}`, {
                         method: 'DELETE'
                     })
                     .then(response => response.json())

@@ -57,7 +57,7 @@ if ($id) {
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            fetch('http://orders-app.test/app/usuarios', {
+            fetch('http://orders-app.test/app/api/users', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

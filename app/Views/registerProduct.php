@@ -42,7 +42,7 @@
             formData.append('name', document.getElementById('name').value);
             formData.append('description', document.getElementById('description').value);
             formData.append('productImage', document.getElementById('productImage').files[0]);
-            fetch('http://orders-app.test/app/products', {
+            fetch('http://orders-app.test/app/api/products', {
                 method: 'POST',
                 body: formData
             })

@@ -46,8 +46,6 @@ if ($id) {
 </div>
 <script>
 
-alert('JS carregado');
-
 // Preview da imagem
 document.getElementById('productImage').addEventListener('change', function(e) {
     const file = e.target.files[0];
@@ -68,7 +66,7 @@ if (form) {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         const formData = new FormData(this);
-        fetch(`http://orders-app.test/app/products/${productId}`, {
+    fetch(`http://orders-app.test/app/api/products/${productId}`, {
             method: 'POST',
             body: formData
         })

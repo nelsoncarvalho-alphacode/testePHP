@@ -35,7 +35,7 @@
     </div>
     <script>
         function listProducts() {
-            fetch('http://orders-app.test/app/products')
+            fetch('http://orders-app.test/app/api/products')
             .then(response => response.json())
             .then(products => {
                 const tbody = document.getElementById('productTable');
@@ -69,7 +69,7 @@
 
         function deleteProduct(id) {
             if (confirm('Tem certeza que deseja excluir o produto?')) {
-                fetch(`http://orders-app.test/app/products/${id}`, { method: 'DELETE' })
+                fetch(`http://orders-app.test/app/api/products/${id}`, { method: 'DELETE' })
                 .then(response => response.json())
                 .then(data => {
                     alert(data.message || data.error);

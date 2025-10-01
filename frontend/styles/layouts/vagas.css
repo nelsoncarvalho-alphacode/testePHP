@@ -1,0 +1,279 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Corpo */
+body {
+    background-color: #1c1c1e;
+    color: #e5e5ea;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Título */
+h1 {
+    color: #f5f5f7;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Controles (selects e inputs) */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.controls select,
+.controls input {
+    padding: 6px 10px;       /* menor padding */
+    border-radius: 4px;
+    border: none;
+    background-color: #3a3a3c;
+    color: #f5f5f7;
+    font-size: 13px;         /* fonte menor */
+}
+
+.controls select:focus,
+.controls input:focus {
+    outline: 2px solid #636366;
+}
+
+/* Lista de vagas */
+.jobs-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 30px;
+}
+
+/* Card da vaga */
+.job-card {
+    background-color: #2c2c2e;
+    border-radius: 6px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+/* Conteúdo do card */
+.job-title {
+    color: #0a84ff;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.job-desc {
+    color: #e5e5ea;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.job-type {
+    font-size: 12px;
+    color: #a1a1a6;
+    margin-bottom: 12px;
+}
+
+/* Botões dentro do card */
+.job-card button {
+    padding: 6px 10px;
+    font-size: 13px;
+    border-radius: 4px;
+    border: none;
+    background-color: #0a84ff;
+    color: #ffffff;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-right: 5px;
+}
+
+.job-card button:hover {
+    background-color: #0066cc;
+    transform: translateY(-1px);
+}
+
+/* Botões gerais */
+button {
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 4px;
+    border: none;
+    background-color: #3a3a3c;
+    color: #ffffff;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px 0;
+}
+
+button:hover {
+    background-color: #0a84ff;
+}
+
+button a {
+    color: white;
+    text-decoration: none;
+}
+
+a {
+    color: white;
+}
+
+/* Paginação */
+.pagination {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.pagination button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #3a3a3c;
+    color: #f5f5f7;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pagination button.active,
+.pagination button:hover {
+    background-color: #0a84ff;
+}
+
+
+/* Card da vaga */
+.job-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.job-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Título da vaga */
+.job-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333333;
+}
+
+/* Descrição e tipo */
+.job-desc, .job-type, .job-status {
+    font-size: 0.95rem;
+    color: #555555;
+    margin-bottom: 6px;
+}
+
+/* Botões de ação */
+.job-actions {
+    margin-top: 10px;
+}
+
+.job-actions button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-right: 6px;
+    transition: background-color 0.2s;
+}
+
+.job-actions .edit-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.job-actions .edit-btn:hover {
+    background-color: #45a049;
+}
+
+.job-actions .delete-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.job-actions .delete-btn:hover {
+    background-color: #e53935;
+}
+
+/* Lista de inscritos */
+.vaga-inscritos {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-left: 4px solid #2196F3;
+    border-radius: 4px;
+}
+
+.vaga-inscritos strong {
+    display: block;
+    margin-bottom: 6px;
+    color: #2196F3;
+}
+
+.vaga-inscritos ul {
+    list-style: disc inside;
+    margin: 0;
+    padding-left: 0;
+}
+
+.vaga-inscritos li {
+    padding: 4px 0;
+    color: #333;
+    font-size: 0.95rem;
+}
+/* Responsividade */
+@media (max-width: 600px) {
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .job-card {
+        padding: 12px;
+    }
+
+    .job-title {
+        font-size: 15px;
+    }
+
+    .job-desc {
+        font-size: 12px;
+    }
+}
+.txc{
+    color: black;
+}

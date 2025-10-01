@@ -1,0 +1,62 @@
+<?php
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: http://localhost:3000');  
+header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+
+// Responde a preflight (CORS)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
+// Permite apenas POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode([
+        "success" => false,
+        "message" => "Método não permitido. Use POST."
+    ]);
+    exit;
+}
+
+require_once __DIR__ . '/../database/database.php';
+require_once __DIR__ . '/../dao/VagasDAO.php';
+require_once __DIR__ . '/../model/Vagas.php';
+
+// Recebe o JSON do corpo da requisição
+$data = json_decode(file_get_contents('php://input'), true);
+
+$id = $data['id'] ?? null;
+$titulo = $data['titulo'] ?? '';
+$descricao = $data['descricao'] ?? '';
+$tipo = $data['tipo'] ?? '';
+$status = $data['status'] ?? '';
+$criado_por = $data['criado_por'] ?? null;
+
+// Valida campos obrigatórios
+if (!$id || !is_numeric($id) || !$titulo || !$descricao || !$tipo || !$status || !$criado_por) {
+    http_response_code(400);
+    echo json_encode([
+        "success" => false,
+        "message" => "Dados inválidos ou incompletos."
+    ]);
+    exit;
+}
+
+
+
+try {
+    $vaga = new Vaga($id, $titulo, $descricao, $tipo, $status, $criado_por);
+    $dao = new VagaDAO();
+    
+    if ($dao->update($vaga)) {
+        echo json_encode(["success" => true, "message" => "Vaga atualizada com sucesso."]);
+    } else {
+        http_response_code(404);
+        echo json_encode(["success" => false, "message" => "Vaga não encontrada."]);
+    }
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erro interno: ".$e->getMessage()]);
+}

@@ -41,8 +41,8 @@
             const formData = new FormData();
             formData.append('name', document.getElementById('name').value);
             formData.append('description', document.getElementById('description').value);
-            formData.append('productImage', document.getElementById('img').files[0]);
-            fetch('/app/produtos', {
+            formData.append('productImage', document.getElementById('productImage').files[0]);
+            fetch('http://orders-app.test/app/products', {
                 method: 'POST',
                 body: formData
             })

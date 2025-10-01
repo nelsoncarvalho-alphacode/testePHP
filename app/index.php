@@ -48,7 +48,7 @@ if ($routes[1] === 'products') {
     }
 
     if ($method === 'POST') {
-        UserController::create();
+        ProductController::create();
         exit;
     }
 

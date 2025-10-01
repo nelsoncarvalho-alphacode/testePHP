@@ -29,7 +29,7 @@ class ProductRepository
 
     public function create(array $data)
     {
-        $stmt = $this->conn->prepare("INSERT INTO users (name, img, description) VALUES (?, ?, ?)");
+        $stmt = $this->conn->prepare("INSERT INTO products (name, img, description) VALUES (?, ?, ?)");
         $stmt->execute([$data['name'], $data['img'], $data['description']]);
         return $this->conn->lastInsertId();
     }

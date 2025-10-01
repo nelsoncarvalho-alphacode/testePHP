@@ -3,6 +3,7 @@
 use Util\RoutesUtil;
 use Validator\RequestValidator;
 use Controllers\UserController;
+use Repository\UserRepository;
 
 include 'bootstrap.php';
 
@@ -16,7 +17,6 @@ try {
 
 $routes = RoutesUtil::getRoutes();
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
-
 
 if ($routes[1] === 'usuarios') {
     if ($method === 'GET') {
@@ -53,6 +53,14 @@ if ($routes[1] === 'cadastro') {
 
     if ($method === 'GET') {
         require __DIR__ . '/Views/registerUser.php';
+        exit;
+    }
+}
+
+if ($routes[1] === 'editar-informacoes') {
+
+    if ($method === 'GET') {
+        require __DIR__ . '/Views/editUser.php';
         exit;
     }
 }

@@ -10,8 +10,9 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card shadow">
-                    <div class="card-header bg-primary text-white">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">Usuários Cadastrados</h4>
+                        <a href="/app/cadastro" class="btn btn-success btn-sm">Cadastrar Usuário</a>
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered">
@@ -43,7 +44,7 @@
                             <td>${user.id}</td>
                             <td>${user.name}</td>
                                 <td>
-                                    <button class="btn btn-warning btn-sm me-2" onclick="editUser(${user.id})">Editar</button>
+                                    <button class="btn btn-warning btn-sm me-2" onclick="window.location.href='/app/editar-informacoes/${user.id}'">Editar</button>
                                     <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})">Excluir</button>
                                 </td>
                         </tr>`;

@@ -57,30 +57,32 @@ if ($id) {
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            fetch('http://orders-app.test/app/api/users', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name,
-                        email,
-                        password
-                    })
+            const userId = <?php echo json_encode($id); ?>;
+            const url = userId ? `http://orders-app.test/app/api/users/${userId}` : 'http://orders-app.test/app/api/users';
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password
                 })
-                .then(response => response.json())
-                .then(data => {
-                    const resultDiv = document.getElementById('result');
-                    if (data.error) {
-                        resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
-                    } else {
-                        resultDiv.innerHTML = `<div class="alert alert-success">${data.message} (ID: ${data.id})</div>`;
-                        document.getElementById('userForm').reset();
-                    }
-                })
-                .catch(() => {
-                    document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao criar usuário.</div>`;
-                });
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('result');
+                if (data.error) {
+                    resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="alert alert-success">${data.message} (ID: ${data.id})</div>`;
+                    document.getElementById('userForm').reset();
+                }
+            })
+            .catch(() => {
+                document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao criar usuário.</div>`;
+            });
         });
     </script>
 </body>

@@ -10,18 +10,18 @@ if ($routes[2] === 'users') {
         exit;
     }
 
+    if ($method === 'POST' && !empty($routes[3])) {
+        UserController::update($routes[3]);
+        exit;
+    }
+
     if ($method === 'POST') {
         UserController::create();
         exit;
     }
 
-    if ($method === 'PUT' && !empty($routes[2])) {
-        UserController::update($routes[1]);
-        exit;
-    }
-
-    if ($method === 'DELETE' && !empty($routes[2])) {
-        UserController::delete($routes[2]);
+    if ($method === 'DELETE' && !empty($routes[3])) {
+        UserController::delete($routes[3]);
         exit;
     }
 }
@@ -32,8 +32,8 @@ if ($routes[2] === 'products') {
         exit;
     }
 
-    if ($method === 'POST' && !empty($routes[2])) {
-        ProductController::update($routes[2]);
+    if ($method === 'POST' && !empty($routes[3])) {
+        ProductController::update($routes[3]);
         exit;
     }
 
@@ -42,8 +42,8 @@ if ($routes[2] === 'products') {
         exit;
     }
 
-    if ($method === 'DELETE' && !empty($routes[2])) {
-        ProductController::delete($routes[2]);
+    if ($method === 'DELETE' && !empty($routes[3])) {
+        ProductController::delete($routes[3]);
         exit;
     }
 }

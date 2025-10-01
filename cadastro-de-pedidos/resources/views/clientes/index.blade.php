@@ -55,10 +55,11 @@
     @forelse($clientes as $cliente)
       <tr>
         <td>{{ $cliente->id }}</td>
-        <td><a href="{{ route('clientes.show', $cliente) }}">{{ $cliente->nome }}</a></td>
+        <td>{{ $cliente->nome }}</td>
         <td>{{ $cliente->cpf }}</td>
         <td>{{ $cliente->email }}</td>
         <td style="white-space: nowrap;">
+          <a href="{{ route('clientes.show', $cliente) }}" class="btn btn-sm btn-info">Visualizar</a>
           <a href="{{ route('clientes.edit', $cliente) }}" class="btn btn-sm btn-warning">Editar</a>
 
           <form action="{{ route('clientes.destroy', $cliente) }}" method="POST" class="d-inline" onsubmit="return confirm('Deseja realmente apagar?');">

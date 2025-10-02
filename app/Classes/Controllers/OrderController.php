@@ -49,8 +49,13 @@ class OrderController {
     public static function list() {
         session_start();
         $userId = $_SESSION['user_id'] ?? null;
+        $isAdmin = $_SESSION['is_admin'] ?? 0;
         $repo = new OrderRepository;
-        $orders = $repo->listOrdersByUser($userId);
+        if ($isAdmin) {
+            $orders = $repo->listOrders();
+        } else {
+            $orders = $repo->listOrdersByUser($userId);
+        }
         header('Content-Type: application/json');
         echo json_encode($orders);
     }

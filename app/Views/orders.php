@@ -8,13 +8,16 @@
 <body class="bg-light">
     <div class="container mt-5">
         <div class="d-flex justify-content-end mb-3">
-            <a href="#" onclick="logout()" class="btn btn-outline-primary btn-sm">Logout</a>
+            <!-- Removido botão de logout fora do card -->
         </div>
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card shadow">
                     <div class="card-header bg-primary text-white">
-                        <h4 class="mb-0">Pedidos</h4>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Pedidos</h4>
+                            <a href="#" onclick="logout()" class="btn btn-outline-light btn-sm">Logout</a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered">

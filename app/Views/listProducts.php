@@ -12,7 +12,10 @@
                 <div class="card shadow">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">Produtos</h4>
-                        <a href="/app/cadastro-produto" class="btn btn-success btn-sm">Cadastrar Produto</a>
+                        <div>
+                            <a href="/app/cadastro-produto" class="btn btn-success btn-sm me-2">Cadastrar Produto</a>
+                            <a href="/app/api/logout" class="btn btn-outline-light btn-sm">Logout</a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered">

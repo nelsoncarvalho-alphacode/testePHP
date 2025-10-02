@@ -3,6 +3,7 @@
 use Controllers\UserController;
 use Controllers\ProductController;
 use Repository\UserRepository;
+use Controllers\AuthController;
 
 if ($routes[2] === 'users') {
     if ($method === 'GET') {
@@ -44,6 +45,22 @@ if ($routes[2] === 'products') {
 
     if ($method === 'DELETE' && !empty($routes[3])) {
         ProductController::delete($routes[3]);
+        exit;
+    }
+}
+
+if ($routes[2] === 'login') {
+
+    if($method === 'POST') {
+        AuthController::login();
+        exit;
+    }
+}
+
+if ($routes[2] === 'logout') {
+
+    if($method === 'GET') {
+        AuthController::logout();
         exit;
     }
 }

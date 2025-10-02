@@ -51,3 +51,11 @@ if ($routes[1] === 'editar-produto') {
         exit;
     }
 }
+
+if ($routes[1] === 'login') {
+
+    if ($method === 'GET') {
+        require __DIR__ . '/../Views/login.php';
+        exit;
+    }
+}

@@ -1,61 +1,101 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🛒 Sistema de Gestão (Clientes, Produtos e Pedidos)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este é um projeto desenvolvido em **Laravel 12** como parte de um processo seletivo.  
+O sistema tem como objetivo gerenciar **clientes, produtos e pedidos**, com autenticação de usuários.
 
-## About Laravel
+<h1 align="center"><img src="./resources/img/Tela-Login.png"></h1>
+<h1 align="center"><img src="./resources/img/Tela-Registro.png"></h1>
+<h1 align="center"><img src="./resources/img/Tela-clientes.png"></h1>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<h1 align="center"><img src="./resources/img/Tela-clientes-2.png"></h1>
+<h1 align="center"><img src="./resources/img/Tela-Produtos.png"></h1>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<h1 align="center"><img src="./resources/img/Tela-Pedidos.png"></h1>
+<h1 align="center"><img src="./resources/img/Tela-Novo-Pedido.png"></h1>
+<h1 align="center"><img src="./resources/img/Tela-Pedidos-2.png"></h1>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## 🚀 Funcionalidades
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Autenticação de usuários (login, registro e logout)
+- CRUD completo de **Clientes**
+- CRUD completo de **Produtos**
+- CRUD completo de **Pedidos**
+- Validações com **Form Requests**
+- Layout simples utilizando **Bootstrap 5**
+- Navbar dinâmica exibindo links conforme autenticação
+- Mensagens de sucesso/erro após as operações
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠️ Tecnologias utilizadas
 
-## Laravel Sponsors
+- **[Laravel 12](https://laravel.com/)**
+- **PHP 8.2+**
+- **MySQL 8**
+- **Composer** para gerenciamento de dependências
+- **Bootstrap 5** para estilização
+- **Blade** para renderização das views
+- **Docker** para ambiente de desenvolvimento
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## ⚙️ Como rodar o projeto
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 1. Clone o repositório
+```bash
+git clone git@github.com:AAndersonSantos/testePHP.git
+cd seu-repositorio
+```
 
-## Contributing
+### 2. Copie o arquivo .env.example para .env e configure suas variáveis de ambiente:
+```bash
+cp .env.example .env
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Suba os containers:
+```bash
+docker-compose up -d --build
+```
 
-## Code of Conduct
+### 4. Instale as dependências PHP dentro do container:
+```bash
+docker exec -it nome-do-container-app composer install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 5. Gere a chave da aplicação Laravel:
 
-## Security Vulnerabilities
+Esse comando gera uma chave de criptografia única para a sua aplicação Laravel e a armazena no arquivo de configuração de ambiente .env.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+docker exec -it nome-do-container-app php artisan key:generate
+```
 
-## License
+### O que acontece?
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- O Laravel cria uma chave aleatória e segura, no formato Base64.
+
+- Essa chave é salva na variável APP_KEY dentro do arquivo .env.
+
+- Exemplo de como ficará no .env:
+```env
+APP_KEY=base64:testetesteKZDP0hIMDOo6nSK5Ho+u88c+W+0xPjGUKV4=
+```
+
+### Por que isso é importante?
+
+- Essa chave é usada para criptografar dados sensíveis da aplicação, como sessões e cookies.
+
+- **Sem essa chave**, a criptografia do Laravel não funciona corretamente e a aplicação pode apresentar erros de segurança e autenticação.
+
+- A chave deve ser única para cada ambiente e não deve ser alterada após a aplicação estar em uso, para evitar problemas com dados criptografados.
+
+### 6. Rode as migrations:
+```bash
+docker exec -it nome-do-container-app php artisan migrate
+```
+
+### 7. Acesse no navegador:
+```arduino
+http://localhost:8000
+```

@@ -79,8 +79,9 @@ class ProductController
             $name = $data['name'] ?? '';
             $description = $data['description'] ?? '';
             $img = null; // Não há suporte para arquivos via PUT nativo
+            $value = $data['value'];
             $repo = new ProductRepository();
-            $success = $repo->update($id, ['name' => $name, 'description' => $description, 'img' => $img]);
+            $success = $repo->update($id, ['name' => $name, 'description' => $description, 'img' => $img, 'value' => $value]);
             header('Content-Type: application/json');
             if ($success) {
                 echo json_encode(['message' => "Produto com ID $id atualizado com sucesso"]);
@@ -92,6 +93,7 @@ class ProductController
             // Fallback para POST (com arquivos)
             $name = $_POST['name'] ?? '';
             $description = $_POST['description'] ?? '';
+            $value = $_POST['value'] ?? '';
             $img = (isset($_FILES['productImage']) && !empty($_FILES['productImage']['tmp_name'])) ? file_get_contents($_FILES['productImage']['tmp_name']) : null;
             $repo = new ProductRepository();
             // Se não enviou imagem, busca a atual
@@ -99,7 +101,7 @@ class ProductController
                 $produtoAtual = $repo->find($id);
                 $img = $produtoAtual['img'] ?? null;
             }
-            $success = $repo->update($id, ['name' => $name, 'description' => $description, 'img' => $img]);
+            $success = $repo->update($id, ['name' => $name, 'description' => $description, 'img' => $img, 'value' => $value]);
             header('Content-Type: application/json');
             if ($success) {
                 echo json_encode(['message' => "Produto $id atualizado com sucesso"]);

@@ -36,6 +36,10 @@ if ($id) {
             <textarea class="form-control" id="productDescription" name="description" required><?php echo htmlspecialchars($product['description'] ?? ''); ?></textarea>
         </div>
         <div class="mb-3">
+            <label for="productValue" class="form-label">Valor (R$)</label>
+            <input type="number" class="form-control" id="productValue" name="value" min="0" step="0.01" value="<?php echo htmlspecialchars($product['value'] ?? ''); ?>" required>
+        </div>
+        <div class="mb-3">
             <label for="productImage" class="form-label">Imagem do Produto</label>
             <input type="file" class="form-control" id="productImage" name="productImage">
             <img id="previewImg" src="" alt="Preview" class="mt-2" style="max-width: 200px; display:none;">

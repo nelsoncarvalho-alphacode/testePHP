@@ -46,6 +46,8 @@ O sistema tem como objetivo gerenciar **clientes, produtos e pedidos**, com aute
 ```bash
 git clone git@github.com:AAndersonSantos/testePHP.git
 cd seu-repositorio
+
+cd cadastro-de-pedidos
 ```
 
 ### 2. Copie o arquivo .env.example para .env e configure suas variáveis de ambiente:
@@ -58,17 +60,12 @@ cp .env.example .env
 docker-compose up -d --build
 ```
 
-### 4. Instale as dependências PHP dentro do container:
-```bash
-docker exec -it nome-do-container-app composer install
-```
-
-### 5. Gere a chave da aplicação Laravel:
+### 4. Gere a chave da aplicação Laravel:
 
 Esse comando gera uma chave de criptografia única para a sua aplicação Laravel e a armazena no arquivo de configuração de ambiente .env.
 
 ```bash
-docker exec -it nome-do-container-app php artisan key:generate
+docker exec -it cadastro_de_pedidos_app php artisan key:generate
 ```
 
 ### O que acontece?
@@ -90,9 +87,9 @@ APP_KEY=base64:testetesteKZDP0hIMDOo6nSK5Ho+u88c+W+0xPjGUKV4=
 
 - A chave deve ser única para cada ambiente e não deve ser alterada após a aplicação estar em uso, para evitar problemas com dados criptografados.
 
-### 6. Rode as migrations:
+### 5. Rode as migrations:
 ```bash
-docker exec -it nome-do-container-app php artisan migrate
+docker exec -it cadastro_de_pedidos_app php artisan migrate
 ```
 
 ### 7. Acesse no navegador:

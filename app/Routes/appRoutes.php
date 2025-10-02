@@ -75,3 +75,11 @@ if ($routes[1] === 'pedidos') {
         exit;
     }
 }
+
+if ($routes[1] === 'admin') {
+
+    if ($method === 'GET') {
+        require __DIR__ . '/../Views/adminPanel.php';
+        exit;
+    }
+}

@@ -55,7 +55,11 @@
                 } else {
                     resultDiv.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
                     setTimeout(() => {
-                        window.location.href = '/app/produtos';
+                        if (data.is_admin) {
+                            window.location.href = '/app/admin';
+                        } else {
+                            window.location.href = '/app/produtos';
+                        }
                     }, 1000);
                 }
             })

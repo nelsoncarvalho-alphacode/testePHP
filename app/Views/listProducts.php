@@ -17,6 +17,7 @@
                         <div>
                             <a href="/app/cadastro-produto" class="btn btn-success btn-sm me-2">Cadastrar Produto</a>
                             <a href="/app/carrinho" class="btn btn-info btn-sm me-2">Ir para o Carrinho</a>
+                            <a href="/app/pedidos" class="btn btn-warning btn-sm me-2">Ir para os Pedidos</a>
                             <a href="#" onclick="logout()" class="btn btn-outline-light btn-sm">Logout</a>
                         </div>
                     </div>

@@ -16,7 +16,10 @@
                     <div class="card-header bg-primary text-white">
                         <div class="d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">Pedidos</h4>
-                            <a href="#" onclick="logout()" class="btn btn-outline-light btn-sm">Logout</a>
+                            <div>
+                                <a href="/app/produtos" class="btn btn-warning btn-sm me-2">Voltar para Produtos</a>
+                                <a href="#" onclick="logout()" class="btn btn-outline-light btn-sm">Logout</a>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">

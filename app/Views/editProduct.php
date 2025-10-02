@@ -81,6 +81,9 @@ if (form) {
         .then(res => res.text())
         .then(data => {
             document.getElementById('result').innerHTML = `<pre>${data}</pre>`;
+            setTimeout(() => {
+                window.location.href = '/app/produtos';
+            }, 1000);
         });
     });
 } else {

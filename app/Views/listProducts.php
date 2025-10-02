@@ -78,10 +78,14 @@
                     if (Array.isArray(products) && products.length > 0) {
                         products.forEach(product => {
                             let imgTag = product.img ? `<img src="data:image/jpeg;base64,${product.img}" width="60">` : 'Sem imagem';
+                            let desc = product.description || '';
+                            if (desc.length > 50) {
+                                desc = desc.substring(0, 47) + '...';
+                            }
                             tbody.innerHTML += `<tr>
                             <td>${product.id}</td>
                             <td>${product.name}</td>
-                            <td>${product.description || ''}</td>
+                            <td>${desc}</td>
                             <td>${product.value ? 'R$ ' + Number(product.value).toFixed(2) : '-'}</td>
                             <td>${imgTag}</td>
                             <td class="d-flex gap-2 justify-content-center">

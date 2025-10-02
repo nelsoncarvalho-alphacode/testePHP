@@ -74,7 +74,9 @@ if ($id) {
                     resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
                 } else {
                     resultDiv.innerHTML = `<div class="alert alert-success">${data.message} (ID: ${data.id})</div>`;
-                    document.getElementById('userForm').reset();
+                    setTimeout(() => {
+                        window.location.href = '/app/clientes';
+                    }, 1000);
                 }
             })
             .catch(() => {

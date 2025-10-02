@@ -66,7 +66,9 @@
                     resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
                 } else {
                     resultDiv.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
-                    document.getElementById('productForm').reset();
+                    setTimeout(() => {
+                        window.location.href = '/app/produtos';
+                    }, 1000);
                 }
             })
             .catch(() => {

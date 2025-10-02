@@ -20,6 +20,14 @@ if ($routes[1] === 'cadastro') {
     }
 }
 
+if ($routes[1] === 'admin-cadastro') {
+
+    if ($method === 'GET') {
+        require __DIR__ . '/../Views/registerUserAdmin.php';
+        exit;
+    }
+}
+
 if ($routes[1] === 'editar-informacoes') {
 
     if ($method === 'GET') {

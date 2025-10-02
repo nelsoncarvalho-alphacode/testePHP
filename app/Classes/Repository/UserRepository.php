@@ -30,6 +30,11 @@ class UserRepository
     public function create(array $data)
     {
         try {
+            // Verifica se já existe usuário com o mesmo e-mail
+            $existing = $this->findByEmail($data['email']);
+            if ($existing) {
+                return ['error' => 'E-mail já cadastrado'];
+            }
             $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
             $isAdmin = isset($data['is_admin']) ? (int)$data['is_admin'] : 0;
             $stmt = $this->conn->prepare("INSERT INTO users (name, email, password, is_admin) VALUES (?, ?, ?, ?)");

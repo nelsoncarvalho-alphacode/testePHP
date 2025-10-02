@@ -16,7 +16,7 @@
                         <h4 class="mb-0">Cadastro de Usuário</h4>
                     </div>
                     <div class="card-body">
-                        <a href="/app/clientes" class="btn btn-secondary btn-sm mb-3">Voltar para Usuários</a>
+                        <!-- Cadastro externo, sem botão de voltar para usuários -->
                         <form id="userForm">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nome:</label>
@@ -25,12 +25,12 @@
                                 <input type="text" class="form-control" id="email" name="email" required>
                                 <label for="password" class="form-label">Senha:</label>
                                 <input type="text" class="form-control" id="password" name="password" required>
-                                <div class="form-check mt-2">
-                                    <input class="form-check-input" type="checkbox" id="is_admin" name="is_admin">
-                                    <label class="form-check-label" for="is_admin">Administrador</label>
-                                </div>
+                                <!-- Sem opção de administrador para cadastro externo -->
                             </div>
-                            <button type="submit" class="btn btn-success">Criar Usuário</button>
+                            <div class="d-flex align-items-center gap-3 mt-2">
+                                <button type="submit" class="btn btn-success">Criar Usuário</button>
+                                <a href="/app/login" class="btn btn-link p-0">Já tem conta? Faça login</a>
+                            </div>
                         </form>
                         <div id="result" class="mt-3"></div>
                     </div>
@@ -44,7 +44,6 @@
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const is_admin = document.getElementById('is_admin').checked ? 1 : 0;
             fetch('http://orders-app.test/app/api/users', {
                 method: 'POST',
                 headers: {
@@ -53,8 +52,7 @@
                 body: JSON.stringify({
                     name,
                     email,
-                    password,
-                    is_admin
+                    password
                 })
             })
             .then(response => response.json())

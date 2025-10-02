@@ -47,12 +47,15 @@ class UserController
         }
 
         $repo = new UserRepository();
-        $id = $repo->create($data);
+        $result = $repo->create($data);
 
         header('Content-Type: application/json');
 
-        if ($id) {
-            echo json_encode(['message' => 'Usuário criado com sucesso!', 'id' => $id]);
+        if (is_array($result) && isset($result['error'])) {
+            http_response_code(400);
+            echo json_encode(['error' => $result['error']]);
+        } else if ($result) {
+            echo json_encode(['message' => 'Usuário criado com sucesso!', 'id' => $result]);
         } else {
             http_response_code(500);
             echo json_encode(['error' => 'Erro ao criar usuário.']);

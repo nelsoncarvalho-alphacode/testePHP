@@ -13,11 +13,10 @@
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">Usuários Cadastrados</h4>
                             <div>
-                                <a href="/app/cadastro" class="btn btn-success btn-sm me-2">Cadastrar Usuário</a>
+                                <a href="/app/admin-cadastro" class="btn btn-success btn-sm me-2">Cadastrar Usuário</a>
                                 <a id="adminPanelBtn" href="#" class="btn btn-dark btn-sm" style="display:none;">Voltar para Painel Admin</a>
                             </div>
                     </div>
-                                        <h4 class="mb-0">Usuários</h4>
                                         <div id="headerButtons"></div>
                     <div class="card-body">
                         <table class="table table-bordered">

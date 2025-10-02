@@ -22,6 +22,7 @@
                                     <th>Total (R$)</th>
                                     <th>Status</th>
                                     <th>Código de Barras</th>
+                                    <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="ordersTable"></tbody>
@@ -41,12 +42,16 @@
                     tbody.innerHTML = '';
                     if (Array.isArray(orders) && orders.length > 0) {
                         orders.forEach(order => {
+                            const produtos = Array.isArray(order.products) && order.products.length > 0
+                                ? order.products.map(p => p.name).join(', ')
+                                : '-';
                             tbody.innerHTML += `<tr>
                                 <td>${order.id}</td>
-                                <td>-</td>
+                                <td>${produtos}</td>
                                 <td>R$ ${Number(order.value).toFixed(2)}</td>
                                 <td>${order.status}</td>
                                 <td>${order.barcode}</td>
+                                <td><button class='btn btn-danger btn-sm' onclick='deleteOrder(${order.id})'>Excluir</button></td>
                             </tr>`;
                         });
                     } else {
@@ -56,6 +61,21 @@
                 .catch(() => {
                     document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao listar pedidos.</div>`;
                 });
+        }
+        function deleteOrder(id) {
+            if (confirm('Tem certeza que deseja excluir este pedido?')) {
+                fetch(`http://orders-app.test/app/api/order/${id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message || 'Pedido excluído!');
+                    listOrders();
+                })
+                .catch(() => {
+                    alert('Erro ao excluir pedido.');
+                });
+            }
         }
         listOrders();
     </script>

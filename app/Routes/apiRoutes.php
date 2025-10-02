@@ -72,9 +72,12 @@ if ($routes[2] === 'order') {
         OrderController::list();
         exit;
     }
-
     if ($method === 'POST') {
         OrderController::store();
+        exit;
+    }
+    if ($method === 'DELETE' && !empty($routes[3])) {
+        OrderController::delete($routes[3]);
         exit;
     }
 }

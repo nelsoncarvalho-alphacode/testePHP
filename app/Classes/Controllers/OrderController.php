@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Repository\OrderRepository;
+use Repository\ProductRepository;
 
 class OrderController {
     public static function store() {
@@ -50,5 +51,18 @@ class OrderController {
         $orders = $repo->listOrders();
         header('Content-Type: application/json');
         echo json_encode($orders);
+    }
+
+    public static function delete($id) {
+        $repo = new OrderRepository;
+        $success = $repo->deleteOrder($id);
+        header('Content-Type: application/json');
+
+        if ($success) {
+            echo json_encode(['message' => "Produto $id deletado com successo"]);
+        } else {
+            http_response_code(404);
+            echo json_encode(['message' => "Produto não encontrado"]);
+        }
     }
 }

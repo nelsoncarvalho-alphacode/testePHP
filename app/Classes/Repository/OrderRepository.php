@@ -26,11 +26,38 @@ class OrderRepository
 
         $orderId = $this->conn->lastInsertId();
 
+        // Salva os produtos do pedido na tabela order_items
+        foreach ($products as $product) {
+            $itemStmt = $this->conn->prepare("INSERT INTO order_items (order_id, product_id, name, value) VALUES (?, ?, ?, ?)");
+            $itemStmt->execute([
+                $orderId,
+                $product['id'],
+                $product['name'],
+                $product['value']
+            ]);
+        }
+
         return $orderId;
     }
 
     public function listOrders() {
         $stmt = $this->conn->query('SELECT * FROM orders');
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $orders = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        // Para cada pedido, busca os produtos
+        foreach ($orders as &$order) {
+            $itemStmt = $this->conn->prepare('SELECT name, value FROM order_items WHERE order_id = ?');
+            $itemStmt->execute([$order['id']]);
+            $order['products'] = $itemStmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
+        return $orders;
+    }
+
+    public function deleteOrder($id) {
+        // Remove os itens do pedido
+        $itemStmt = $this->conn->prepare("DELETE FROM order_items WHERE order_id = ?");
+        $itemStmt->execute([$id]);
+        // Remove o pedido
+        $orderStmt = $this->conn->prepare("DELETE FROM orders WHERE id = ?");
+        return $orderStmt->execute([$id]);
     }
 }

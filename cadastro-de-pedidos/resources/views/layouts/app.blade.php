@@ -13,32 +13,43 @@
 </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-  <div class="container">
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link {{ request()->is('/') || request()->is('clientes*') ? 'active' : '' }}" 
-             href="{{ route('clientes.index') }}">
-            Clientes
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ request()->is('produtos*') ? 'active' : '' }}" 
-             href="{{ route('produtos.index') }}">
-            Produtos
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ request()->is('pedidos*') ? 'active' : '' }}" 
-             href="{{ route('pedidos.index') }}">
-            Pedidos
-          </a>
-        </li>
-      </ul>
+@auth
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link {{ request()->is('clientes*') ? 'active' : '' }}" 
+              href="{{ route('clientes.index') }}">
+              Clientes
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ request()->is('produtos*') ? 'active' : '' }}" 
+              href="{{ route('produtos.index') }}">
+              Produtos
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ request()->is('pedidos*') ? 'active' : '' }}" 
+              href="{{ route('pedidos.index') }}">
+              Pedidos
+            </a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <form method="POST" action="{{ route('logout') }}">
+              @csrf
+              <button type="submit" class="btn btn-danger">Sair</button>
+            </form>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
+@endauth
 
 <div class="container">
   @if(session('success'))

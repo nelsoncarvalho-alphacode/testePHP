@@ -47,7 +47,7 @@ class OrderRepository
     }
 
     public function listOrders() {
-        $stmt = $this->conn->query('SELECT * FROM orders');
+        $stmt = $this->conn->query('SELECT o.*, u.name as user_name FROM orders o LEFT JOIN users u ON o.user_id = u.id');
         $orders = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($orders as &$order) {
             $itemStmt = $this->conn->prepare('SELECT name, value, qty FROM order_items WHERE order_id = ?');

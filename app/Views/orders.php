@@ -23,6 +23,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th id="userColumnHeader" style="display:none;">Usuário</th>
                                     <th>Produtos</th>
                                     <th>Total (R$)</th>
                                     <th>Status</th>
@@ -74,6 +75,8 @@
                     if (Array.isArray(orders) && orders.length > 0) {
                         // Filtra pedidos do usuário logado
                         const filteredOrders = isAdmin ? orders : orders.filter(order => order.user_id == userId);
+                        // Exibe coluna Usuário apenas para admin
+                        document.getElementById('userColumnHeader').style.display = isAdmin ? '' : 'none';
                         if (filteredOrders.length > 0) {
                             filteredOrders.forEach(order => {
                                 const produtos = Array.isArray(order.products) && order.products.length > 0
@@ -81,6 +84,7 @@
                                     : '-';
                                 tbody.innerHTML += `<tr>
                                     <td>${order.id}</td>
+                                    <td style="${isAdmin ? '' : 'display:none;'}">${isAdmin ? (order.user_name || '-') : ''}</td>
                                     <td>${produtos}</td>
                                     <td>R$ ${Number(order.value).toFixed(2)}</td>
                                     <td>

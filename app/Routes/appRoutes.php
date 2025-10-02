@@ -59,3 +59,11 @@ if ($routes[1] === 'login') {
         exit;
     }
 }
+
+if ($routes[1] === 'carrinho') {
+
+    if ($method === 'GET') {
+        require __DIR__ . '/../Views/cart.php';
+        exit;
+    }
+}

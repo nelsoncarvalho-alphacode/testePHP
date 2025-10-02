@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>Lista de Produtos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-light">
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -26,7 +28,7 @@
                                     <th>Descrição</th>
                                     <th>Valor</th>
                                     <th>Imagem</th>
-                                    <th style="width: 160px;">Ações</th>
+                                    <th style="width: 270px;">Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="productTable"></tbody>
@@ -40,33 +42,32 @@
     <script>
         function listProducts() {
             fetch('http://orders-app.test/app/api/products')
-            .then(response => response.json())
-            .then(products => {
-                const tbody = document.getElementById('productTable');
-                tbody.innerHTML = '';
-                if (Array.isArray(products) && products.length > 0) {
-                    products.forEach(product => {
-                        let imgTag = product.img ? `<img src="data:image/jpeg;base64,${product.img}" width="60">` : 'Sem imagem';
-                        tbody.innerHTML += `<tr>
+                .then(response => response.json())
+                .then(products => {
+                    const tbody = document.getElementById('productTable');
+                    tbody.innerHTML = '';
+                    if (Array.isArray(products) && products.length > 0) {
+                        products.forEach(product => {
+                            let imgTag = product.img ? `<img src="data:image/jpeg;base64,${product.img}" width="60">` : 'Sem imagem';
+                            tbody.innerHTML += `<tr>
                             <td>${product.id}</td>
                             <td>${product.name}</td>
                             <td>${product.description || ''}</td>
                             <td>${product.value ? 'R$ ' + Number(product.value).toFixed(2) : '-'}</td>
                             <td>${imgTag}</td>
-                            <td>
-                                <button class="btn btn-warning btn-sm me-2" onclick="editProduct(${product.id})">Editar</button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})">Excluir</button>
+                            <td class="d-flex gap-2 justify-content-center">
+                                <button class="btn btn-warning btn-sm flex-fill" style="min-width: 80px;" onclick="editProduct(${product.id})">Editar</button>
+                                <button class="btn btn-danger btn-sm flex-fill" style="min-width: 80px;" onclick="deleteProduct(${product.id})">Excluir</button>
+                                <button class="btn btn-success btn-sm flex-fill" style="min-width: 80px;" onclick='addToCart({id: ${product.id}, name: "${product.name}", description: "${product.description}", value: "${product.value}"})'>Carrinho</button>
                             </td>
                         </tr>`;
-                    });
-                } else {
-                    tbody.innerHTML = '<tr><td colspan="5">Nenhum produto encontrado.</td></tr>';
-                }
-            })
-            .catch(() => {
-                document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao listar produtos.</div>`;
-            });
-        }
+                });
+            }
+        })
+        .catch(() => {
+            document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao listar produtos.</div>`;
+        });
+    }
 
         function editProduct(id) {
             window.location.href = `/app/editar-produto/${id}`;
@@ -74,19 +75,34 @@
 
         function deleteProduct(id) {
             if (confirm('Tem certeza que deseja excluir o produto?')) {
-                fetch(`http://orders-app.test/app/api/products/${id}`, { method: 'DELETE' })
-                .then(response => response.json())
-                .then(data => {
-                    alert(data.message || data.error);
-                    listProducts();
-                })
-                .catch(() => {
-                    alert('Erro ao excluir produto.');
-                });
+                fetch(`http://orders-app.test/app/api/products/${id}`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message || data.error);
+                        listProducts();
+                    })
+                    .catch(() => {
+                        alert('Erro ao excluir produto.');
+                    });
+            }
+        }
+
+        function addToCart(product) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            // Evita duplicidade
+            if (!cart.some(item => item.id === product.id)) {
+                cart.push(product);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert('Produto adicionado ao carrinho!');
+            } else {
+                alert('Produto já está no carrinho!');
             }
         }
 
         listProducts();
     </script>
 </body>
+
 </html>

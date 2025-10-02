@@ -29,15 +29,15 @@ class ProductRepository
 
     public function create(array $data)
     {
-        $stmt = $this->conn->prepare("INSERT INTO products (name, img, description) VALUES (?, ?, ?)");
-        $stmt->execute([$data['name'], $data['img'], $data['description']]);
+        $stmt = $this->conn->prepare("INSERT INTO products (name, img, value, description) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$data['name'], $data['img'], $data['value'], $data['description']]);
         return $this->conn->lastInsertId();
     }
 
     public function update($id, array $data)
     {
-        $stmt = $this->conn->prepare("UPDATE products SET name = ?, description = ?, img = ? WHERE id = ?");
-        return $stmt->execute([$data['name'], $data['description'], $data['img'], $id]);
+        $stmt = $this->conn->prepare("UPDATE products SET name = ?, description = ?, value = ?, img = ? WHERE id = ?");
+        return $stmt->execute([$data['name'], $data['description'], $data['value'], $data['img'], $id]);
     }
 
     public function delete($id)

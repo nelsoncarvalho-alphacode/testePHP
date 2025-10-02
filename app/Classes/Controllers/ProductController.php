@@ -42,6 +42,7 @@ class ProductController
     {
         $name = $_POST['name'] ?? '';
         $description = $_POST['description'] ?? '';
+        $value = $_POST['value'] ?? '';
         $img = (isset($_FILES['productImage']) && !empty($_FILES['productImage']['tmp_name'])) ? file_get_contents($_FILES['productImage']['tmp_name']) : null;
 
         if (empty($name)) {
@@ -49,9 +50,14 @@ class ProductController
             echo json_encode(['error' => "Nome é obrigatório"]);
             return;
         }
+        if ($value === '') {
+            http_response_code(400);
+            echo json_encode(['error' => "Valor é obrigatório"]);
+            return;
+        }
 
         $repo = new ProductRepository();
-        $id = $repo->create(['name' => $name, 'img' => $img, 'description' => $description]);
+        $id = $repo->create(['name' => $name, 'img' => $img, 'value' => $value, 'description' => $description]);
 
         header('Content-Type: application/json');
         echo json_encode(['message' => 'Produto criado com sucesso!', 'id' => $id]);

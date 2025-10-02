@@ -24,6 +24,7 @@
                                     <th>ID</th>
                                     <th>Nome</th>
                                     <th>Descrição</th>
+                                    <th>Valor</th>
                                     <th>Imagem</th>
                                     <th style="width: 160px;">Ações</th>
                                 </tr>
@@ -50,6 +51,7 @@
                             <td>${product.id}</td>
                             <td>${product.name}</td>
                             <td>${product.description || ''}</td>
+                            <td>${product.value ? 'R$ ' + Number(product.value).toFixed(2) : '-'}</td>
                             <td>${imgTag}</td>
                             <td>
                                 <button class="btn btn-warning btn-sm me-2" onclick="editProduct(${product.id})">Editar</button>

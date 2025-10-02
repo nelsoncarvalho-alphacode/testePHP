@@ -24,6 +24,10 @@
                                 <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                             </div>
                             <div class="mb-3">
+                                <label for="value" class="form-label">Valor (R$)</label>
+                                <input type="number" class="form-control" id="value" name="value" min="0" step="0.01" placeholder="0,00" required>
+                            </div>
+                            <div class="mb-3">
                                 <label for="productImage" class="form-label">Imagem do Produto</label>
                                 <input type="file" class="form-control" id="productImage" name="productImage" accept="image/*" required>
                             </div>
@@ -41,6 +45,7 @@
             const formData = new FormData();
             formData.append('name', document.getElementById('name').value);
             formData.append('description', document.getElementById('description').value);
+            formData.append('value', document.getElementById('value').value.replace(',', '.'));
             formData.append('productImage', document.getElementById('productImage').files[0]);
             fetch('http://orders-app.test/app/api/products', {
                 method: 'POST',

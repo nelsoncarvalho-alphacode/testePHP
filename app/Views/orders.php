@@ -45,8 +45,9 @@
             let html = '';
             if (isAdmin) {
                 html += '<a href="/app/admin" class="btn btn-dark btn-sm me-2">Voltar para Painel Admin</a>';
+            } else {
+                html += '<a href="/app/produtos" class="btn btn-warning btn-sm me-2">Voltar para Produtos</a>';
             }
-            html += '<a href="/app/produtos" class="btn btn-warning btn-sm me-2">Voltar para Produtos</a>';
             html += '<a href="#" onclick="logout()" class="btn btn-outline-light btn-sm">Logout</a>';
             headerDiv.innerHTML = html;
         }

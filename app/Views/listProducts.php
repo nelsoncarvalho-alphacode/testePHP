@@ -58,8 +58,12 @@
                 html += '<a href="/app/cadastro-produto" class="btn btn-success btn-sm me-2">Cadastrar Produto</a>';
                 html += '<a href="/app/admin" class="btn btn-dark btn-sm me-2">Voltar para Painel Admin</a>';
             }
-            html += '<a href="/app/carrinho" class="btn btn-info btn-sm me-2">Ir para o Carrinho</a>';
-            html += '<a href="/app/pedidos" class="btn btn-warning btn-sm me-2">Ir para os Pedidos</a>';
+            if (!isAdmin) {
+                html += '<a href="/app/carrinho" class="btn btn-info btn-sm me-2">Ir para o Carrinho</a>';
+            }
+            if (!isAdmin) {
+                html += '<a href="/app/pedidos" class="btn btn-warning btn-sm me-2">Ir para os Pedidos</a>';
+            }
             html += '<a href="#" onclick="logout()" class="btn btn-outline-light btn-sm">Logout</a>';
             headerDiv.innerHTML = html;
         }
@@ -92,8 +96,7 @@
                             <td>${imgTag}</td>
                             <td class="d-flex gap-2 justify-content-center">
                                 ${isAdmin ? `<button class='btn btn-warning btn-sm flex-fill' style='min-width: 80px;' onclick='editProduct(${product.id})'>Editar</button>
-                                <button class='btn btn-danger btn-sm flex-fill' style='min-width: 80px;' onclick='deleteProduct(${product.id})'>Excluir</button>` : ''}
-                                <button class='btn btn-success btn-sm flex-fill' style='min-width: 80px;' onclick='addToCart(${product.id})'>Carrinho</button>
+                                <button class='btn btn-danger btn-sm flex-fill' style='min-width: 80px;' onclick='deleteProduct(${product.id})'>Excluir</button>` : `<button class='btn btn-success btn-sm flex-fill' style='min-width: 80px;' onclick='addToCart(${product.id})'>Carrinho</button>`}
                             </td>
                         </tr>`;
                         });

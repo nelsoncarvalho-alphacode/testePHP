@@ -46,7 +46,7 @@ if ($id) {
         </div>
         <div class="mb-3">
             <label for="productImage" class="form-label">Imagem do Produto</label>
-            <input type="file" class="form-control" id="productImage" name="productImage">
+            <input type="file" class="form-control" id="productImage" name="productImage" accept="image/*">
             <img id="previewImg" src="" alt="Preview" class="mt-2" style="max-width: 200px; display:none;">
         </div>
         <button type="submit" class="btn btn-primary">Atualizar Produto</button>

@@ -11,9 +11,11 @@
             <div class="col-md-8">
                 <div class="card shadow">
                     <div class="card-header bg-primary text-white">
-                        <h4 class="mb-0">Carrinho de Compras</h4>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Carrinho de Compras</h4>
+                            <a id="backToProductsBtn" href="/app/produtos" class="btn btn-warning btn-sm me-2" style="display:none;">Voltar para Produtos</a>
+                        </div>
                     </div>
-                    <div class="card-body">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -25,10 +27,8 @@
                             </thead>
                             <tbody id="cartTable"></tbody>
                         </table>
-                        <div class="d-flex justify-content-end">
-                            <h5>Total: <span id="cartTotal">R$ 0,00</span></h5>
-                        </div>
-                        <div class="d-flex justify-content-end mt-3">
+                        <div class="d-flex flex-column align-items-end" style="margin-right: 16px;">
+                            <h5 class="mb-2">Total: <span id="cartTotal">R$ 0,00</span></h5>
                             <button class="btn btn-success" onclick="storeCart()">Comprar</button>
                         </div>
                         <div id="result" class="mt-3"></div>
@@ -72,6 +72,15 @@
             }
             totalSpan.textContent = 'R$ ' + total.toFixed(2);
         }
+
+        // Exibe botão de voltar para produtos apenas para usuário comum ao carregar a página
+        fetch('/app/api/session')
+            .then(response => response.json())
+            .then(data => {
+                if (!data.is_admin) {
+                    document.getElementById('backToProductsBtn').style.display = '';
+                }
+            });
 
         function storeCart() {
             const cart = getCart();

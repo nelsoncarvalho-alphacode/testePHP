@@ -12,8 +12,13 @@
                 <div class="card shadow">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">Usuários Cadastrados</h4>
-                        <a href="/app/cadastro" class="btn btn-success btn-sm">Cadastrar Usuário</a>
+                            <div>
+                                <a href="/app/cadastro" class="btn btn-success btn-sm me-2">Cadastrar Usuário</a>
+                                <a id="adminPanelBtn" href="#" class="btn btn-dark btn-sm" style="display:none;">Voltar para Painel Admin</a>
+                            </div>
                     </div>
+                                        <h4 class="mb-0">Usuários</h4>
+                                        <div id="headerButtons"></div>
                     <div class="card-body">
                         <table class="table table-bordered">
                             <thead>
@@ -32,6 +37,28 @@
         </div>
     </div>
     <script>
+        fetch('/app/api/session')
+            .then(response => response.json())
+            .then(data => {
+                isAdmin = !!data.is_admin;
+                    if (isAdmin) {
+                        document.getElementById('adminPanelBtn').style.display = '';
+                        document.getElementById('adminPanelBtn').setAttribute('href', '/app/admin');
+                    }
+            })
+            .catch(() => {
+                    document.getElementById('adminPanelBtn').style.display = 'none';
+            });
+
+        function renderHeaderButtons() {
+            const headerDiv = document.getElementById('headerButtons');
+            let html = '';
+            if (isAdmin) {
+                html += '<a href="/app/admin" class="btn btn-dark btn-sm me-2">Voltar para Painel Admin</a>';
+            }
+            html += '<a href="#" onclick="logout()" class="btn btn-outline-light btn-sm">Logout</a>';
+            headerDiv.innerHTML = html;
+        }
         let isAdmin = false;
         // Busca se o usuário é admin
         fetch('/app/api/session')

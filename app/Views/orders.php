@@ -15,10 +15,7 @@
                     <div class="card-header bg-primary text-white">
                         <div class="d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">Pedidos</h4>
-                            <div>
-                                <a href="/app/produtos" class="btn btn-warning btn-sm me-2">Voltar para Produtos</a>
-                                <a href="#" onclick="logout()" class="btn btn-outline-light btn-sm">Logout</a>
-                            </div>
+                            <div id="headerButtons"></div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -42,6 +39,16 @@
         </div>
     </div>
     <script>
+        function renderHeaderButtons() {
+            const headerDiv = document.getElementById('headerButtons');
+            let html = '';
+            if (isAdmin) {
+                html += '<a href="/app/admin" class="btn btn-dark btn-sm me-2">Voltar para Painel Admin</a>';
+            }
+            html += '<a href="/app/produtos" class="btn btn-warning btn-sm me-2">Voltar para Produtos</a>';
+            html += '<a href="#" onclick="logout()" class="btn btn-outline-light btn-sm">Logout</a>';
+            headerDiv.innerHTML = html;
+        }
         let userId = null;
         let isAdmin = false;
         // Busca dados do usuário logado
@@ -50,9 +57,11 @@
             .then(data => {
                 isAdmin = !!data.is_admin;
                 userId = data.user_id;
+                renderHeaderButtons();
                 listOrders();
             })
             .catch(() => {
+                renderHeaderButtons();
                 listOrders();
             });
 
@@ -83,6 +92,14 @@
                                     </td>
                                 </tr>`;
                             });
+            // Exibe botão de voltar para produtos apenas para usuário comum
+            fetch('/app/api/session')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.is_admin) {
+                        document.getElementById('backToProductsBtn').style.display = '';
+                    }
+                });
                         } else {
                             tbody.innerHTML = '<tr><td colspan="5">Nenhum pedido encontrado.</td></tr>';
                         }
@@ -133,7 +150,7 @@
                 });
             }
 
-            
+
         listOrders();
     </script>
 </body>

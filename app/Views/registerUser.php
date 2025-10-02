@@ -16,6 +16,7 @@
                         <h4 class="mb-0">Cadastro de Usuário</h4>
                     </div>
                     <div class="card-body">
+                        <a href="/app/clientes" class="btn btn-secondary btn-sm mb-3">Voltar para Usuários</a>
                         <form id="userForm">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nome:</label>

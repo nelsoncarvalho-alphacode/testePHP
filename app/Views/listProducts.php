@@ -56,6 +56,7 @@
             let html = '';
             if (isAdmin) {
                 html += '<a href="/app/cadastro-produto" class="btn btn-success btn-sm me-2">Cadastrar Produto</a>';
+                html += '<a href="/app/admin" class="btn btn-dark btn-sm me-2">Voltar para Painel Admin</a>';
             }
             html += '<a href="/app/carrinho" class="btn btn-info btn-sm me-2">Ir para o Carrinho</a>';
             html += '<a href="/app/pedidos" class="btn btn-warning btn-sm me-2">Ir para os Pedidos</a>';
@@ -124,7 +125,7 @@
 
         function addToCart(product) {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            // Evita duplicidade
+
             if (!cart.some(item => item.id === product.id)) {
                 cart.push(product);
                 localStorage.setItem('cart', JSON.stringify(cart));

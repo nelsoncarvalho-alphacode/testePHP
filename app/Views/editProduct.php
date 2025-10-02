@@ -29,6 +29,7 @@ if ($id) {
         <a href="#" onclick="logout()" class="btn btn-outline-primary btn-sm">Logout</a>
     </div>
 <div class="container mt-5">
+    <a href="/app/produtos" class="btn btn-secondary btn-sm mb-3">Voltar para Produtos</a>
     <h2>Editar Produto</h2>
     <form id="editProductForm" enctype="multipart/form-data">
         <div class="mb-3">
@@ -73,8 +74,13 @@ const form = document.getElementById('editProductForm');
 if (form) {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
+        const imageInput = document.getElementById('productImage');
+        if (!imageInput.files[0]) {
+            document.getElementById('result').innerHTML = `<div class="alert alert-danger">Selecione uma imagem para o produto.</div>`;
+            return;
+        }
         const formData = new FormData(this);
-    fetch(`http://orders-app.test/app/api/products/${productId}`, {
+        fetch(`http://orders-app.test/app/api/products/${productId}`, {
             method: 'POST',
             body: formData
         })

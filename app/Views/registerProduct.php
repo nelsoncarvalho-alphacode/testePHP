@@ -14,6 +14,7 @@
                         <h4 class="mb-0">Cadastrar Produto</h4>
                     </div>
                     <div class="card-body">
+                        <a href="/app/produtos" class="btn btn-secondary btn-sm mb-3">Voltar para Produtos</a>
                         <form id="productForm" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nome do Produto</label>
@@ -50,11 +51,16 @@
             });
         document.getElementById('productForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            const imageInput = document.getElementById('productImage');
+            if (!imageInput.files[0]) {
+                document.getElementById('result').innerHTML = `<div class="alert alert-danger">Selecione uma imagem para o produto.</div>`;
+                return;
+            }
             const formData = new FormData();
             formData.append('name', document.getElementById('name').value);
             formData.append('description', document.getElementById('description').value);
             formData.append('value', document.getElementById('value').value.replace(',', '.'));
-            formData.append('productImage', document.getElementById('productImage').files[0]);
+            formData.append('productImage', imageInput.files[0]);
             fetch('http://orders-app.test/app/api/products', {
                 method: 'POST',
                 body: formData

@@ -7,6 +7,9 @@
 </head>
 <body class="bg-light">
     <div class="container mt-5">
+        <div class="d-flex justify-content-end mb-3">
+            <a href="#" onclick="logout()" class="btn btn-outline-primary btn-sm">Logout</a>
+        </div>
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card shadow">
@@ -32,6 +35,22 @@
         </div>
     </div>
     <script>
+        let isAdmin = false;
+        // Busca se o usuário é admin
+        fetch('/app/api/session')
+            .then(response => response.json())
+            .then(data => {
+                isAdmin = !!data.is_admin;
+                if (isAdmin) {
+                    listUsers();
+                } else {
+                    document.body.innerHTML = '<div class="container mt-5"><div class="alert alert-danger">Acesso restrito: apenas administradores podem visualizar esta página.</div></div>';
+                }
+            })
+            .catch(() => {
+                document.body.innerHTML = '<div class="container mt-5"><div class="alert alert-danger">Erro ao verificar permissão.</div></div>';
+            });
+
         function listUsers() {
             fetch('http://orders-app.test/app/api/users')
             .then(response => response.json())

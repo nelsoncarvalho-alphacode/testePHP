@@ -81,3 +81,18 @@ if ($routes[2] === 'order') {
         exit;
     }
 }
+
+if ($routes[2] === 'session') {
+    ob_clean();
+    session_start();
+    $is_admin = $_SESSION['is_admin'] ?? 0;
+    $user_id = $_SESSION['user_id'] ?? null;
+    $user_name = $_SESSION['user_name'] ?? null;
+    header('Content-Type: application/json');
+    echo json_encode([
+        'is_admin' => $is_admin,
+        'user_id' => $user_id,
+        'user_name' => $user_name
+    ]);
+    die();
+}  

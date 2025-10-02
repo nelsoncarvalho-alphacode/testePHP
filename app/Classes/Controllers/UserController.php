@@ -36,10 +36,12 @@ class UserController
     // Método para criar novo usuário
     public static function create() {
 
+        ob_clean();
         $data = json_decode((file_get_contents(('php://input'))), true);
 
         if(!isset($data['name']) || empty($data['name'])) {
             http_response_code(400);
+            header('Content-Type: application/json');
             echo json_encode(['error' => "Nome é obrigatório"]);
             return;
         }
@@ -49,7 +51,12 @@ class UserController
 
         header('Content-Type: application/json');
 
-        echo json_encode(['message' => 'Usuário criado com sucesso!', 'id' => $id]);
+        if ($id) {
+            echo json_encode(['message' => 'Usuário criado com sucesso!', 'id' => $id]);
+        } else {
+            http_response_code(500);
+            echo json_encode(['error' => 'Erro ao criar usuário.']);
+        }
     }
 
     // Método para atualizar informações do usuário

@@ -7,6 +7,9 @@
 </head>
 <body class="bg-light">
     <div class="container mt-5">
+        <div class="d-flex justify-content-end mb-3">
+            <a href="#" onclick="logout()" class="btn btn-outline-primary btn-sm">Logout</a>
+        </div>
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card shadow">
@@ -34,6 +37,20 @@
         </div>
     </div>
     <script>
+        let userId = null;
+        let isAdmin = false;
+        // Busca dados do usuário logado
+        fetch('http://orders-app.test/app/api/session')
+            .then(response => response.json())
+            .then(data => {
+                isAdmin = !!data.is_admin;
+                userId = data.user_id;
+                listOrders();
+            })
+            .catch(() => {
+                listOrders();
+            });
+
         function listOrders() {
             fetch('http://orders-app.test/app/api/order')
                 .then(response => response.json())
@@ -41,19 +58,25 @@
                     const tbody = document.getElementById('ordersTable');
                     tbody.innerHTML = '';
                     if (Array.isArray(orders) && orders.length > 0) {
-                        orders.forEach(order => {
-                            const produtos = Array.isArray(order.products) && order.products.length > 0
-                                ? order.products.map(p => p.name).join(', ')
-                                : '-';
-                            tbody.innerHTML += `<tr>
-                                <td>${order.id}</td>
-                                <td>${produtos}</td>
-                                <td>R$ ${Number(order.value).toFixed(2)}</td>
-                                <td>${order.status}</td>
-                                <td>${order.barcode}</td>
-                                <td><button class='btn btn-danger btn-sm' onclick='deleteOrder(${order.id})'>Excluir</button></td>
-                            </tr>`;
-                        });
+                        // Filtra pedidos do usuário logado
+                        const filteredOrders = isAdmin ? orders : orders.filter(order => order.user_id == userId);
+                        if (filteredOrders.length > 0) {
+                            filteredOrders.forEach(order => {
+                                const produtos = Array.isArray(order.products) && order.products.length > 0
+                                    ? order.products.map(p => p.name).join(', ')
+                                    : '-';
+                                tbody.innerHTML += `<tr>
+                                    <td>${order.id}</td>
+                                    <td>${produtos}</td>
+                                    <td>R$ ${Number(order.value).toFixed(2)}</td>
+                                    <td>${order.status}</td>
+                                    <td>${order.barcode}</td>
+                                    <td>${isAdmin ? `<button class='btn btn-danger btn-sm' onclick='deleteOrder(${order.id})'>Excluir</button>` : ''}</td>
+                                </tr>`;
+                            });
+                        } else {
+                            tbody.innerHTML = '<tr><td colspan="5">Nenhum pedido encontrado.</td></tr>';
+                        }
                     } else {
                         tbody.innerHTML = '<tr><td colspan="5">Nenhum pedido encontrado.</td></tr>';
                     }

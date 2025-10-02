@@ -47,8 +47,10 @@ class OrderController {
     }
 
     public static function list() {
+        session_start();
+        $userId = $_SESSION['user_id'] ?? null;
         $repo = new OrderRepository;
-        $orders = $repo->listOrders();
+        $orders = $repo->listOrdersByUser($userId);
         header('Content-Type: application/json');
         echo json_encode($orders);
     }

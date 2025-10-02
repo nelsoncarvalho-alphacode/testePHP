@@ -9,6 +9,9 @@
 
 <body class="bg-light">
     <div class="container mt-5">
+        <div class="d-flex justify-content-end mb-3">
+            <a href="#" onclick="logout()" class="btn btn-outline-primary btn-sm">Logout</a>
+        </div>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card shadow">
@@ -20,10 +23,14 @@
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nome:</label>
                                 <input type="text" class="form-control" id="name" name="name" required>
-                                <label for="name" class="form-label">E-mail:</label>
+                                <label for="email" class="form-label">E-mail:</label>
                                 <input type="text" class="form-control" id="email" name="email" required>
-                                <label for="name" class="form-label">Senha:</label>
+                                <label for="password" class="form-label">Senha:</label>
                                 <input type="text" class="form-control" id="password" name="password" required>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" id="is_admin" name="is_admin">
+                                    <label class="form-check-label" for="is_admin">Administrador</label>
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-success">Criar Usuário</button>
                         </form>
@@ -39,30 +46,32 @@
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const is_admin = document.getElementById('is_admin').checked ? 1 : 0;
             fetch('http://orders-app.test/app/api/users', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name,
-                        email,
-                        password
-                    })
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password,
+                    is_admin
                 })
-                .then(response => response.json())
-                .then(data => {
-                    const resultDiv = document.getElementById('result');
-                    if (data.error) {
-                        resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
-                    } else {
-                        resultDiv.innerHTML = `<div class="alert alert-success">${data.message} (ID: ${data.id})</div>`;
-                        document.getElementById('userForm').reset();
-                    }
-                })
-                .catch(() => {
-                    document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao criar usuário.</div>`;
-                });
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('result');
+                if (data.error) {
+                    resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="alert alert-success">${data.message} (ID: ${data.id})</div>`;
+                    document.getElementById('userForm').reset();
+                }
+            })
+            .catch(() => {
+                document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao criar usuário.</div>`;
+            });
         });
     </script>
 </body>

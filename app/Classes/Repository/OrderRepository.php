@@ -43,7 +43,18 @@ class OrderRepository
     public function listOrders() {
         $stmt = $this->conn->query('SELECT * FROM orders');
         $orders = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        // Para cada pedido, busca os produtos
+        foreach ($orders as &$order) {
+            $itemStmt = $this->conn->prepare('SELECT name, value FROM order_items WHERE order_id = ?');
+            $itemStmt->execute([$order['id']]);
+            $order['products'] = $itemStmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
+        return $orders;
+    }
+
+    public function listOrdersByUser($userId) {
+        $stmt = $this->conn->prepare('SELECT * FROM orders WHERE user_id = ?');
+        $stmt->execute([$userId]);
+        $orders = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($orders as &$order) {
             $itemStmt = $this->conn->prepare('SELECT name, value FROM order_items WHERE order_id = ?');
             $itemStmt->execute([$order['id']]);

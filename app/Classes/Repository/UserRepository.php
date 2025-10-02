@@ -29,10 +29,16 @@ class UserRepository
 
     public function create(array $data)
     {
-        $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
-        $stmt = $this->conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
-        $stmt->execute([$data['name'], $data['email'], $hashedPassword]);
-        return $this->conn->lastInsertId();
+        try {
+            $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+            $isAdmin = isset($data['is_admin']) ? (int)$data['is_admin'] : 0;
+            $stmt = $this->conn->prepare("INSERT INTO users (name, email, password, is_admin) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$data['name'], $data['email'], $hashedPassword, $isAdmin]);
+            return $this->conn->lastInsertId();
+        } catch (\PDOException $e) {
+            // Não envia nada aqui, apenas retorna false
+            return false;
+        }
     }
 
     public function update($id, array $data)

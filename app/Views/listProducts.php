@@ -16,7 +16,8 @@
                         <h4 class="mb-0">Produtos</h4>
                         <div>
                             <a href="/app/cadastro-produto" class="btn btn-success btn-sm me-2">Cadastrar Produto</a>
-                            <a href="/app/api/logout" class="btn btn-outline-light btn-sm">Logout</a>
+                            <a href="/app/cart" class="btn btn-info btn-sm me-2">Ir para o Carrinho</a>
+                            <a href="#" onclick="logout()" class="btn btn-outline-light btn-sm">Logout</a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -40,6 +41,24 @@
         </div>
     </div>
     <script>
+        let isAdmin = false;
+        // Busca se o usuário é admin
+        fetch('/app/api/session')
+            .then(response => response.json())
+            .then(data => {
+                isAdmin = !!data.is_admin;
+                listProducts();
+            })
+            .catch(() => {
+                listProducts();
+            });
+
+        function logout() {
+            fetch('/app/api/logout')
+                .then(() => {
+                    window.location.href = '/app/login';
+                });
+        }
         function listProducts() {
             fetch('http://orders-app.test/app/api/products')
                 .then(response => response.json())
@@ -56,18 +75,18 @@
                             <td>${product.value ? 'R$ ' + Number(product.value).toFixed(2) : '-'}</td>
                             <td>${imgTag}</td>
                             <td class="d-flex gap-2 justify-content-center">
-                                <button class="btn btn-warning btn-sm flex-fill" style="min-width: 80px;" onclick="editProduct(${product.id})">Editar</button>
-                                <button class="btn btn-danger btn-sm flex-fill" style="min-width: 80px;" onclick="deleteProduct(${product.id})">Excluir</button>
-                                <button class="btn btn-success btn-sm flex-fill" style="min-width: 80px;" onclick='addToCart({id: ${product.id}, name: "${product.name}", description: "${product.description}", value: "${product.value}"})'>Carrinho</button>
+                                ${isAdmin ? `<button class='btn btn-warning btn-sm flex-fill' style='min-width: 80px;' onclick='editProduct(${product.id})'>Editar</button>
+                                <button class='btn btn-danger btn-sm flex-fill' style='min-width: 80px;' onclick='deleteProduct(${product.id})'>Excluir</button>` : ''}
+                                <button class='btn btn-success btn-sm flex-fill' style='min-width: 80px;' onclick='addToCart({id: ${product.id}, name: "${product.name}", description: "${product.description}", value: "${product.value}"})'>Carrinho</button>
                             </td>
                         </tr>`;
+                        });
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao listar produtos.</div>`;
                 });
-            }
-        })
-        .catch(() => {
-            document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao listar produtos.</div>`;
-        });
-    }
+        }
 
         function editProduct(id) {
             window.location.href = `/app/editar-produto/${id}`;

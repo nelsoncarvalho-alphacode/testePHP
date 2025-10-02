@@ -19,6 +19,7 @@
                     </div>
                                         <div id="headerButtons"></div>
                     <div class="card-body">
+                        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar usuário...">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -29,6 +30,9 @@
                             </thead>
                             <tbody id="userTable"></tbody>
                         </table>
+                        <nav>
+                            <ul class="pagination justify-content-center" id="pagination"></ul>
+                        </nav>
                         <div id="result" class="mt-3"></div>
                     </div>
                 </div>
@@ -74,31 +78,75 @@
                 document.body.innerHTML = '<div class="container mt-5"><div class="alert alert-danger">Erro ao verificar permissão.</div></div>';
             });
 
+        let allUsers = [];
+        let filteredUsers = [];
+        let currentPage = 1;
+        const itemsPerPage = 20;
+
+        function renderUsers() {
+            const tbody = document.getElementById('userTable');
+            tbody.innerHTML = '';
+            const startIdx = (currentPage - 1) * itemsPerPage;
+            const endIdx = startIdx + itemsPerPage;
+            const pageUsers = filteredUsers.slice(startIdx, endIdx);
+            if (pageUsers.length > 0) {
+                pageUsers.forEach(user => {
+                    tbody.innerHTML += `<tr>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm me-2" onclick="window.location.href='/app/editar-informacoes/${user.id}'">Editar</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})">Excluir</button>
+                        </td>
+                    </tr>`;
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="3">Nenhum usuário encontrado.</td></tr>';
+            }
+            renderPagination();
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            if (totalPages <= 1) return;
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.innerHTML += `<li class="page-item${i === currentPage ? ' active' : ''}"><a class="page-link" href="#" onclick="goToPage(${i});return false;">${i}</a></li>`;
+            }
+        }
+
+        window.goToPage = function(page) {
+            currentPage = page;
+            renderUsers();
+        }
+
+        function filterUsers() {
+            const search = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (!search) {
+                filteredUsers = allUsers.slice();
+            } else {
+                filteredUsers = allUsers.filter(user => {
+                    return Object.values(user).some(val => String(val).toLowerCase().includes(search));
+                });
+            }
+            currentPage = 1;
+            renderUsers();
+        }
+
         function listUsers() {
             fetch('http://orders-app.test/app/api/users')
             .then(response => response.json())
             .then(users => {
-                const tbody = document.getElementById('userTable');
-                tbody.innerHTML = '';
-                if (Array.isArray(users) && users.length > 0) {
-                    users.forEach(user => {
-                        tbody.innerHTML += `<tr>
-                            <td>${user.id}</td>
-                            <td>${user.name}</td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm me-2" onclick="window.location.href='/app/editar-informacoes/${user.id}'">Editar</button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})">Excluir</button>
-                                </td>
-                        </tr>`;
-                    });
-                } else {
-                    tbody.innerHTML = '<tr><td colspan="2">Nenhum usuário encontrado.</td></tr>';
-                }
+                allUsers = Array.isArray(users) ? users : [];
+                filterUsers();
             })
             .catch(() => {
                 document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao listar usuários.</div>`;
             });
         }
+
+        document.getElementById('searchInput').addEventListener('input', filterUsers);
 
             function editUser(id) {
                 alert('Função de editar usuário ' + id + ' ainda não implementada.');

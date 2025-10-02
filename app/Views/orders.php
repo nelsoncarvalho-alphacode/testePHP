@@ -19,6 +19,7 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar pedido...">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -33,6 +34,9 @@
                             </thead>
                             <tbody id="ordersTable"></tbody>
                         </table>
+                        <nav>
+                            <ul class="pagination justify-content-center" id="pagination"></ul>
+                        </nav>
                         <div id="result" class="mt-3"></div>
                     </div>
                 </div>
@@ -67,52 +71,100 @@
                 listOrders();
             });
 
-        function listOrders() {
+        // Variáveis globais para paginação e filtragem
+        let allOrders = [];
+        let filteredOrders = [];
+        let currentPage = 1;
+        const itemsPerPage = 20;
+
+        function renderOrders() {
+            const tbody = document.getElementById('ordersTable');
+            tbody.innerHTML = '';
+            const startIdx = (currentPage - 1) * itemsPerPage;
+            const endIdx = startIdx + itemsPerPage;
+            const pageOrders = filteredOrders.slice(startIdx, endIdx);
+            if (pageOrders.length > 0) {
+                pageOrders.forEach(order => {
+                    const produtos = Array.isArray(order.products) && order.products.length > 0
+                        ? order.products.map(p => `${p.name} (${p.qty || 1})`).join(', ')
+                        : '-';
+                    tbody.innerHTML += `<tr>
+                        <td>${order.id}</td>
+                        <td style="${isAdmin ? '' : 'display:none;'}">${isAdmin ? (order.user_name || '-') : ''}</td>
+                        <td>${produtos}</td>
+                        <td>R$ ${Number(order.value).toFixed(2)}</td>
+                        <td>
+                            ${isAdmin
+                                ? `<select class='form-select form-select-sm w-auto d-inline' onchange='changeStatus(${order.id}, this.value)'>
+                                    <option value="pendente" ${order.status === 'pendente' ? 'selected' : ''}>Pendente</option>
+                                    <option value="pago" ${order.status === 'pago' ? 'selected' : ''}>Pago</option>
+                                    <option value="enviado" ${order.status === 'enviado' ? 'selected' : ''}>Enviado</option>
+                                    <option value="cancelado" ${order.status === 'cancelado' ? 'selected' : ''}>Cancelado</option>
+                                </select>`
+                                : order.status}
+                        </td>
+                        <td>${order.barcode}</td>
+                        <td>
+                            ${isAdmin 
+                                ? `<button class='btn btn-danger btn-sm' onclick='deleteOrder(${order.id})'>Excluir</button>` 
+                                : (order.status !== 'cancelado' ? `<button class='btn btn-danger btn-sm' onclick='cancelOrder(${order.id})'>Cancelar</button>` : '')}
+                        </td>
+                    </tr>`;
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="7">Nenhum pedido encontrado.</td></tr>';
+            }
+            renderPagination();
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            if (totalPages <= 1) return;
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.innerHTML += `<li class="page-item${i === currentPage ? ' active' : ''}"><a class="page-link" href="#" onclick="goToPage(${i});return false;">${i}</a></li>`;
+            }
+        }
+
+        window.goToPage = function(page) {
+            currentPage = page;
+            renderOrders();
+        }
+
+        function filterOrders() {
+            const search = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (!search) {
+                filteredOrders = allOrders.slice();
+            } else {
+                filteredOrders = allOrders.filter(order => {
+                    return Object.values(order).some(val => String(val).toLowerCase().includes(search));
+                });
+            }
+            currentPage = 1;
+            renderOrders();
+        }
+
+        function fetchOrders() {
             fetch('http://orders-app.test/app/api/order')
                 .then(response => response.json())
                 .then(orders => {
-                    const tbody = document.getElementById('ordersTable');
-                    tbody.innerHTML = '';
-                    if (Array.isArray(orders) && orders.length > 0) {
-                        // Filtra pedidos do usuário logado
-                        const filteredOrders = isAdmin ? orders : orders.filter(order => order.user_id == userId);
-                        // Exibe coluna Usuário apenas para admin
-                        document.getElementById('userColumnHeader').style.display = isAdmin ? '' : 'none';
-                        if (filteredOrders.length > 0) {
-                            filteredOrders.forEach(order => {
-                                const produtos = Array.isArray(order.products) && order.products.length > 0
-                                    ? order.products.map(p => `${p.name} (${p.qty || 1})`).join(', ')
-                                    : '-';
-                                tbody.innerHTML += `<tr>
-                                    <td>${order.id}</td>
-                                    <td style="${isAdmin ? '' : 'display:none;'}">${isAdmin ? (order.user_name || '-') : ''}</td>
-                                    <td>${produtos}</td>
-                                    <td>R$ ${Number(order.value).toFixed(2)}</td>
-                                    <td>
-                                        ${isAdmin
-                                            ? `<select class='form-select form-select-sm w-auto d-inline' onchange='changeStatus(${order.id}, this.value)'>
-                                                <option value="pendente" ${order.status === 'pendente' ? 'selected' : ''}>Pendente</option>
-                                                <option value="pago" ${order.status === 'pago' ? 'selected' : ''}>Pago</option>
-                                                <option value="enviado" ${order.status === 'enviado' ? 'selected' : ''}>Enviado</option>
-                                                <option value="cancelado" ${order.status === 'cancelado' ? 'selected' : ''}>Cancelado</option>
-                                            </select>`
-                                            : order.status}
-                                    </td>
-                                    <td>${order.barcode}</td>
-                                    <td>
-                                        ${isAdmin 
-                                            ? `<button class='btn btn-danger btn-sm' onclick='deleteOrder(${order.id})'>Excluir</button>` 
-                                            : (order.status !== 'cancelado' ? `<button class='btn btn-danger btn-sm' onclick='cancelOrder(${order.id})'>Cancelar</button>` : '')}
-                                    </td>
-                                </tr>`;
-                            });
-                        }
-                    }
+                    allOrders = Array.isArray(orders) ? orders : [];
+                    // Filtra pedidos do usuário logado
+                    allOrders = isAdmin ? allOrders : allOrders.filter(order => order.user_id == userId);
+                    // Exibe coluna Usuário apenas para admin
+                    document.getElementById('userColumnHeader').style.display = isAdmin ? '' : 'none';
+                    filterOrders();
                 })
                 .catch(() => {
                     document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao listar pedidos.</div>`;
                 });
         }
+
+        document.getElementById('searchInput').addEventListener('input', filterOrders);
+
+        // Inicializa a lista ao carregar
+        fetchOrders();
 
     function changeStatus(id, status) {
         fetch(`http://orders-app.test/app/api/order/${id}/status`, {

@@ -17,6 +17,7 @@
                         <div id="headerButtons"></div>
                     </div>
                     <div class="card-body">
+                        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar produto...">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -30,6 +31,9 @@
                             </thead>
                             <tbody id="productTable"></tbody>
                         </table>
+                        <nav>
+                            <ul class="pagination justify-content-center" id="pagination"></ul>
+                        </nav>
                         <div id="result" class="mt-3"></div>
                     </div>
                 </div>
@@ -74,38 +78,84 @@
                     window.location.href = '/app/login';
                 });
         }
+        let allProducts = [];
+        let filteredProducts = [];
+        let currentPage = 1;
+        const itemsPerPage = 20;
+
+        function renderProducts() {
+            const tbody = document.getElementById('productTable');
+            tbody.innerHTML = '';
+            const startIdx = (currentPage - 1) * itemsPerPage;
+            const endIdx = startIdx + itemsPerPage;
+            const pageProducts = filteredProducts.slice(startIdx, endIdx);
+            if (pageProducts.length > 0) {
+                pageProducts.forEach(product => {
+                    let imgTag = product.img ? `<img src="data:image/jpeg;base64,${product.img}" width="60">` : 'Sem imagem';
+                    let desc = product.description || '';
+                    if (desc.length > 50) {
+                        desc = desc.substring(0, 47) + '...';
+                    }
+                    tbody.innerHTML += `<tr>
+                        <td>${product.id}</td>
+                        <td>${product.name}</td>
+                        <td>${desc}</td>
+                        <td>${product.value ? 'R$ ' + Number(product.value).toFixed(2) : '-'}</td>
+                        <td>${imgTag}</td>
+                        <td class="d-flex gap-2 justify-content-center">
+                            ${isAdmin ? `<button class='btn btn-warning btn-sm flex-fill' style='min-width: 80px;' onclick='editProduct(${product.id})'>Editar</button>
+                            <button class='btn btn-danger btn-sm flex-fill' style='min-width: 80px;' onclick='deleteProduct(${product.id})'>Excluir</button>` : `<button class='btn btn-success btn-sm flex-fill' style='min-width: 80px;' onclick='addToCart(${product.id})'>Carrinho</button>`}
+                        </td>
+                    </tr>`;
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="6">Nenhum produto encontrado.</td></tr>';
+            }
+            renderPagination();
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            if (totalPages <= 1) return;
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.innerHTML += `<li class="page-item${i === currentPage ? ' active' : ''}"><a class="page-link" href="#" onclick="goToPage(${i});return false;">${i}</a></li>`;
+            }
+        }
+
+        window.goToPage = function(page) {
+            currentPage = page;
+            renderProducts();
+        }
+
+        function filterProducts() {
+            const search = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (!search) {
+                filteredProducts = allProducts.slice();
+            } else {
+                filteredProducts = allProducts.filter(product => {
+                    return Object.values(product).some(val => String(val).toLowerCase().includes(search));
+                });
+            }
+            currentPage = 1;
+            renderProducts();
+        }
+
         function listProducts() {
             fetch('http://orders-app.test/app/api/products')
                 .then(response => response.json())
                 .then(products => {
                     window.products = products; // Armazena globalmente
-                    const tbody = document.getElementById('productTable');
-                    tbody.innerHTML = '';
-                    if (Array.isArray(products) && products.length > 0) {
-                        products.forEach(product => {
-                            let imgTag = product.img ? `<img src="data:image/jpeg;base64,${product.img}" width="60">` : 'Sem imagem';
-                            let desc = product.description || '';
-                            if (desc.length > 50) {
-                                desc = desc.substring(0, 47) + '...';
-                            }
-                            tbody.innerHTML += `<tr>
-                            <td>${product.id}</td>
-                            <td>${product.name}</td>
-                            <td>${desc}</td>
-                            <td>${product.value ? 'R$ ' + Number(product.value).toFixed(2) : '-'}</td>
-                            <td>${imgTag}</td>
-                            <td class="d-flex gap-2 justify-content-center">
-                                ${isAdmin ? `<button class='btn btn-warning btn-sm flex-fill' style='min-width: 80px;' onclick='editProduct(${product.id})'>Editar</button>
-                                <button class='btn btn-danger btn-sm flex-fill' style='min-width: 80px;' onclick='deleteProduct(${product.id})'>Excluir</button>` : `<button class='btn btn-success btn-sm flex-fill' style='min-width: 80px;' onclick='addToCart(${product.id})'>Carrinho</button>`}
-                            </td>
-                        </tr>`;
-                        });
-                    }
+                    allProducts = Array.isArray(products) ? products : [];
+                    filterProducts();
                 })
                 .catch(() => {
                     document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao listar produtos.</div>`;
                 });
         }
+
+        document.getElementById('searchInput').addEventListener('input', filterProducts);
 
         function editProduct(id) {
             window.location.href = `/app/editar-produto/${id}`;

@@ -1,5 +1,6 @@
 <?php
 
+use Controllers\OrderController;
 use Controllers\UserController;
 use Controllers\ProductController;
 use Repository\UserRepository;
@@ -51,7 +52,7 @@ if ($routes[2] === 'products') {
 
 if ($routes[2] === 'login') {
 
-    if($method === 'POST') {
+    if ($method === 'POST') {
         AuthController::login();
         exit;
     }
@@ -59,8 +60,21 @@ if ($routes[2] === 'login') {
 
 if ($routes[2] === 'logout') {
 
-    if($method === 'GET') {
+    if ($method === 'GET') {
         AuthController::logout();
+        exit;
+    }
+}
+
+if ($routes[2] === 'order') {
+
+    if ($method === 'GET') {
+        OrderController::list();
+        exit;
+    }
+
+    if ($method === 'POST') {
+        OrderController::store();
         exit;
     }
 }

@@ -67,3 +67,11 @@ if ($routes[1] === 'carrinho') {
         exit;
     }
 }
+
+if ($routes[1] === 'pedidos') {
+
+    if ($method === 'GET') {
+        require __DIR__ . '/../Views/orders.php';
+        exit;
+    }
+}

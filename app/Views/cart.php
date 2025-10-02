@@ -28,6 +28,9 @@
                         <div class="d-flex justify-content-end">
                             <h5>Total: <span id="cartTotal">R$ 0,00</span></h5>
                         </div>
+                        <div class="d-flex justify-content-end mt-3">
+                            <button class="btn btn-success" onclick="storeCart()">Comprar</button>
+                        </div>
                         <div id="result" class="mt-3"></div>
                     </div>
                 </div>
@@ -69,6 +72,21 @@
             }
             totalSpan.textContent = 'R$ ' + total.toFixed(2);
         }
+
+        function storeCart() {
+            const cart = getCart();
+            fetch('http://orders-app.test/app/api/order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ products: cart })
+            })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.removeItem('cart');
+                window.location.href = '/app/pedidos';
+            })
+        }
+
         renderCart();
     </script>
 </body>

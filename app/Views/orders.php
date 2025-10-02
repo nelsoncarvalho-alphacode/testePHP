@@ -83,34 +83,48 @@
                                     <td>${order.id}</td>
                                     <td>${produtos}</td>
                                     <td>R$ ${Number(order.value).toFixed(2)}</td>
-                                    <td>${order.status}</td>
+                                    <td>
+                                        ${isAdmin
+                                            ? `<select class='form-select form-select-sm w-auto d-inline' onchange='changeStatus(${order.id}, this.value)'>
+                                                <option value="pendente" ${order.status === 'pendente' ? 'selected' : ''}>Pendente</option>
+                                                <option value="pago" ${order.status === 'pago' ? 'selected' : ''}>Pago</option>
+                                                <option value="enviado" ${order.status === 'enviado' ? 'selected' : ''}>Enviado</option>
+                                                <option value="cancelado" ${order.status === 'cancelado' ? 'selected' : ''}>Cancelado</option>
+                                            </select>`
+                                            : order.status}
+                                    </td>
                                     <td>${order.barcode}</td>
                                     <td>
                                         ${isAdmin 
                                             ? `<button class='btn btn-danger btn-sm' onclick='deleteOrder(${order.id})'>Excluir</button>` 
-                                            : `<button class='btn btn-danger btn-sm' onclick='cancelOrder(${order.id})'>Cancelar</button>`}
+                                            : (order.status !== 'cancelado' ? `<button class='btn btn-danger btn-sm' onclick='cancelOrder(${order.id})'>Cancelar</button>` : '')}
                                     </td>
                                 </tr>`;
                             });
-            // Exibe botão de voltar para produtos apenas para usuário comum
-            fetch('/app/api/session')
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.is_admin) {
-                        document.getElementById('backToProductsBtn').style.display = '';
-                    }
-                });
-                        } else {
-                            tbody.innerHTML = '<tr><td colspan="5">Nenhum pedido encontrado.</td></tr>';
                         }
-                    } else {
-                        tbody.innerHTML = '<tr><td colspan="5">Nenhum pedido encontrado.</td></tr>';
                     }
                 })
                 .catch(() => {
                     document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao listar pedidos.</div>`;
                 });
         }
+
+    function changeStatus(id, status) {
+        fetch(`http://orders-app.test/app/api/order/${id}/status`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message || 'Status atualizado!');
+            listOrders();
+        })
+        .catch(() => {
+            alert('Erro ao atualizar status.');
+        });
+}
+// ...existing code...
         function deleteOrder(id) {
             if (confirm('Tem certeza que deseja excluir este pedido?')) {
                 fetch(`http://orders-app.test/app/api/order/${id}`, {
@@ -129,8 +143,8 @@
 
         function cancelOrder(id) {
             if (confirm('Tem certeza que deseja cancelar este pedido?')) {
-                fetch(`http://orders-app.test/app/api/order/${id}`, {
-                    method: 'DELETE'
+                fetch(`http://orders-app.test/app/api/order/${id}/cancel`, {
+                    method: 'POST'
                 })
                 .then(response => response.json())
                 .then(data => {

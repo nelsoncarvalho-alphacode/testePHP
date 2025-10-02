@@ -6,12 +6,16 @@ use DB\DBConnection;
 
 class OrderRepository
 {
-
     private $conn;
 
     public function __construct()
     {
         $this->conn = (new DBConnection())->connect();
+    }
+
+    public function updateStatus($orderId, $status) {
+        $stmt = $this->conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
+        return $stmt->execute([$status, $orderId]);
     }
 
     public function createOrder($orderData, $products)

@@ -66,6 +66,16 @@ if ($routes[2] === 'logout') {
     }
 }
 
+if ($routes[2] === 'order' && !empty($routes[3]) && isset($routes[4]) && $routes[4] === 'status' && $method === 'PUT') {
+    OrderController::updateStatus($routes[3]);
+    exit;
+}
+
+
+if ($routes[2] === 'order' && !empty($routes[3]) && isset($routes[4]) && $routes[4] === 'cancel' && $method === 'POST') {
+    OrderController::cancelOrder($routes[3]);
+    exit;
+}
 if ($routes[2] === 'order') {
 
     if ($method === 'GET') {
@@ -95,4 +105,9 @@ if ($routes[2] === 'session') {
         'user_name' => $user_name
     ]);
     die();
-}  
+} 
+
+if ($routes[2] === 'order' && !empty($routes[3]) && isset($routes[4]) && $routes[4] === 'status' && $method === 'PUT') {
+    OrderController::updateStatus($routes[3]);
+    exit;
+}

@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . '/../../bootstrap.php';
+
+use Controllers\ProductController;
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -43,7 +48,7 @@
     <script>
         let isAdmin = false;
         // Busca se o usuário é admin
-        fetch('/app/api/session')
+        fetch('/api/session')
             .then(response => response.json())
             .then(data => {
                 isAdmin = !!data.is_admin;
@@ -59,23 +64,23 @@
             const headerDiv = document.getElementById('headerButtons');
             let html = '';
             if (isAdmin) {
-                html += '<a href="/app/cadastro-produto" class="btn btn-success btn-sm me-2">Cadastrar Produto</a>';
-                html += '<a href="/app/admin" class="btn btn-dark btn-sm me-2">Voltar para Painel Admin</a>';
+                html += '<a href="/cadastro-produto" class="btn btn-success btn-sm me-2">Cadastrar Produto</a>';
+                html += '<a href="/admin" class="btn btn-dark btn-sm me-2">Voltar para Painel Admin</a>';
             }
             if (!isAdmin) {
-                html += '<a href="/app/carrinho" class="btn btn-info btn-sm me-2">Ir para o Carrinho</a>';
+                html += '<a href="/carrinho" class="btn btn-info btn-sm me-2">Ir para o Carrinho</a>';
             }
             if (!isAdmin) {
-                html += '<a href="/app/pedidos" class="btn btn-warning btn-sm me-2">Ir para os Pedidos</a>';
+                html += '<a href="/pedidos" class="btn btn-warning btn-sm me-2">Ir para os Pedidos</a>';
             }
             html += '<a href="#" onclick="logout()" class="btn btn-outline-light btn-sm">Logout</a>';
             headerDiv.innerHTML = html;
         }
 
         function logout() {
-            fetch('/app/api/logout')
+            fetch('/api/logout')
                 .then(() => {
-                    window.location.href = '/app/login';
+                    window.location.href = '/login';
                 });
         }
         let allProducts = [];
@@ -143,7 +148,7 @@
         }
 
         function listProducts() {
-            fetch('http://orders-app.test/app/api/products')
+            fetch('/api/products')
                 .then(response => response.json())
                 .then(products => {
                     window.products = products; // Armazena globalmente
@@ -158,12 +163,12 @@
         document.getElementById('searchInput').addEventListener('input', filterProducts);
 
         function editProduct(id) {
-            window.location.href = `/app/editar-produto/${id}`;
+            window.location.href = `/editar-produto/${id}`;
         }
 
         function deleteProduct(id) {
             if (confirm('Tem certeza que deseja excluir o produto?')) {
-                fetch(`http://orders-app.test/app/api/products/${id}`, {
+                fetch(`/api/products/${id}`, {
                         method: 'DELETE'
                     })
                     .then(response => response.json())

@@ -1,15 +1,15 @@
 <?php
-require_once __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/../../bootstrap.php';
+
 use Repository\UserRepository;
 
 $routes = Util\RoutesUtil::getRoutes();
-$id = isset($routes[2]) ? $routes[2] : null;
+$id = isset($routes[1]) ? $routes[1] : null;
 
 $user = null;
 if ($id) {
     $repo = new UserRepository();
-    $user = $repo->find($id); // Certifique-se que find retorna um usuário pelo ID
-
+    $user = $repo->find($id);
 }
 
 ?>
@@ -32,7 +32,7 @@ if ($id) {
                         <h4 class="mb-0">Editar Usuário</h4>
                     </div>
                     <div class="card-body">
-                        <a href="/app/clientes" class="btn btn-secondary btn-sm mb-3">Voltar para Usuários</a>
+                        <a href="/clientes" class="btn btn-secondary btn-sm mb-3">Voltar para Usuários</a>
                         <form id="userForm">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nome:</label>
@@ -57,32 +57,32 @@ if ($id) {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const userId = <?php echo json_encode($id); ?>;
-            fetch(`http://orders-app.test/app/api/users/${userId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name,
-                    email,
-                    password
+            fetch(`/api/users/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        password
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                const resultDiv = document.getElementById('result');
-                if (data.error) {
-                    resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
-                } else {
-                    resultDiv.innerHTML = `<div class="alert alert-success">${data.message} (ID: ${data.id})</div>`;
-                    setTimeout(() => {
-                        window.location.href = '/app/clientes';
-                    }, 1000);
-                }
-            })
-            .catch(() => {
-                document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao criar usuário.</div>`;
-            });
+                .then(response => response.json())
+                .then(data => {
+                    const resultDiv = document.getElementById('result');
+                    if (data.error) {
+                        resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                    } else {
+                        resultDiv.innerHTML = `<div class="alert alert-success">${data.message} (ID: ${data.id})</div>`;
+                        setTimeout(() => {
+                            window.location.href = '/clientes';
+                        }, 1000);
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao criar usuário.</div>`;
+                });
         });
     </script>
 </body>

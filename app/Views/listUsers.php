@@ -1,10 +1,17 @@
+<?php
+require_once __DIR__ . '/../../bootstrap.php';
+
+use Controllers\UserController;
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>Lista de Usuários</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-light">
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -12,12 +19,12 @@
                 <div class="card shadow">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">Usuários Cadastrados</h4>
-                            <div>
-                                <a href="/app/admin-cadastro" class="btn btn-success btn-sm me-2">Cadastrar Usuário</a>
-                                <a id="adminPanelBtn" href="#" class="btn btn-dark btn-sm" style="display:none;">Voltar para Painel Admin</a>
-                            </div>
+                        <div>
+                            <a href="/admin-cadastro" class="btn btn-success btn-sm me-2">Cadastrar Usuário</a>
+                            <a id="adminPanelBtn" href="#" class="btn btn-dark btn-sm" style="display:none;">Voltar para Painel Admin</a>
+                        </div>
                     </div>
-                                        <div id="headerButtons"></div>
+                    <div id="headerButtons"></div>
                     <div class="card-body">
                         <input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar usuário...">
                         <table class="table table-bordered">
@@ -40,31 +47,31 @@
         </div>
     </div>
     <script>
-        fetch('/app/api/session')
+        fetch('/api/session')
             .then(response => response.json())
             .then(data => {
                 isAdmin = !!data.is_admin;
-                    if (isAdmin) {
-                        document.getElementById('adminPanelBtn').style.display = '';
-                        document.getElementById('adminPanelBtn').setAttribute('href', '/app/admin');
-                    }
+                if (isAdmin) {
+                    document.getElementById('adminPanelBtn').style.display = '';
+                    document.getElementById('adminPanelBtn').setAttribute('href', '/admin');
+                }
             })
             .catch(() => {
-                    document.getElementById('adminPanelBtn').style.display = 'none';
+                document.getElementById('adminPanelBtn').style.display = 'none';
             });
 
         function renderHeaderButtons() {
             const headerDiv = document.getElementById('headerButtons');
             let html = '';
             if (isAdmin) {
-                html += '<a href="/app/admin" class="btn btn-dark btn-sm me-2">Voltar para Painel Admin</a>';
+                html += '<a href="/admin" class="btn btn-dark btn-sm me-2">Voltar para Painel Admin</a>';
             }
             html += '<a href="#" onclick="logout()" class="btn btn-outline-light btn-sm">Logout</a>';
             headerDiv.innerHTML = html;
         }
         let isAdmin = false;
         // Busca se o usuário é admin
-        fetch('/app/api/session')
+        fetch('/api/session')
             .then(response => response.json())
             .then(data => {
                 isAdmin = !!data.is_admin;
@@ -95,7 +102,7 @@
                         <td>${user.id}</td>
                         <td>${user.name}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm me-2" onclick="window.location.href='/app/editar-informacoes/${user.id}'">Editar</button>
+                            <button class="btn btn-warning btn-sm me-2" onclick="window.location.href='/editar-informacoes/${user.id}'">Editar</button>
                             <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})">Excluir</button>
                         </td>
                     </tr>`;
@@ -135,26 +142,26 @@
         }
 
         function listUsers() {
-            fetch('http://orders-app.test/app/api/users')
-            .then(response => response.json())
-            .then(users => {
-                allUsers = Array.isArray(users) ? users : [];
-                filterUsers();
-            })
-            .catch(() => {
-                document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao listar usuários.</div>`;
-            });
+            fetch('/api/users')
+                .then(response => response.json())
+                .then(users => {
+                    allUsers = Array.isArray(users) ? users : [];
+                    filterUsers();
+                })
+                .catch(() => {
+                    document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao listar usuários.</div>`;
+                });
         }
 
         document.getElementById('searchInput').addEventListener('input', filterUsers);
 
-            function editUser(id) {
-                alert('Função de editar usuário ' + id + ' ainda não implementada.');
-            }
+        function editUser(id) {
+            alert('Função de editar usuário ' + id + ' ainda não implementada.');
+        }
 
-            function deleteUser(id) {
-                if (confirm('Tem certeza que deseja excluir o usuário?')) {
-                    fetch(`http://orders-app.test/app/api/users/${id}`, {
+        function deleteUser(id) {
+            if (confirm('Tem certeza que deseja excluir o usuário?')) {
+                fetch(`/api/users/${id}`, {
                         method: 'DELETE'
                     })
                     .then(response => response.json())
@@ -165,11 +172,12 @@
                     .catch(() => {
                         alert('Erro ao excluir usuário.');
                     });
-                }
             }
+        }
 
         // Carregar lista ao abrir
         listUsers();
     </script>
 </body>
+
 </html>

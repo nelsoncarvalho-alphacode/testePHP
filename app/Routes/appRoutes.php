@@ -4,7 +4,15 @@ use Controllers\UserController;
 use Controllers\ProductController;
 use Repository\UserRepository;
 
-if ($routes[1] === 'clientes') {
+// Rota raiz - redireciona para login
+if (empty($routes[0]) || $routes[0] === '') {
+    if ($method === 'GET') {
+        require __DIR__ . '/../Views/login.php';
+        exit;
+    }
+}
+
+if ($routes[0] === 'clientes') {
 
     if ($method === 'GET') {
         require __DIR__ . '/../Views/listUsers.php';
@@ -12,7 +20,7 @@ if ($routes[1] === 'clientes') {
     }
 }
 
-if ($routes[1] === 'cadastro') {
+if ($routes[0] === 'cadastro') {
 
     if ($method === 'GET') {
         require __DIR__ . '/../Views/registerUser.php';
@@ -20,7 +28,7 @@ if ($routes[1] === 'cadastro') {
     }
 }
 
-if ($routes[1] === 'admin-cadastro') {
+if ($routes[0] === 'admin-cadastro') {
 
     if ($method === 'GET') {
         require __DIR__ . '/../Views/registerUserAdmin.php';
@@ -28,7 +36,7 @@ if ($routes[1] === 'admin-cadastro') {
     }
 }
 
-if ($routes[1] === 'editar-informacoes') {
+if ($routes[0] === 'editar-informacoes') {
 
     if ($method === 'GET') {
         require __DIR__ . '/../Views/editUser.php';
@@ -36,7 +44,7 @@ if ($routes[1] === 'editar-informacoes') {
     }
 }
 
-if ($routes[1] === 'produtos') {
+if ($routes[0] === 'produtos') {
 
     if ($method === 'GET') {
         require __DIR__ . '/../Views/listProducts.php';
@@ -44,7 +52,7 @@ if ($routes[1] === 'produtos') {
     }
 }
 
-if ($routes[1] === 'cadastro-produto') {
+if ($routes[0] === 'cadastro-produto') {
 
     if ($method === 'GET') {
         require __DIR__ . '/../Views/registerProduct.php';
@@ -52,7 +60,7 @@ if ($routes[1] === 'cadastro-produto') {
     }
 }
 
-if ($routes[1] === 'editar-produto') {
+if ($routes[0] === 'editar-produto') {
 
     if ($method === 'GET') {
         require __DIR__ . '/../Views/editProduct.php';
@@ -60,7 +68,7 @@ if ($routes[1] === 'editar-produto') {
     }
 }
 
-if ($routes[1] === 'login') {
+if ($routes[0] === 'login') {
 
     if ($method === 'GET') {
         require __DIR__ . '/../Views/login.php';
@@ -68,7 +76,7 @@ if ($routes[1] === 'login') {
     }
 }
 
-if ($routes[1] === 'carrinho') {
+if ($routes[0] === 'carrinho') {
 
     if ($method === 'GET') {
         require __DIR__ . '/../Views/cart.php';
@@ -76,7 +84,7 @@ if ($routes[1] === 'carrinho') {
     }
 }
 
-if ($routes[1] === 'pedidos') {
+if ($routes[0] === 'pedidos') {
 
     if ($method === 'GET') {
         require __DIR__ . '/../Views/orders.php';
@@ -84,7 +92,7 @@ if ($routes[1] === 'pedidos') {
     }
 }
 
-if ($routes[1] === 'admin') {
+if ($routes[0] === 'admin') {
 
     if ($method === 'GET') {
         require __DIR__ . '/../Views/adminPanel.php';

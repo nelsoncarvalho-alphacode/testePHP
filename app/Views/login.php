@@ -1,10 +1,17 @@
+<?php
+require_once __DIR__ . '/../../bootstrap.php';
+
+use Controllers\AuthController;
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-light">
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -24,7 +31,7 @@
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
                             <button type="submit" class="btn btn-success">Entrar</button>
-                            <a href="/app/cadastro" class="btn btn-link">Não tem conta? Cadastre-se</a>
+                            <a href="/cadastro" class="btn btn-link">Não tem conta? Cadastre-se</a>
                         </form>
                         <div id="result" class="mt-3"></div>
                     </div>
@@ -34,14 +41,14 @@
     </div>
     <script>
         // Se já estiver logado, redireciona imediatamente
-        fetch('http://orders-app.test/app/api/session')
+        fetch('/api/session')
             .then(response => response.json())
             .then(data => {
                 if (data && data.user_id) {
                     if (data.is_admin) {
-                        window.location.href = '/app/admin';
+                        window.location.href = '/admin';
                     } else {
-                        window.location.href = '/app/produtos';
+                        window.location.href = '/produtos';
                     }
                 }
             });
@@ -49,33 +56,37 @@
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            fetch('http://orders-app.test/app/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password })
-            })
-            .then(response => response.json())
-            .then(data => {
-                const resultDiv = document.getElementById('result');
-                if (data.error) {
-                    resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
-                } else {
-                    resultDiv.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
-                    setTimeout(() => {
-                        if (data.is_admin) {
-                            window.location.href = '/app/admin';
-                        } else {
-                            window.location.href = '/app/produtos';
-                        }
-                    }, 1000);
-                }
-            })
-            .catch(() => {
-                document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao fazer login.</div>`;
-            });
+            fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email,
+                        password
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const resultDiv = document.getElementById('result');
+                    if (data.error) {
+                        resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                    } else {
+                        resultDiv.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                        setTimeout(() => {
+                            if (data.is_admin) {
+                                window.location.href = '/admin';
+                            } else {
+                                window.location.href = '/produtos';
+                            }
+                        }, 1000);
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao fazer login.</div>`;
+                });
         });
     </script>
 </body>
+
 </html>

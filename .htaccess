@@ -1,0 +1,7 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/index.php [NC,L,QSA]
+
+# Redireciona para a pasta public se acessar diretamente a raiz
+DirectoryIndex public/index.php

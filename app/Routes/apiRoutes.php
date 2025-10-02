@@ -6,14 +6,14 @@ use Controllers\ProductController;
 use Repository\UserRepository;
 use Controllers\AuthController;
 
-if ($routes[2] === 'users') {
+if ($routes[1] === 'users') {
     if ($method === 'GET') {
         UserController::list();
         exit;
     }
 
-    if ($method === 'PUT' && !empty($routes[3])) {
-        UserController::update($routes[3]);
+    if ($method === 'PUT' && !empty($routes[2])) {
+        UserController::update($routes[2]);
         exit;
     }
 
@@ -22,20 +22,20 @@ if ($routes[2] === 'users') {
         exit;
     }
 
-    if ($method === 'DELETE' && !empty($routes[3])) {
-        UserController::delete($routes[3]);
+    if ($method === 'DELETE' && !empty($routes[2])) {
+        UserController::delete($routes[2]);
         exit;
     }
 }
 
-if ($routes[2] === 'products') {
+if ($routes[1] === 'products') {
     if ($method === 'GET') {
         ProductController::list();
         exit;
     }
 
-    if ($method === 'POST' && !empty($routes[3])) {
-        ProductController::update($routes[3]);
+    if ($method === 'POST' && !empty($routes[2])) {
+        ProductController::update($routes[2]);
         exit;
     }
 
@@ -44,13 +44,13 @@ if ($routes[2] === 'products') {
         exit;
     }
 
-    if ($method === 'DELETE' && !empty($routes[3])) {
-        ProductController::delete($routes[3]);
+    if ($method === 'DELETE' && !empty($routes[2])) {
+        ProductController::delete($routes[2]);
         exit;
     }
 }
 
-if ($routes[2] === 'login') {
+if ($routes[1] === 'login') {
 
     if ($method === 'POST') {
         AuthController::login();
@@ -58,7 +58,7 @@ if ($routes[2] === 'login') {
     }
 }
 
-if ($routes[2] === 'logout') {
+if ($routes[1] === 'logout') {
 
     if ($method === 'GET') {
         AuthController::logout();
@@ -66,17 +66,17 @@ if ($routes[2] === 'logout') {
     }
 }
 
-if ($routes[2] === 'order' && !empty($routes[3]) && isset($routes[4]) && $routes[4] === 'status' && $method === 'PUT') {
-    OrderController::updateStatus($routes[3]);
+if ($routes[1] === 'order' && !empty($routes[2]) && isset($routes[3]) && $routes[3] === 'status' && $method === 'PUT') {
+    OrderController::updateStatus($routes[2]);
     exit;
 }
 
 
-if ($routes[2] === 'order' && !empty($routes[3]) && isset($routes[4]) && $routes[4] === 'cancel' && $method === 'POST') {
-    OrderController::cancelOrder($routes[3]);
+if ($routes[1] === 'order' && !empty($routes[2]) && isset($routes[3]) && $routes[3] === 'cancel' && $method === 'POST') {
+    OrderController::cancelOrder($routes[2]);
     exit;
 }
-if ($routes[2] === 'order') {
+if ($routes[1] === 'order') {
 
     if ($method === 'GET') {
         OrderController::list();
@@ -86,13 +86,13 @@ if ($routes[2] === 'order') {
         OrderController::store();
         exit;
     }
-    if ($method === 'DELETE' && !empty($routes[3])) {
-        OrderController::delete($routes[3]);
+    if ($method === 'DELETE' && !empty($routes[2])) {
+        OrderController::delete($routes[2]);
         exit;
     }
 }
 
-if ($routes[2] === 'session') {
+if ($routes[1] === 'session') {
     ob_clean();
     session_start();
     $is_admin = $_SESSION['is_admin'] ?? 0;
@@ -105,9 +105,9 @@ if ($routes[2] === 'session') {
         'user_name' => $user_name
     ]);
     die();
-} 
+}
 
-if ($routes[2] === 'order' && !empty($routes[3]) && isset($routes[4]) && $routes[4] === 'status' && $method === 'PUT') {
-    OrderController::updateStatus($routes[3]);
+if ($routes[1] === 'order' && !empty($routes[2]) && isset($routes[3]) && $routes[3] === 'status' && $method === 'PUT') {
+    OrderController::updateStatus($routes[2]);
     exit;
 }

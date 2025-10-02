@@ -13,7 +13,8 @@ class OrderRepository
         $this->conn = (new DBConnection())->connect();
     }
 
-    public function updateStatus($orderId, $status) {
+    public function updateStatus($orderId, $status)
+    {
         $stmt = $this->conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
         return $stmt->execute([$status, $orderId]);
     }
@@ -46,7 +47,8 @@ class OrderRepository
         return $orderId;
     }
 
-    public function listOrders() {
+    public function listOrders()
+    {
         $stmt = $this->conn->query('SELECT o.*, u.name as user_name FROM orders o LEFT JOIN users u ON o.user_id = u.id');
         $orders = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($orders as &$order) {
@@ -57,7 +59,8 @@ class OrderRepository
         return $orders;
     }
 
-    public function listOrdersByUser($userId) {
+    public function listOrdersByUser($userId)
+    {
         $stmt = $this->conn->prepare('SELECT * FROM orders WHERE user_id = ?');
         $stmt->execute([$userId]);
         $orders = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -69,7 +72,8 @@ class OrderRepository
         return $orders;
     }
 
-    public function deleteOrder($id) {
+    public function deleteOrder($id)
+    {
         // Remove os itens do pedido
         $itemStmt = $this->conn->prepare("DELETE FROM order_items WHERE order_id = ?");
         $itemStmt->execute([$id]);

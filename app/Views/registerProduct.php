@@ -1,10 +1,17 @@
+<?php
+require_once __DIR__ . '/../../bootstrap.php';
+
+use Controllers\ProductController;
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>Cadastrar Produto</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-light">
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -14,7 +21,7 @@
                         <h4 class="mb-0">Cadastrar Produto</h4>
                     </div>
                     <div class="card-body">
-                        <a href="/app/produtos" class="btn btn-secondary btn-sm mb-3">Voltar para Produtos</a>
+                        <a href="/produtos" class="btn btn-secondary btn-sm mb-3">Voltar para Produtos</a>
                         <form id="productForm" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nome do Produto</label>
@@ -42,11 +49,11 @@
     </div>
     <script>
         // Redireciona cliente comum para lista de produtos
-        fetch('/app/api/session')
+        fetch('/api/session')
             .then(response => response.json())
             .then(data => {
                 if (!data.is_admin) {
-                    window.location.href = '/app/produtos';
+                    window.location.href = '/produtos';
                 }
             });
         document.getElementById('productForm').addEventListener('submit', function(e) {
@@ -61,26 +68,27 @@
             formData.append('description', document.getElementById('description').value);
             formData.append('value', document.getElementById('value').value.replace(',', '.'));
             formData.append('productImage', imageInput.files[0]);
-            fetch('http://orders-app.test/app/api/products', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                const resultDiv = document.getElementById('result');
-                if (data.error) {
-                    resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
-                } else {
-                    resultDiv.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
-                    setTimeout(() => {
-                        window.location.href = '/app/produtos';
-                    }, 1000);
-                }
-            })
-            .catch(() => {
-                document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao cadastrar produto.</div>`;
-            });
+            fetch('/api/products', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const resultDiv = document.getElementById('result');
+                    if (data.error) {
+                        resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                    } else {
+                        resultDiv.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                        setTimeout(() => {
+                            window.location.href = '/produtos';
+                        }, 1000);
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao cadastrar produto.</div>`;
+                });
         });
     </script>
 </body>
+
 </html>

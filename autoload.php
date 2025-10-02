@@ -11,13 +11,12 @@
 function autoload($class)
 {
     // Monta o caminho base do projeto usando a constante DIR_APP e o separador de diretório
-    $baseDirectory = DIR_APP.DS;
+    $baseDirectory = DIR_APP . DS;
 
     // Monta o caminho completo do arquivo da classe:
-    // - Adiciona a pasta 'Classes/'
     // - Substitui as barras invertidas do namespace por separadores de diretório
     // - Adiciona a extensão .php
-    $class = $baseDirectory.'Classes'.DS.str_replace('\\', DS, $class).'.php';
+    $class = $baseDirectory . str_replace('\\', DS, $class) . '.php';
 
     // var_dump($class);
 

@@ -6,7 +6,7 @@ use Controllers\UserController;
 use Controllers\ProductController;
 use Repository\UserRepository;
 
-include 'bootstrap.php';
+include __DIR__ . '/../bootstrap.php';
 
 // echo DIR_APP;
 
@@ -19,10 +19,15 @@ try {
 $routes = RoutesUtil::getRoutes();
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
-if ($routes[1] === 'api') {
-    require __DIR__ . '\Routes\apiRoutes.php';
+// Garante que sempre temos pelo menos 4 elementos no array de rotas para API funcionar
+if (count($routes) < 4) {
+    $routes = array_pad($routes, 4, '');
+}
+
+if ($routes[0] === 'api') {
+    require __DIR__ . '/../app/Routes/apiRoutes.php';
 } else {
-    require __DIR__ . '\Routes\appRoutes.php';
+    require __DIR__ . '/../app/Routes/appRoutes.php';
 }
 
 // Configura erro 404

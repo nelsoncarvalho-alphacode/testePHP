@@ -58,7 +58,8 @@ class UserRepository
         return $stmt->execute([$id]);
     }
 
-    public function findByEmail($email) {
+    public function findByEmail($email)
+    {
         $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->execute([$email]);
         return $stmt->fetch(\PDO::FETCH_ASSOC);

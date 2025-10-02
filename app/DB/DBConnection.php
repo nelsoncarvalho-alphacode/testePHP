@@ -6,7 +6,7 @@ use PDO;
 use PDOException;
 
 class DBConnection
-{   
+{
 
     // Cria as variáveis de conexão
     private $host = HOST;

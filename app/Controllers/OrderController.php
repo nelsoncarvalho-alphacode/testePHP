@@ -5,8 +5,10 @@ namespace Controllers;
 use Repository\OrderRepository;
 use Repository\ProductRepository;
 
-class OrderController {
-    public static function cancelOrder($id) {
+class OrderController
+{
+    public static function cancelOrder($id)
+    {
         session_start();
         $isAdmin = $_SESSION['is_admin'] ?? 0;
         $userId = $_SESSION['user_id'] ?? null;
@@ -25,7 +27,8 @@ class OrderController {
             echo json_encode(['error' => 'Erro ao cancelar pedido']);
         }
     }
-    public static function updateStatus($id) {
+    public static function updateStatus($id)
+    {
         session_start();
         $isAdmin = $_SESSION['is_admin'] ?? 0;
         if (!$isAdmin) {
@@ -33,9 +36,9 @@ class OrderController {
             echo json_encode(['error' => 'Acesso negado']);
             return;
         }
-    $data = json_decode(file_get_contents('php://input'), true);
-    $status = $data['status'] ?? null;
-    error_log('Status recebido: ' . print_r($status, true));
+        $data = json_decode(file_get_contents('php://input'), true);
+        $status = $data['status'] ?? null;
+        error_log('Status recebido: ' . print_r($status, true));
         if (!$status) {
             http_response_code(400);
             echo json_encode(['error' => 'Status não informado']);
@@ -51,7 +54,8 @@ class OrderController {
             echo json_encode(['error' => 'Erro ao atualizar status']);
         }
     }
-    public static function store() {
+    public static function store()
+    {
 
         session_start();
 
@@ -69,8 +73,10 @@ class OrderController {
         }
 
         // Calcula o total
-        $total = array_reduce($products, function($sum, $item) {
-            return $sum + floatval($item['value']);
+        $total = array_reduce($products, function ($sum, $item) {
+            $quantity = intval($item['qty'] ?? 1);
+            $value = floatval($item['value'] ?? 0);
+            return $sum + ($value * $quantity);
         }, 0);
 
         // Gera status inicial e código de barras
@@ -91,7 +97,8 @@ class OrderController {
         echo json_encode(['message' => 'Pedido criado com sucesso', 'order_id' => $orderId]);
     }
 
-    public static function list() {
+    public static function list()
+    {
         session_start();
         $userId = $_SESSION['user_id'] ?? null;
         $isAdmin = $_SESSION['is_admin'] ?? 0;
@@ -105,7 +112,8 @@ class OrderController {
         echo json_encode($orders);
     }
 
-    public static function delete($id) {
+    public static function delete($id)
+    {
         $repo = new OrderRepository;
         $success = $repo->deleteOrder($id);
         header('Content-Type: application/json');

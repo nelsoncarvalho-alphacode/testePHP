@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>Criar Usuário (Admin)</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-light">
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -14,7 +16,7 @@
                         <h4 class="mb-0">Cadastro de Usuário (Admin)</h4>
                     </div>
                     <div class="card-body">
-                        <a href="/app/clientes" class="btn btn-secondary btn-sm mb-3">Voltar para Usuários</a>
+                        <a href="/clientes" class="btn btn-secondary btn-sm mb-3">Voltar para Usuários</a>
                         <form id="userFormAdmin">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nome:</label>
@@ -45,31 +47,32 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const is_admin = document.getElementById('is_admin').checked ? 1 : 0;
-            fetch('http://orders-app.test/app/api/users', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name,
-                    email,
-                    password,
-                    is_admin
+            fetch('/api/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        password,
+                        is_admin
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                const resultDiv = document.getElementById('result');
-                if (data.error) {
-                    resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
-                } else {
-                    resultDiv.innerHTML = `<div class="alert alert-success">${data.message} (ID: ${data.id})</div>`;
-                    setTimeout(() => {
-                        window.location.href = '/app/clientes';
-                    }, 1500);
-                }
-            });
+                .then(response => response.json())
+                .then(data => {
+                    const resultDiv = document.getElementById('result');
+                    if (data.error) {
+                        resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                    } else {
+                        resultDiv.innerHTML = `<div class="alert alert-success">${data.message} (ID: ${data.id})</div>`;
+                        setTimeout(() => {
+                            window.location.href = '/clientes';
+                        }, 1500);
+                    }
+                });
         });
     </script>
 </body>
+
 </html>

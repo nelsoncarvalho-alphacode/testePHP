@@ -4,8 +4,10 @@ namespace Controllers;
 
 use Repository\UserRepository;
 
-class AuthController {
-    public static function login() {
+class AuthController
+{
+    public static function login()
+    {
 
         ob_clean();
 
@@ -13,7 +15,7 @@ class AuthController {
         $email = $data['email'] ?? '';
         $password = $data['password'] ?? '';
 
-        if(empty($email) || empty($password)) {
+        if (empty($email) || empty($password)) {
             http_response_code(401);
             header('Content-Type: application/json');
             echo json_encode(['error' => 'E-mail e senha são obrigatórios']);
@@ -24,7 +26,7 @@ class AuthController {
 
         $user = $repo->findByEmail($data['email']);
 
-        if(!$user || !password_verify($password, $user['password'])) {
+        if (!$user || !password_verify($password, $user['password'])) {
             http_response_code(401);
             header('Content-Type: application/json');
             echo json_encode(['error' => 'Credenciais inválidas']);
@@ -40,7 +42,8 @@ class AuthController {
         die();
     }
 
-    public static function logout() {
+    public static function logout()
+    {
         session_start();
         session_destroy();
         header('Location: app/login');

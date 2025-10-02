@@ -1,10 +1,17 @@
+<?php
+require_once __DIR__ . '/../../bootstrap.php';
+
+use Controllers\OrderController;
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>Carrinho de Compras</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-light">
     <div id="cartContainer"></div>
     <script>
@@ -12,15 +19,18 @@
         function getCart() {
             return JSON.parse(localStorage.getItem('cart')) || [];
         }
+
         function setCart(cart) {
             localStorage.setItem('cart', JSON.stringify(cart));
         }
+
         function removeFromCart(id) {
             let cart = getCart();
             cart = cart.filter(item => item.id !== id);
             setCart(cart);
             renderCart();
         }
+
         function renderCart() {
             const cart = getCart();
             const tbody = document.getElementById('cartTable');
@@ -52,13 +62,16 @@
         function updateQty(id, value) {
             let cart = getCart();
             value = Math.max(1, parseInt(value) || 1);
-            cart = cart.map(item => item.id === id ? { ...item, qty: value } : item);
+            cart = cart.map(item => item.id === id ? {
+                ...item,
+                qty: value
+            } : item);
             setCart(cart);
             renderCart();
         }
 
         // Exibe carrinho apenas para usuário comum
-        fetch('/app/api/session')
+        fetch('/api/session')
             .then(response => response.json())
             .then(data => {
                 if (!data.is_admin) {
@@ -70,7 +83,7 @@
                                         <div class="card-header bg-primary text-white">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <h4 class="mb-0">Carrinho de Compras</h4>
-                                                <a id="backToProductsBtn" href="/app/produtos" class="btn btn-warning btn-sm me-2">Voltar para Produtos</a>
+                                                <a id="backToProductsBtn" href="/produtos" class="btn btn-warning btn-sm me-2">Voltar para Produtos</a>
                                             </div>
                                         </div>
                                         <table class="table table-bordered">
@@ -103,19 +116,22 @@
 
         function storeCart() {
             const cart = getCart();
-            fetch('http://orders-app.test/app/api/order', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ products: cart })
-            })
-            .then(response => response.json())
-            .then(data => {
-                localStorage.removeItem('cart');
-                window.location.href = '/app/pedidos';
-            })
+            fetch('/api/order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        products: cart
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    localStorage.removeItem('cart');
+                    window.location.href = '/pedidos';
+                })
         }
-
-    // renderCart será chamado apenas para usuário comum
     </script>
 </body>
+
 </html>

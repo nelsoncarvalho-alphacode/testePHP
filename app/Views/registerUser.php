@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . '/../../bootstrap.php';
+
+use Controllers\UserController;
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -16,7 +21,7 @@
                         <h4 class="mb-0">Cadastro de Usuário</h4>
                     </div>
                     <div class="card-body">
-                        <!-- Cadastro externo, sem botão de voltar para usuários -->
+
                         <form id="userForm">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nome:</label>
@@ -25,11 +30,11 @@
                                 <input type="text" class="form-control" id="email" name="email" required>
                                 <label for="password" class="form-label">Senha:</label>
                                 <input type="text" class="form-control" id="password" name="password" required>
-                                <!-- Sem opção de administrador para cadastro externo -->
+
                             </div>
                             <div class="d-flex align-items-center gap-3 mt-2">
                                 <button type="submit" class="btn btn-success">Criar Usuário</button>
-                                <a href="/app/login" class="btn btn-link p-0">Já tem conta? Faça login</a>
+                                <a href="/login" class="btn btn-link p-0">Já tem conta? Faça login</a>
                             </div>
                         </form>
                         <div id="result" class="mt-3"></div>
@@ -44,32 +49,32 @@
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            fetch('http://orders-app.test/app/api/users', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name,
-                    email,
-                    password
+            fetch('/api/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        password
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                const resultDiv = document.getElementById('result');
-                if (data.error) {
-                    resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
-                } else {
-                    resultDiv.innerHTML = `<div class="alert alert-success">${data.message} (ID: ${data.id})</div>`;
-                    setTimeout(() => {
-                        window.location.href = '/app/clientes';
-                    }, 1000);
-                }
-            })
-            .catch(() => {
-                document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao criar usuário.</div>`;
-            });
+                .then(response => response.json())
+                .then(data => {
+                    const resultDiv = document.getElementById('result');
+                    if (data.error) {
+                        resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                    } else {
+                        resultDiv.innerHTML = `<div class="alert alert-success">${data.message} (ID: ${data.id})</div>`;
+                        setTimeout(() => {
+                            window.location.href = '/produtos';
+                        }, 1000);
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao criar usuário.</div>`;
+                });
         });
     </script>
 </body>

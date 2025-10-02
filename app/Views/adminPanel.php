@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . '/../../bootstrap.php';
+
+use Controllers\UserController;
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -9,11 +14,11 @@
 
 <body class="bg-light">
     <script>
-        fetch('/app/api/session')
+        fetch('/api/session')
             .then(response => response.json())
             .then(data => {
                 if (!data || !data.is_admin) {
-                    window.location.href = '/app/produtos';
+                    window.location.href = '/produtos';
                 }
             });
     </script>
@@ -25,9 +30,9 @@
                         <h4 class="mb-0">O que deseja fazer?</h4>
                     </div>
                     <div class="card-body d-flex flex-column gap-3">
-                        <a href="/app/clientes" class="btn btn-outline-primary btn-lg">Listar clientes</a>
-                        <a href="/app/produtos" class="btn btn-outline-success btn-lg">Listar produtos</a>
-                        <a href="/app/pedidos" class="btn btn-outline-warning btn-lg">Listar pedidos</a>
+                        <a href="/clientes" class="btn btn-outline-primary btn-lg">Listar clientes</a>
+                        <a href="/produtos" class="btn btn-outline-success btn-lg">Listar produtos</a>
+                        <a href="/pedidos" class="btn btn-outline-warning btn-lg">Listar pedidos</a>
                         <a href="#" onclick="logout()" class="btn btn-outline-danger btn-lg">Fazer logout</a>
                     </div>
                 </div>
@@ -36,11 +41,12 @@
     </div>
     <script>
         function logout() {
-            fetch('/app/api/logout')
+            fetch('/api/logout')
                 .then(() => {
-                    window.location.href = '/app/login';
+                    window.location.href = '/login';
                 });
         }
     </script>
 </body>
+
 </html>

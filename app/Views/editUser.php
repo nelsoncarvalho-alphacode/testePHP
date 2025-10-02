@@ -10,10 +10,8 @@ if ($id) {
     $repo = new UserRepository();
     $user = $repo->find($id); // Certifique-se que find retorna um usuário pelo ID
 
-    var_dump($user);
 }
 
-// var_dump($user);
 ?>
 
 <!DOCTYPE html>
@@ -27,9 +25,6 @@ if ($id) {
 
 <body class="bg-light">
     <div class="container mt-5">
-        <div class="d-flex justify-content-end mb-3">
-            <a href="#" onclick="logout()" class="btn btn-outline-primary btn-sm">Logout</a>
-        </div>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card shadow">
@@ -46,7 +41,7 @@ if ($id) {
                                 <label for="name" class="form-label">Senha:</label>
                                 <input type="text" class="form-control" id="password" name="password" required>
                             </div>
-                            <button type="submit" class="btn btn-success">Criar Usuário</button>
+                            <button type="submit" class="btn btn-success">Editar Usuário</button>
                         </form>
                         <div id="result" class="mt-3"></div>
                     </div>

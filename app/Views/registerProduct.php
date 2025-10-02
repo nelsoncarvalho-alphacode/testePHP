@@ -7,9 +7,6 @@
 </head>
 <body class="bg-light">
     <div class="container mt-5">
-        <div class="d-flex justify-content-end mb-3">
-            <a href="#" onclick="logout()" class="btn btn-outline-primary btn-sm">Logout</a>
-        </div>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card shadow">
@@ -43,6 +40,14 @@
         </div>
     </div>
     <script>
+        // Redireciona cliente comum para lista de produtos
+        fetch('/app/api/session')
+            .then(response => response.json())
+            .then(data => {
+                if (!data.is_admin) {
+                    window.location.href = '/app/produtos';
+                }
+            });
         document.getElementById('productForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData();

@@ -7,9 +7,6 @@
 </head>
 <body class="bg-light">
     <div class="container mt-5">
-        <div class="d-flex justify-content-end mb-3">
-            <a href="#" onclick="logout()" class="btn btn-outline-primary btn-sm">Logout</a>
-        </div>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card shadow">
@@ -36,6 +33,18 @@
         </div>
     </div>
     <script>
+        // Se já estiver logado, redireciona imediatamente
+        fetch('http://orders-app.test/app/api/session')
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.user_id) {
+                    if (data.is_admin) {
+                        window.location.href = '/app/admin';
+                    } else {
+                        window.location.href = '/app/produtos';
+                    }
+                }
+            });
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const email = document.getElementById('email').value;

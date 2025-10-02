@@ -8,7 +8,6 @@
 <body class="bg-light">
     <div class="container mt-5">
         <div class="d-flex justify-content-end mb-3">
-            <!-- Removido botão de logout fora do card -->
         </div>
         <div class="row justify-content-center">
             <div class="col-md-10">
@@ -77,7 +76,11 @@
                                     <td>R$ ${Number(order.value).toFixed(2)}</td>
                                     <td>${order.status}</td>
                                     <td>${order.barcode}</td>
-                                    <td>${isAdmin ? `<button class='btn btn-danger btn-sm' onclick='deleteOrder(${order.id})'>Excluir</button>` : ''}</td>
+                                    <td>
+                                        ${isAdmin 
+                                            ? `<button class='btn btn-danger btn-sm' onclick='deleteOrder(${order.id})'>Excluir</button>` 
+                                            : `<button class='btn btn-danger btn-sm' onclick='cancelOrder(${order.id})'>Cancelar</button>`}
+                                    </td>
                                 </tr>`;
                             });
                         } else {
@@ -106,6 +109,31 @@
                 });
             }
         }
+
+        function cancelOrder(id) {
+            if (confirm('Tem certeza que deseja cancelar este pedido?')) {
+                fetch(`http://orders-app.test/app/api/order/${id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message || 'Pedido cancelado!');
+                    listOrders();
+                })
+                .catch(() => {
+                    alert('Erro ao cancelar pedido.');
+                });
+            }
+        }
+
+                function logout() {
+            fetch('/app/api/logout')
+                .then(() => {
+                    window.location.href = '/app/login';
+                });
+            }
+
+            
         listOrders();
     </script>
 </body>

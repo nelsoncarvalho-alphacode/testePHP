@@ -83,7 +83,7 @@
             .then(response => response.json())
             .then(data => {
                 localStorage.removeItem('cart');
-                window.location.href = '/app/listProducts'; // Redirect to products after purchase
+                window.location.href = '/app/produtos';
             })
         }
 

@@ -14,12 +14,7 @@
                 <div class="card shadow">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">Produtos</h4>
-                        <div>
-                            <a href="/app/cadastro-produto" class="btn btn-success btn-sm me-2">Cadastrar Produto</a>
-                            <a href="/app/carrinho" class="btn btn-info btn-sm me-2">Ir para o Carrinho</a>
-                            <a href="/app/pedidos" class="btn btn-warning btn-sm me-2">Ir para os Pedidos</a>
-                            <a href="#" onclick="logout()" class="btn btn-outline-light btn-sm">Logout</a>
-                        </div>
+                        <div id="headerButtons"></div>
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered">
@@ -48,11 +43,25 @@
             .then(response => response.json())
             .then(data => {
                 isAdmin = !!data.is_admin;
+                renderHeaderButtons();
                 listProducts();
             })
             .catch(() => {
+                renderHeaderButtons();
                 listProducts();
             });
+
+        function renderHeaderButtons() {
+            const headerDiv = document.getElementById('headerButtons');
+            let html = '';
+            if (isAdmin) {
+                html += '<a href="/app/cadastro-produto" class="btn btn-success btn-sm me-2">Cadastrar Produto</a>';
+            }
+            html += '<a href="/app/carrinho" class="btn btn-info btn-sm me-2">Ir para o Carrinho</a>';
+            html += '<a href="/app/pedidos" class="btn btn-warning btn-sm me-2">Ir para os Pedidos</a>';
+            html += '<a href="#" onclick="logout()" class="btn btn-outline-light btn-sm">Logout</a>';
+            headerDiv.innerHTML = html;
+        }
 
         function logout() {
             fetch('/app/api/logout')

@@ -86,7 +86,7 @@ if (form) {
         })
         .then(res => res.text())
         .then(data => {
-            document.getElementById('result').innerHTML = `<pre>${data}</pre>`;
+            document.getElementById('result').innerHTML = `<div class="alert alert-success">Produto atualizado com sucesso!</div>`;
             setTimeout(() => {
                 window.location.href = '/app/produtos';
             }, 1000);

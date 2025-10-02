@@ -74,6 +74,7 @@
             fetch('http://orders-app.test/app/api/products')
                 .then(response => response.json())
                 .then(products => {
+                    window.products = products; // Armazena globalmente
                     const tbody = document.getElementById('productTable');
                     tbody.innerHTML = '';
                     if (Array.isArray(products) && products.length > 0) {
@@ -92,7 +93,7 @@
                             <td class="d-flex gap-2 justify-content-center">
                                 ${isAdmin ? `<button class='btn btn-warning btn-sm flex-fill' style='min-width: 80px;' onclick='editProduct(${product.id})'>Editar</button>
                                 <button class='btn btn-danger btn-sm flex-fill' style='min-width: 80px;' onclick='deleteProduct(${product.id})'>Excluir</button>` : ''}
-                                <button class='btn btn-success btn-sm flex-fill' style='min-width: 80px;' onclick='addToCart({id: ${product.id}, name: "${product.name}", description: "${product.description}", value: "${product.value}"})'>Carrinho</button>
+                                <button class='btn btn-success btn-sm flex-fill' style='min-width: 80px;' onclick='addToCart(${product.id})'>Carrinho</button>
                             </td>
                         </tr>`;
                         });
@@ -125,9 +126,14 @@
 
         function addToCart(product) {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-            if (!cart.some(item => item.id === product.id)) {
-                cart.push(product);
+            // Busca o produto pelo id
+            const productObj = (window.products || []).find(p => p.id === product);
+            if (!productObj) {
+                alert('Produto não encontrado!');
+                return;
+            }
+            if (!cart.some(item => item.id === productObj.id)) {
+                cart.push(productObj);
                 localStorage.setItem('cart', JSON.stringify(cart));
                 alert('Produto adicionado ao carrinho!');
             } else {

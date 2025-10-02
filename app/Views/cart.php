@@ -62,9 +62,13 @@
             } else {
                 cart.forEach(item => {
                     total += parseFloat(item.value);
+                    let desc = item.description || '';
+                    if (desc.length > 50) {
+                        desc = desc.substring(0, 47) + '...';
+                    }
                     tbody.innerHTML += `<tr>
                         <td>${item.name}</td>
-                        <td>${item.description || ''}</td>
+                        <td>${desc}</td>
                         <td>R$ ${Number(item.value).toFixed(2)}</td>
                         <td><button class="btn btn-danger btn-sm" onclick="removeFromCart(${item.id})">Remover</button></td>
                     </tr>`;
@@ -92,7 +96,7 @@
             .then(response => response.json())
             .then(data => {
                 localStorage.removeItem('cart');
-                window.location.href = '/app/produtos';
+                window.location.href = '/app/pedidos';
             })
         }
 

@@ -22,6 +22,7 @@
                                     <th>Produto</th>
                                     <th>Descrição</th>
                                     <th>Valor (R$)</th>
+                                    <th>Quantidade</th>
                                     <th>Remover</th>
                                 </tr>
                             </thead>
@@ -58,23 +59,33 @@
             tbody.innerHTML = '';
             let total = 0;
             if (cart.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4">Nenhum produto no carrinho.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5">Nenhum produto no carrinho.</td></tr>';
             } else {
                 cart.forEach(item => {
-                    total += parseFloat(item.value);
                     let desc = item.description || '';
                     if (desc.length > 50) {
                         desc = desc.substring(0, 47) + '...';
                     }
+                    let qty = item.qty || 1;
+                    total += parseFloat(item.value) * qty;
                     tbody.innerHTML += `<tr>
                         <td>${item.name}</td>
                         <td>${desc}</td>
                         <td>R$ ${Number(item.value).toFixed(2)}</td>
+                        <td><input type="number" min="1" value="${qty}" style="width:70px" onchange="updateQty(${item.id}, this.value)"></td>
                         <td><button class="btn btn-danger btn-sm" onclick="removeFromCart(${item.id})">Remover</button></td>
                     </tr>`;
                 });
             }
             totalSpan.textContent = 'R$ ' + total.toFixed(2);
+        }
+
+        function updateQty(id, value) {
+            let cart = getCart();
+            value = Math.max(1, parseInt(value) || 1);
+            cart = cart.map(item => item.id === id ? { ...item, qty: value } : item);
+            setCart(cart);
+            renderCart();
         }
 
         // Exibe botão de voltar para produtos apenas para usuário comum ao carregar a página

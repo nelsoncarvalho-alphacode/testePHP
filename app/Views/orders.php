@@ -77,7 +77,7 @@
                         if (filteredOrders.length > 0) {
                             filteredOrders.forEach(order => {
                                 const produtos = Array.isArray(order.products) && order.products.length > 0
-                                    ? order.products.map(p => p.name).join(', ')
+                                    ? order.products.map(p => `${p.name} (${p.qty || 1})`).join(', ')
                                     : '-';
                                 tbody.innerHTML += `<tr>
                                     <td>${order.id}</td>

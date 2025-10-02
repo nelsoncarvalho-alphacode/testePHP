@@ -28,12 +28,14 @@ class OrderRepository
 
         // Salva os produtos do pedido na tabela order_items
         foreach ($products as $product) {
-            $itemStmt = $this->conn->prepare("INSERT INTO order_items (order_id, product_id, name, value) VALUES (?, ?, ?, ?)");
+            $qty = isset($product['qty']) ? $product['qty'] : 1;
+            $itemStmt = $this->conn->prepare("INSERT INTO order_items (order_id, product_id, name, value, qty) VALUES (?, ?, ?, ?, ?)");
             $itemStmt->execute([
                 $orderId,
                 $product['id'],
                 $product['name'],
-                $product['value']
+                $product['value'],
+                $qty
             ]);
         }
 
@@ -44,7 +46,7 @@ class OrderRepository
         $stmt = $this->conn->query('SELECT * FROM orders');
         $orders = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($orders as &$order) {
-            $itemStmt = $this->conn->prepare('SELECT name, value FROM order_items WHERE order_id = ?');
+            $itemStmt = $this->conn->prepare('SELECT name, value, qty FROM order_items WHERE order_id = ?');
             $itemStmt->execute([$order['id']]);
             $order['products'] = $itemStmt->fetchAll(\PDO::FETCH_ASSOC);
         }
@@ -56,7 +58,7 @@ class OrderRepository
         $stmt->execute([$userId]);
         $orders = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($orders as &$order) {
-            $itemStmt = $this->conn->prepare('SELECT name, value FROM order_items WHERE order_id = ?');
+            $itemStmt = $this->conn->prepare('SELECT name, value, qty FROM order_items WHERE order_id = ?');
             $itemStmt->execute([$order['id']]);
             $order['products'] = $itemStmt->fetchAll(\PDO::FETCH_ASSOC);
         }

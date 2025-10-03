@@ -27,13 +27,13 @@ if ($id) {
 </head>
 
 <body class="bg-light">
-
-    <body class="bg-light">
-        <div class="d-flex justify-content-end mb-3">
-            <a href="#" onclick="logout()" class="btn btn-outline-primary btn-sm">Logout</a>
-        </div>
-        <div class="container mt-5">
-            <a href="/produtos" class="btn btn-secondary btn-sm mb-3">Voltar para Produtos</a>
+    <div class="d-flex justify-content-end mb-3 px-3 pt-3">
+        <a href="#" onclick="logout()" class="btn btn-outline-primary btn-sm">Logout</a>
+    </div>
+    <div class="container-fluid px-3 py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+                <a href="/produtos" class="btn btn-secondary btn-sm mb-3">Voltar para Produtos</a>
             <h2>Editar Produto</h2>
             <form id="editProductForm" enctype="multipart/form-data">
                 <div class="mb-3">

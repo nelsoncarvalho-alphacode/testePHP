@@ -24,11 +24,12 @@ use Controllers\OrderController;
 </head>
 
 <body class="bg-light">
-    <div class="container mt-5">
+    <div class="container-fluid px-3 px-md-5 mt-3 mt-md-5">
         <div class="d-flex justify-content-end mb-3">
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-12 col-xl-11">
+            <div class="col-12 col-xl-11">
                 <div class="card shadow">
                     <div class="card-header bg-primary text-white">
                         <div class="d-flex justify-content-between align-items-center">
@@ -37,11 +38,11 @@ use Controllers\OrderController;
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col-md-6">
+                        <div class="row g-2 mb-3">
+                            <div class="col-12 col-md-6 col-lg-7">
                                 <input type="text" id="searchInput" class="form-control" placeholder="Buscar pedido...">
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-6 col-md-3 col-lg-2">
                                 <select id="itemsPerPage" class="form-select">
                                     <option value="10">10 por página</option>
                                     <option value="20" selected>20 por página</option>
@@ -49,41 +50,45 @@ use Controllers\OrderController;
                                     <option value="100">100 por página</option>
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-6 col-md-3">
                                 <button id="deleteSelectedBtn" class="btn btn-danger w-100" onclick="deleteSelected()" disabled>
-                                    <i class="fas fa-trash"></i> Excluir Selecionados
+                                    <i class="fas fa-trash d-none d-sm-inline"></i>
+                                    <span class="d-none d-sm-inline">Excluir</span>
+                                    <span class="d-sm-none">Del</span>
                                 </button>
                             </div>
                         </div>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th style="width: 50px;">
-                                        <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
-                                    </th>
-                                    <th class="sortable-header" onclick="sortTable('id')">
-                                        ID <i id="sort-id" class="fas fa-sort text-muted"></i>
-                                    </th>
-                                    <th id="userColumnHeader" class="sortable-header" style="display:none;" onclick="sortTable('user_name')">
-                                        Usuário <i id="sort-user_name" class="fas fa-sort text-muted"></i>
-                                    </th>
-                                    <th class="sortable-header" onclick="sortTable('products')">
-                                        Produtos <i id="sort-products" class="fas fa-sort text-muted"></i>
-                                    </th>
-                                    <th class="sortable-header" onclick="sortTable('value')">
-                                        Total (R$) <i id="sort-value" class="fas fa-sort text-muted"></i>
-                                    </th>
-                                    <th class="sortable-header" onclick="sortTable('status')">
-                                        Status <i id="sort-status" class="fas fa-sort text-muted"></i>
-                                    </th>
-                                    <th class="sortable-header" onclick="sortTable('barcode')">
-                                        Código de Barras <i id="sort-barcode" class="fas fa-sort text-muted"></i>
-                                    </th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="ordersTable"></tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th style="width: 50px;">
+                                            <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                        </th>
+                                        <th class="sortable-header" onclick="sortTable('id')" style="min-width: 60px;">
+                                            ID <i id="sort-id" class="fas fa-sort text-muted"></i>
+                                        </th>
+                                        <th id="userColumnHeader" class="sortable-header d-none d-md-table-cell" style="display:none; min-width: 120px;" onclick="sortTable('user_name')">
+                                            Usuário <i id="sort-user_name" class="fas fa-sort text-muted"></i>
+                                        </th>
+                                        <th class="sortable-header d-none d-lg-table-cell" onclick="sortTable('products')" style="min-width: 150px;">
+                                            Produtos <i id="sort-products" class="fas fa-sort text-muted"></i>
+                                        </th>
+                                        <th class="sortable-header" onclick="sortTable('value')" style="min-width: 100px;">
+                                            Total <i id="sort-value" class="fas fa-sort text-muted"></i>
+                                        </th>
+                                        <th class="sortable-header d-none d-md-table-cell" onclick="sortTable('status')" style="min-width: 100px;">
+                                            Status <i id="sort-status" class="fas fa-sort text-muted"></i>
+                                        </th>
+                                        <th class="sortable-header d-none d-lg-table-cell" onclick="sortTable('barcode')" style="min-width: 150px;">
+                                            Código <i id="sort-barcode" class="fas fa-sort text-muted"></i>
+                                        </th>
+                                        <th style="min-width: 150px;">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ordersTable"></tbody>
+                            </table>
+                        </div>
                         <nav>
                             <ul class="pagination justify-content-center" id="pagination"></ul>
                         </nav>
@@ -147,7 +152,7 @@ use Controllers\OrderController;
                     tbody.innerHTML += `<tr>
                         <td><input type="checkbox" class="order-checkbox" value="${order.id}" onchange="updateDeleteButton()"></td>
                         <td>${order.id}</td>
-                        <td style="${isAdmin ? '' : 'display:none;'}">
+                        <td class="d-none d-md-table-cell" style="${isAdmin ? '' : 'display:none;'}">
                             ${isAdmin 
                                 ? (order.user_name 
                                     ? `<a href="/usuario/${order.user_id}" class="text-decoration-none">
@@ -156,9 +161,9 @@ use Controllers\OrderController;
                                     : '-') 
                                 : ''}
                         </td>
-                        <td>${produtos}</td>
+                        <td class="d-none d-lg-table-cell">${produtos}</td>
                         <td>R$ ${Number(order.value).toFixed(2)}</td>
-                        <td>
+                        <td class="d-none d-md-table-cell">
                             ${isAdmin
                                 ? `<select class='form-select form-select-sm w-auto d-inline' onchange='changeStatus(${order.id}, this.value)'>
                                     <option value="pendente" ${order.status === 'pendente' ? 'selected' : ''}>Pendente</option>
@@ -168,16 +173,24 @@ use Controllers\OrderController;
                                 </select>`
                                 : order.status}
                         </td>
-                        <td>${order.barcode}</td>
+                        <td class="d-none d-lg-table-cell">${order.barcode}</td>
                         <td>
-                            ${isAdmin 
-                                ? `<button class='btn btn-danger btn-sm' onclick='deleteOrder(${order.id})'>Excluir</button>` 
-                                : (order.status !== 'cancelado' ? `<button class='btn btn-danger btn-sm' onclick='cancelOrder(${order.id})'>Cancelar</button>` : '')}
+                            <div class="d-flex gap-1 flex-wrap justify-content-center">
+                                ${isAdmin 
+                                    ? `<button class='btn btn-danger btn-sm' onclick='deleteOrder(${order.id})'>
+                                        <i class="fas fa-trash d-md-none"></i>
+                                        <span class="d-none d-md-inline">Excluir</span>
+                                       </button>` 
+                                    : (order.status !== 'cancelado' ? `<button class='btn btn-danger btn-sm' onclick='cancelOrder(${order.id})'>
+                                        <i class="fas fa-times d-md-none"></i>
+                                        <span class="d-none d-md-inline">Cancelar</span>
+                                       </button>` : '')}
+                            </div>
                         </td>
                     </tr>`;
                 });
             } else {
-                tbody.innerHTML = '<tr><td colspan="8">Nenhum pedido encontrado.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center">Nenhum pedido encontrado.</td></tr>';
             }
             renderPagination();
         }

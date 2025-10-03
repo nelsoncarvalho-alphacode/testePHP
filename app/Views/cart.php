@@ -76,9 +76,9 @@ use Controllers\OrderController;
             .then(data => {
                 if (!data.is_admin) {
                     document.getElementById('cartContainer').innerHTML = `
-                        <div class="container mt-5">
+                        <div class="container-fluid px-3 py-5">
                             <div class="row justify-content-center">
-                                <div class="col-md-8">
+                                <div class="col-12 col-xl-10">
                                     <div class="card shadow">
                                         <div class="card-header bg-primary text-white">
                                             <div class="d-flex justify-content-between align-items-center">
@@ -86,7 +86,8 @@ use Controllers\OrderController;
                                                 <a id="backToProductsBtn" href="/produtos" class="btn btn-warning btn-sm me-2">Voltar para Produtos</a>
                                             </div>
                                         </div>
-                                        <table class="table table-bordered">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>Produto</th>
@@ -98,6 +99,7 @@ use Controllers\OrderController;
                                             </thead>
                                             <tbody id="cartTable"></tbody>
                                         </table>
+                                        </div>
                                         <div class="d-flex flex-column align-items-end" style="margin-right: 16px;">
                                             <h5 class="mb-2">Total: <span id="cartTotal">R$ 0,00</span></h5>
                                             <button class="btn btn-success" onclick="storeCart()">Comprar</button>
@@ -110,7 +112,7 @@ use Controllers\OrderController;
                     `;
                     renderCart();
                 } else {
-                    document.getElementById('cartContainer').innerHTML = `<div class='container mt-5'><div class='alert alert-danger'>Acesso restrito: apenas usuários comuns podem visualizar o carrinho.</div></div>`;
+                    document.getElementById('cartContainer').innerHTML = `<div class='container-fluid px-3 py-5'><div class='alert alert-danger'>Acesso restrito: apenas usuários comuns podem visualizar o carrinho.</div></div>`;
                 }
             });
 

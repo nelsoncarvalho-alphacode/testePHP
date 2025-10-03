@@ -14,8 +14,9 @@ use Controllers\ProductController;
 </head>
 
 <body class="bg-light">
-    <div class="container mt-5">
+    <div class="container-fluid px-3 px-md-5 mt-3 mt-md-5">
         <div class="row justify-content-center">
+            <div class="col-12 col-xl-11">
             <div class="col-md-10">
                 <div class="card shadow">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
@@ -23,11 +24,11 @@ use Controllers\ProductController;
                         <div id="headerButtons"></div>
                     </div>
                     <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col-md-6">
+                        <div class="row g-2 mb-3">
+                            <div class="col-12 col-md-6 col-lg-7">
                                 <input type="text" id="searchInput" class="form-control" placeholder="Buscar produto...">
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-6 col-md-3 col-lg-2">
                                 <select id="itemsPerPage" class="form-select">
                                     <option value="10">10 por página</option>
                                     <option value="20" selected>20 por página</option>
@@ -35,36 +36,40 @@ use Controllers\ProductController;
                                     <option value="100">100 por página</option>
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-6 col-md-3">
                                 <button id="deleteSelectedBtn" class="btn btn-danger w-100" onclick="deleteSelected()" disabled>
-                                    <i class="fas fa-trash"></i> Excluir Selecionados
+                                    <i class="fas fa-trash d-none d-sm-inline"></i>
+                                    <span class="d-none d-sm-inline">Excluir</span>
+                                    <span class="d-sm-none">Del</span>
                                 </button>
                             </div>
                         </div>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th style="width: 50px;">
-                                        <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
-                                    </th>
-                                    <th style="cursor: pointer;" onclick="sortTable('id')">
-                                        ID <i id="sort-id" class="fas fa-sort text-muted"></i>
-                                    </th>
-                                    <th style="cursor: pointer;" onclick="sortTable('name')">
-                                        Nome <i id="sort-name" class="fas fa-sort text-muted"></i>
-                                    </th>
-                                    <th style="cursor: pointer;" onclick="sortTable('description')">
-                                        Descrição <i id="sort-description" class="fas fa-sort text-muted"></i>
-                                    </th>
-                                    <th style="cursor: pointer;" onclick="sortTable('value')">
-                                        Valor <i id="sort-value" class="fas fa-sort text-muted"></i>
-                                    </th>
-                                    <th>Imagem</th>
-                                    <th style="width: 270px;">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="productTable"></tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th style="width: 50px;">
+                                            <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                        </th>
+                                        <th style="cursor: pointer; min-width: 60px;" onclick="sortTable('id')">
+                                            ID <i id="sort-id" class="fas fa-sort text-muted"></i>
+                                        </th>
+                                        <th style="cursor: pointer; min-width: 120px;" onclick="sortTable('name')">
+                                            Nome <i id="sort-name" class="fas fa-sort text-muted"></i>
+                                        </th>
+                                        <th style="cursor: pointer; min-width: 150px;" onclick="sortTable('description')" class="d-none d-lg-table-cell">
+                                            Descrição <i id="sort-description" class="fas fa-sort text-muted"></i>
+                                        </th>
+                                        <th style="cursor: pointer; min-width: 100px;" onclick="sortTable('value')">
+                                            Valor <i id="sort-value" class="fas fa-sort text-muted"></i>
+                                        </th>
+                                        <th style="min-width: 80px;" class="d-none d-md-table-cell">Imagem</th>
+                                        <th style="min-width: 150px;">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productTable"></tbody>
+                            </table>
+                        </div>
                         <nav>
                             <ul class="pagination justify-content-center" id="pagination"></ul>
                         </nav>
@@ -139,17 +144,28 @@ use Controllers\ProductController;
                         <td><input type="checkbox" class="product-checkbox" value="${product.id}" onchange="updateDeleteButton()"></td>
                         <td>${product.id}</td>
                         <td>${product.name}</td>
-                        <td>${desc}</td>
+                        <td class="d-none d-lg-table-cell">${desc}</td>
                         <td>${product.value ? 'R$ ' + Number(product.value).toFixed(2) : '-'}</td>
-                        <td>${imgTag}</td>
-                        <td class="d-flex gap-2 justify-content-center">
-                            ${isAdmin ? `<button class='btn btn-warning btn-sm flex-fill' style='min-width: 80px;' onclick='editProduct(${product.id})'>Editar</button>
-                            <button class='btn btn-danger btn-sm flex-fill' style='min-width: 80px;' onclick='deleteProduct(${product.id})'>Excluir</button>` : `<button class='btn btn-success btn-sm flex-fill' style='min-width: 80px;' onclick='addToCart(${product.id})'>Carrinho</button>`}
+                        <td class="d-none d-md-table-cell">${imgTag}</td>
+                        <td>
+                            <div class="d-flex gap-1 flex-wrap justify-content-center">
+                                ${isAdmin ? `<button class='btn btn-warning btn-sm' onclick='editProduct(${product.id})'>
+                                    <i class="fas fa-edit d-md-none"></i>
+                                    <span class="d-none d-md-inline">Editar</span>
+                                </button>
+                                <button class='btn btn-danger btn-sm' onclick='deleteProduct(${product.id})'>
+                                    <i class="fas fa-trash d-md-none"></i>
+                                    <span class="d-none d-md-inline">Excluir</span>
+                                </button>` : `<button class='btn btn-success btn-sm' onclick='addToCart(${product.id})'>
+                                    <i class="fas fa-cart-plus d-md-none"></i>
+                                    <span class="d-none d-md-inline">Carrinho</span>
+                                </button>`}
+                            </div>
                         </td>
                     </tr>`;
                 });
             } else {
-                tbody.innerHTML = '<tr><td colspan="7">Nenhum produto encontrado.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center">Nenhum produto encontrado.</td></tr>';
             }
             renderPagination();
         }

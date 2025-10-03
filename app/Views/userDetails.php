@@ -50,7 +50,9 @@ $totalGasto = array_sum(array_column($orders, 'value'));
 </head>
 
 <body class="bg-light">
-    <div class="container mt-5">
+    <div class="container-fluid px-3 py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-10">
         <!-- Header -->
         <div class="row mb-4">
             <div class="col-12">

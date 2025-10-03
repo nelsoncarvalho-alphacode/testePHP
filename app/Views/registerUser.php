@@ -13,9 +13,9 @@ use Controllers\UserController;
 </head>
 
 <body class="bg-light">
-    <div class="container mt-5">
+    <div class="container-fluid px-3 py-5">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
                 <div class="card shadow">
                     <div class="card-header bg-primary text-white">
                         <h4 class="mb-0">Cadastro de Usuário</h4>

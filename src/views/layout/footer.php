@@ -2,48 +2,48 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-light text-center py-4 mt-auto">
-        <div class="border-top border-primary border-4 mb-4"></div>
+    <footer class="bg-primary text-white text-center py-4 mt-auto">
+        <div class="border-top border-warning border-4 mb-4"></div>
         
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-5 col-lg-4 mb-3 mb-md-0">
-                    <h6 class="mb-2 fw-bold text-dark">Links Rápidos</h6>
+                    <h6 class="mb-2 fw-bold text-white">Links Rápidos</h6>
                     <div class="d-flex justify-content-center gap-3 flex-wrap">
-                        <a href="<?= $root_path ?? '' ?>index.php" class="text-decoration-none text-muted small hover-link">
+                        <a href="<?= $root_path ?? '' ?>index.php" class="text-decoration-none text-white small hover-link-footer">
                             <i class="bi bi-house"></i> Dashboard
                         </a>
-                        <a href="<?= $root_path ?? '' ?>views/clientes/index.php" class="text-decoration-none text-muted small hover-link">
+                        <a href="<?= $root_path ?? '' ?>views/clientes/index.php" class="text-decoration-none text-white small hover-link-footer">
                             <i class="bi bi-people"></i> Clientes
                         </a>
-                        <a href="<?= $root_path ?? '' ?>views/produtos/index.php" class="text-decoration-none text-muted small hover-link">
+                        <a href="<?= $root_path ?? '' ?>views/produtos/index.php" class="text-decoration-none text-white small hover-link-footer">
                             <i class="bi bi-box"></i> Produtos
                         </a>
-                        <a href="<?= $root_path ?? '' ?>views/pedidos/index.php" class="text-decoration-none text-muted small hover-link">
+                        <a href="<?= $root_path ?? '' ?>views/pedidos/index.php" class="text-decoration-none text-white small hover-link-footer">
                             <i class="bi bi-cart"></i> Pedidos
                         </a>
                     </div>
                 </div>
                 <div class="col-md-5 col-lg-4">
-                    <h6 class="mb-2 fw-bold text-dark">Suporte</h6>
-                    <p class="text-muted small mb-1">
-                        <a href="mailto:suporte@pedify.com" class="text-decoration-none text-muted hover-link">
-                            <i class="bi bi-envelope text-primary"></i> suporte@pedify.com
+                    <h6 class="mb-2 fw-bold text-white">Suporte</h6>
+                    <p class="text-white small mb-1">
+                        <a href="mailto:suporte@pedify.com" class="text-decoration-none text-white hover-link-footer">
+                            <i class="bi bi-envelope text-warning"></i> suporte@pedify.com
                         </a>
                     </p>
-                    <p class="text-muted small mb-0">
+                    <p class="text-white small mb-0">
                         <a href="https://api.whatsapp.com/send?phone=5511999999999&text=Olá, preciso de suporte com o sistema Pedify!" 
                            target="_blank" 
-                           class="text-decoration-none text-muted hover-link">
-                            <i class="bi bi-whatsapp text-success"></i> (11) 9999-9999
+                           class="text-decoration-none text-white hover-link-footer">
+                            <i class="bi bi-whatsapp text-warning"></i> (11) 9999-9999
                         </a>
                     </p>
                 </div>
             </div>
-            <hr class="my-3 border-primary opacity-25">
+            <hr class="my-3 border-light opacity-25">
             <div class="row">
                 <div class="col-12">
-                    <p class="mb-0 text-muted small">
+                    <p class="mb-0 text-white small">
                         &copy; <?= date('Y') ?> Pedify. Todos os direitos reservados.
                     </p>
                 </div>
@@ -244,6 +244,17 @@
                 this.style.transform = '';
             });
         });
+
+        document.querySelectorAll('.hover-link-footer').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.color = '#ffffff';
+                this.style.transform = 'translateY(-2px)';
+            });
+            link.addEventListener('mouseleave', function() {
+                this.style.color = '';
+                this.style.transform = '';
+            });
+        });
     </script>
 
     <!-- Botão Scroll to Top -->
@@ -260,6 +271,11 @@
 
     <style>
         .hover-link {
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .hover-link-footer {
             transition: all 0.3s ease;
             display: inline-block;
         }

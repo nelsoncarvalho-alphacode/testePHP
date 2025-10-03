@@ -2,52 +2,49 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-light text-center py-4 mt-auto border-top">
+    <footer class="bg-light text-center py-4 mt-auto">
+        <div class="border-top border-primary border-4 mb-4"></div>
+        
         <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <h6 class="text-primary mb-2">
-                        <i class="bi bi-cart-check"></i> Sistema de Pedidos
-                    </h6>
-                    <p class="text-muted small mb-0">
-                        Gerenciamento completo de pedidos, clientes e produtos
-                    </p>
-                </div>
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <h6 class="mb-2">Links Rápidos</h6>
-                    <div class="d-flex justify-content-center gap-3">
-                        <a href="<?= $root_path ?? '' ?>index.php" class="text-decoration-none text-muted small">
+            <div class="row justify-content-center">
+                <div class="col-md-5 col-lg-4 mb-3 mb-md-0">
+                    <h6 class="mb-2 fw-bold text-dark">Links Rápidos</h6>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a href="<?= $root_path ?? '' ?>index.php" class="text-decoration-none text-muted small hover-link">
                             <i class="bi bi-house"></i> Dashboard
                         </a>
-                        <a href="<?= $root_path ?? '' ?>views/clientes/index.php" class="text-decoration-none text-muted small">
+                        <a href="<?= $root_path ?? '' ?>views/clientes/index.php" class="text-decoration-none text-muted small hover-link">
                             <i class="bi bi-people"></i> Clientes
                         </a>
-                        <a href="<?= $root_path ?? '' ?>views/produtos/index.php" class="text-decoration-none text-muted small">
+                        <a href="<?= $root_path ?? '' ?>views/produtos/index.php" class="text-decoration-none text-muted small hover-link">
                             <i class="bi bi-box"></i> Produtos
                         </a>
-                        <a href="<?= $root_path ?? '' ?>views/pedidos/index.php" class="text-decoration-none text-muted small">
+                        <a href="<?= $root_path ?? '' ?>views/pedidos/index.php" class="text-decoration-none text-muted small hover-link">
                             <i class="bi bi-cart"></i> Pedidos
                         </a>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <h6 class="mb-2">Suporte</h6>
+                <div class="col-md-5 col-lg-4">
+                    <h6 class="mb-2 fw-bold text-dark">Suporte</h6>
                     <p class="text-muted small mb-1">
-                        <i class="bi bi-envelope"></i> suporte@sistemapedidos.com
+                        <a href="mailto:suporte@pedify.com" class="text-decoration-none text-muted hover-link">
+                            <i class="bi bi-envelope text-primary"></i> suporte@pedify.com
+                        </a>
                     </p>
                     <p class="text-muted small mb-0">
-                        <i class="bi bi-telephone"></i> (11) 9999-9999
+                        <a href="https://api.whatsapp.com/send?phone=5511999999999&text=Olá, preciso de suporte com o sistema Pedify!" 
+                           target="_blank" 
+                           class="text-decoration-none text-muted hover-link">
+                            <i class="bi bi-whatsapp text-success"></i> (11) 9999-9999
+                        </a>
                     </p>
                 </div>
             </div>
-            <hr class="my-3">
+            <hr class="my-3 border-primary opacity-25">
             <div class="row">
                 <div class="col-12">
                     <p class="mb-0 text-muted small">
                         &copy; <?= date('Y') ?> Sistema de Pedidos. Todos os direitos reservados.
-                    </p>
-                    <p class="mb-0 text-muted small">
-                        Desenvolvido com <i class="bi bi-heart-fill text-danger"></i> usando PHP, MySQL e Bootstrap
                     </p>
                 </div>
             </div>
@@ -237,10 +234,16 @@
             });
         }
 
-        // Console log para debug
-        // console.log('%c Sistema de Pedidos ', 'background: #0d6efd; color: white; padding: 5px 10px; border-radius: 3px;');
-        // console.log('Versão: 1.0.0');
-        // console.log('Desenvolvido com PHP, MySQL e Bootstrap 5');
+        document.querySelectorAll('.hover-link').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.color = '#0d6efd';
+                this.style.transform = 'translateY(-2px)';
+            });
+            link.addEventListener('mouseleave', function() {
+                this.style.color = '';
+                this.style.transform = '';
+            });
+        });
     </script>
 
     <!-- Botão Scroll to Top -->
@@ -254,5 +257,12 @@
             title="Voltar ao topo">
         <i class="bi bi-arrow-up"></i>
     </button>
+
+    <style>
+        .hover-link {
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+    </style>
 </body>
 </html>

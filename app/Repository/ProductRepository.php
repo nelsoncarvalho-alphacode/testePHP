@@ -1,5 +1,6 @@
 <?php
 
+// Repository responsável por operações de banco de dados para produtos
 namespace Repository;
 
 use DB\DBConnection;
@@ -9,17 +10,20 @@ class ProductRepository
 {
     private $conn;
 
+    // Inicializa conexão com banco de dados
     public function __construct()
     {
         $this->conn = (new DBConnection())->connect();
     }
 
+    // Lista todos os produtos
     public function list()
     {
         $stmt = $this->conn->query("SELECT * FROM products");
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    // Busca produto por ID
     public function find($id)
     {
         $stmt = $this->conn->prepare("SELECT * FROM products WHERE id = ?");
@@ -27,6 +31,7 @@ class ProductRepository
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
+    // Cria novo produto
     public function create(array $data)
     {
         try {
@@ -38,6 +43,7 @@ class ProductRepository
         }
     }
 
+    // Atualiza dados do produto
     public function update($id, array $data)
     {
         try {
@@ -48,6 +54,7 @@ class ProductRepository
         }
     }
 
+    // Remove produto do banco de dados
     public function delete($id)
     {
         $stmt = $this->conn->prepare("DELETE FROM products WHERE id = ?");

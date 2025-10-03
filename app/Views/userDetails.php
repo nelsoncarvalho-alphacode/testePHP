@@ -1,9 +1,11 @@
 <?php
+// View de detalhes do usuário - perfil completo com histórico de pedidos para admin
 require_once __DIR__ . '/../../bootstrap.php';
 use Repository\UserRepository;
 use Repository\OrderRepository;
 use Util\RoutesUtil;
 
+// Verifica permissão de administrador
 session_start();
 $isAdmin = $_SESSION['is_admin'] ?? 0;
 
@@ -12,6 +14,7 @@ if (!$isAdmin) {
     exit;
 }
 
+// Captura ID do usuário da URL
 $routes = RoutesUtil::getRoutes();
 $userId = $routes[1] ?? null;
 

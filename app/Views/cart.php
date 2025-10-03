@@ -1,4 +1,5 @@
 <?php
+// View do carrinho de compras - gestão de itens e finalização de pedidos
 require_once __DIR__ . '/../../bootstrap.php';
 
 use Controllers\OrderController;

@@ -1,20 +1,23 @@
 <?php
 
+// Controller responsável por autenticação e gerenciamento de sessões
 namespace Controllers;
 
 use Repository\UserRepository;
 
 class AuthController
 {
+    // Autentica usuário e inicia sessão
     public static function login()
     {
-
         ob_clean();
 
+        // Captura dados de login do JSON
         $data = json_decode(file_get_contents('php://input'), true);
         $email = $data['email'] ?? '';
         $password = $data['password'] ?? '';
 
+        // Validação de campos obrigatórios
         if (empty($email) || empty($password)) {
             http_response_code(401);
             header('Content-Type: application/json');
@@ -22,8 +25,8 @@ class AuthController
             die();
         }
 
+        // Busca usuário por email e verifica credenciais
         $repo = new UserRepository;
-
         $user = $repo->findByEmail($data['email']);
 
         if (!$user || !password_verify($password, $user['password'])) {
@@ -33,6 +36,7 @@ class AuthController
             die();
         }
 
+        // Inicia sessão com dados do usuário
         session_start();
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_name'] = $user['name'];
@@ -42,6 +46,7 @@ class AuthController
         die();
     }
 
+    // Encerra sessão do usuário e redireciona para login
     public static function logout()
     {
         session_start();

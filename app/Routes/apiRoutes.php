@@ -1,11 +1,13 @@
 <?php
 
+// Definição de rotas da API para operações CRUD via JSON
 use Controllers\OrderController;
 use Controllers\UserController;
 use Controllers\ProductController;
 use Repository\UserRepository;
 use Controllers\AuthController;
 
+// Rotas para usuários (/api/users)
 if ($routes[1] === 'users') {
     if ($method === 'GET') {
         UserController::list();
@@ -28,6 +30,7 @@ if ($routes[1] === 'users') {
     }
 }
 
+// Rotas para produtos (/api/products)
 if ($routes[1] === 'products') {
     if ($method === 'GET') {
         ProductController::list();

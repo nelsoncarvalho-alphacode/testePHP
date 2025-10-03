@@ -1,5 +1,6 @@
 <?php
 
+// Classe responsável por gerenciar conexão com banco de dados MySQL
 namespace DB;
 
 use PDO;
@@ -7,25 +8,21 @@ use PDOException;
 
 class DBConnection
 {
-
-    // Cria as variáveis de conexão
+    // Variáveis de configuração da conexão
     private $host = HOST;
     private $db_name = DB_NAME;
     private $username = USERNAME;
     private $password = PASSWORD;
     private $conn;
 
-    // Cria o método de conexão com PDO   
-
+    // Estabelece conexão PDO com banco MySQL
     public function connect()
     {
-
-        // Declara o método como nulo pra evitar problemas com valores antigos
+        // Inicializa conexão como nula
         $this->conn = null;
 
         try {
-
-            // Cria nova instância de conexão
+            // Cria nova instância PDO com configurações
             $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name, $this->username, $this->password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {

@@ -1,21 +1,17 @@
 <?php
 
-
+// Classe utilitária para processamento de rotas da aplicação
 namespace Util;
 
 class RoutesUtil
 {
-    /**
-     * Retorna as rotas processadas da URL
-     */
+    // Retorna as rotas processadas da URL
     public static function getRoutes()
     {
         return self::getUrls();
     }
 
-    /**
-     * Retorna a URL processada, removendo o diretório do projeto
-     */
+    // Processa URL removendo query strings e formatando como array
     public static function getUrls()
     {
         $uri = $_SERVER['REQUEST_URI'] ?? '';

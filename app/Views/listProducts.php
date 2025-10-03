@@ -1,4 +1,5 @@
 <?php
+// View de listagem de produtos - catálogo com carrinho de compras e gerenciamento
 require_once __DIR__ . '/../../bootstrap.php';
 
 use Controllers\ProductController;

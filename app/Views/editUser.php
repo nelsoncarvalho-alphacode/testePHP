@@ -1,11 +1,14 @@
 <?php
+// View de edição de usuário - formulário para administradores
 require_once __DIR__ . '/../../bootstrap.php';
 
 use Repository\UserRepository;
 
+// Captura ID do usuário da URL
 $routes = Util\RoutesUtil::getRoutes();
 $id = isset($routes[1]) ? $routes[1] : null;
 
+// Busca dados do usuário para edição
 $user = null;
 if ($id) {
     $repo = new UserRepository();

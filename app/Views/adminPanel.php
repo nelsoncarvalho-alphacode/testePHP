@@ -1,4 +1,5 @@
 <?php
+// View do painel administrativo - dashboard principal para administradores
 require_once __DIR__ . '/../../bootstrap.php';
 
 use Controllers\UserController;

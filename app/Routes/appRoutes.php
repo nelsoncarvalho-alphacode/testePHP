@@ -1,5 +1,6 @@
 <?php
 
+// Definição de rotas da aplicação para renderização de views
 use Controllers\UserController;
 use Controllers\ProductController;
 use Repository\UserRepository;
@@ -12,40 +13,40 @@ if (empty($routes[0]) || $routes[0] === '') {
     }
 }
 
+// Rota para listagem de clientes
 if ($routes[0] === 'clientes') {
-
     if ($method === 'GET') {
         require __DIR__ . '/../Views/listUsers.php';
         exit;
     }
 }
 
+// Rota para cadastro de usuário comum
 if ($routes[0] === 'cadastro') {
-
     if ($method === 'GET') {
         require __DIR__ . '/../Views/registerUser.php';
         exit;
     }
 }
 
+// Rota para cadastro por administrador
 if ($routes[0] === 'admin-cadastro') {
-
     if ($method === 'GET') {
         require __DIR__ . '/../Views/registerUserAdmin.php';
         exit;
     }
 }
 
+// Rota para edição de usuário por admin
 if ($routes[0] === 'editar-informacoes') {
-
     if ($method === 'GET') {
         require __DIR__ . '/../Views/editUser.php';
         exit;
     }
 }
 
+// Rota para edição de perfil do usuário
 if ($routes[0] === 'perfil') {
-
     if ($method === 'GET') {
         require __DIR__ . '/../Views/editProfile.php';
         exit;

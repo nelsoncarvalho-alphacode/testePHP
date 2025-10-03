@@ -1,7 +1,9 @@
 <?php
+// View de edição de perfil - permite ao usuário editar seus próprios dados
 require_once __DIR__ . '/../../bootstrap.php';
 use Repository\UserRepository;
 
+// Verifica autenticação do usuário
 session_start();
 $userId = $_SESSION['user_id'] ?? null;
 
@@ -10,6 +12,7 @@ if (!$userId) {
     exit;
 }
 
+// Busca dados do usuário logado
 $user = null;
 if ($userId) {
     $repo = new UserRepository();

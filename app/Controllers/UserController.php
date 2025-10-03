@@ -1,5 +1,6 @@
 <?php
 
+// Controller responsável por gerenciar operações de usuários
 namespace Controllers;
 
 use Repository\UserRepository;
@@ -7,18 +8,17 @@ use Repository\UserRepository;
 class UserController
 {
 
-    // Método para listar usuários
+    // Lista todos os usuários cadastrados
     public static function list()
     {
         $repo = new UserRepository();
         $users = $repo->list();
         header('Content-Type: application/json');
         echo json_encode($users);
-        // echo 'Método chamado';
     }
 
 
-    // Método para encontrar usuário por ID
+    // Busca usuário específico por ID
     public static function find($id)
     {
         $repo = new UserRepository();
@@ -33,13 +33,15 @@ class UserController
         }
     }
 
-    // Método para criar novo usuário
+    // Cria novo usuário com validação de dados obrigatórios
     public static function create()
     {
-
         ob_clean();
+        
+        // Captura dados do JSON
         $data = json_decode((file_get_contents(('php://input'))), true);
 
+        // Validação de campo obrigatório
         if (!isset($data['name']) || empty($data['name'])) {
             http_response_code(400);
             header('Content-Type: application/json');
@@ -47,11 +49,13 @@ class UserController
             return;
         }
 
+        // Cria usuário no banco de dados
         $repo = new UserRepository();
         $result = $repo->create($data);
 
         header('Content-Type: application/json');
 
+        // Trata retorno baseado no resultado
         if (is_array($result) && isset($result['error'])) {
             http_response_code(400);
             echo json_encode(['error' => $result['error']]);
@@ -63,14 +67,18 @@ class UserController
         }
     }
 
-    // Método para atualizar informações do usuário
+    // Atualiza dados de usuário existente
     public static function update($id)
     {
+        // Captura dados do JSON
         $data = json_decode((file_get_contents(('php://input'))), true);
+        
+        // Atualiza usuário no banco de dados
         $repo = new UserRepository();
         $result = $repo->update($id, $data);
         header('Content-Type: application/json');
 
+        // Trata retorno baseado no resultado
         if (is_array($result) && isset($result['error'])) {
             http_response_code(400);
             echo json_encode(['error' => $result['error']]);
@@ -82,7 +90,7 @@ class UserController
         }
     }
 
-    // Método para remover usuário
+    // Remove usuário do banco de dados
     public static function delete($id)
     {
         $repo = new UserRepository;

@@ -1,10 +1,10 @@
 <?php
 
-
+// Sistema de carregamento automático de classes baseado em namespace
 /**
  * Função de autoload para carregar automaticamente as classes do projeto.
  * Isso evita a necessidade de usar require/include manualmente para cada classe.
- * O padrão utilizado é buscar as classes dentro da pasta 'Classes',
+ * O padrão utilizado é buscar as classes dentro da pasta 'app',
  * convertendo o namespace em caminho de diretório.
  */
 

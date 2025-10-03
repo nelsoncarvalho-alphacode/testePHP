@@ -1,17 +1,18 @@
 <?php
+// View de edição de produto - formulário para administradores
 require_once __DIR__ . '/../../bootstrap.php';
 
 use Repository\ProductRepository;
 
+// Captura ID do produto da URL
 $routes = Util\RoutesUtil::getRoutes();
 $id = isset($routes[1]) ? $routes[1] : null;
 
+// Busca dados do produto para edição
 $product = null;
 if ($id) {
     $repo = new ProductRepository();
-    $product = $repo->find($id); // Certifique-se que find retorna um usuário pelo ID
-
-    // var_dump($product);
+    $product = $repo->find($id);
 }
 
 

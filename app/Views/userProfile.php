@@ -1,8 +1,10 @@
 <?php
+// View de perfil do usuário - dashboard pessoal com pedidos e informações
 require_once __DIR__ . '/../../bootstrap.php';
 use Repository\UserRepository;
 use Repository\OrderRepository;
 
+// Verifica autenticação do usuário
 session_start();
 $userId = $_SESSION['user_id'] ?? null;
 
@@ -11,6 +13,7 @@ if (!$userId) {
     exit;
 }
 
+// Inicializa variáveis do perfil
 $user = null;
 $orders = [];
 $totalPedidos = 0;

@@ -1,4 +1,5 @@
 <?php
+// View de cadastro de usuário comum - formulário de registro público
 require_once __DIR__ . '/../../bootstrap.php';
 
 use Controllers\UserController;

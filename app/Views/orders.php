@@ -1,4 +1,5 @@
 <?php
+// View de gerenciamento de pedidos - listagem com filtros e controle de status
 require_once __DIR__ . '/../../bootstrap.php';
 
 use Controllers\OrderController;

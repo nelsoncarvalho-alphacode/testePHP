@@ -1,3 +1,6 @@
+<?php
+// View de cadastro de usuário por administrador - formulário com opção admin
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 

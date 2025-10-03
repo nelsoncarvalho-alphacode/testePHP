@@ -4,7 +4,6 @@
 namespace Repository;
 
 use DB\DBConnection;
-use Controllers\UserController;
 
 class UserRepository
 {

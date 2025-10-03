@@ -2,7 +2,6 @@
 // View de cadastro de produto - formulário para administradores
 require_once __DIR__ . '/../../bootstrap.php';
 
-use Controllers\ProductController;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

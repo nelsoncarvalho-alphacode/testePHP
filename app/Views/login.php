@@ -2,7 +2,6 @@
 // View de autenticação do sistema - formulário de login
 require_once __DIR__ . '/../../bootstrap.php';
 
-use Controllers\AuthController;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

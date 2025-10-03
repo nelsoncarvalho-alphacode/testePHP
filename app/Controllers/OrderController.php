@@ -4,7 +4,6 @@
 namespace Controllers;
 
 use Repository\OrderRepository;
-use Repository\ProductRepository;
 
 class OrderController
 {

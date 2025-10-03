@@ -1,10 +1,5 @@
 <?php
 
-// Definição de rotas da aplicação para renderização de views
-use Controllers\UserController;
-use Controllers\ProductController;
-use Repository\UserRepository;
-
 // Rota raiz - redireciona para login
 if (empty($routes[0]) || $routes[0] === '') {
     if ($method === 'GET') {

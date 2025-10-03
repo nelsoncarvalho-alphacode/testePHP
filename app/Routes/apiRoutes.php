@@ -4,7 +4,6 @@
 use Controllers\OrderController;
 use Controllers\UserController;
 use Controllers\ProductController;
-use Repository\UserRepository;
 use Controllers\AuthController;
 
 // Rotas para usuários (/api/users)

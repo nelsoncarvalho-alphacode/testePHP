@@ -32,8 +32,10 @@ require_once __DIR__ . '/../../bootstrap.php';
                                 <input type="email" class="form-control" id="email" name="email" required>
                             </div>
                             <div class="mb-3">
-                                <label for="cpf" class="form-label">CPF:</label>
-                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="000.000.000-00">
+                                <label for="cpf" class="form-label">CPF: <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="cpf" name="cpf" 
+                                       placeholder="000.000.000-00" maxlength="14" required>
+                                <div class="invalid-feedback">Por favor, insira um CPF válido.</div>
                             </div>
                             <div class="mb-3">
                                 <label for="endereco" class="form-label">Endereço:</label>
@@ -55,13 +57,60 @@ require_once __DIR__ . '/../../bootstrap.php';
         </div>
     </div>
     <script>
+        // Função para aplicar máscara de CPF
+        function maskCPF(cpf) {
+            cpf = cpf.replace(/\D/g, '');
+            cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+            cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+            cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            return cpf;
+        }
+
+        // Função para validar CPF
+        function validateCPF(cpf) {
+            cpf = cpf.replace(/\D/g, '');
+            if (cpf.length !== 11) return false;
+            if (/^(\d)\1{10}$/.test(cpf)) return false;
+            
+            let sum = 0;
+            for (let i = 0; i < 9; i++) {
+                sum += parseInt(cpf.charAt(i)) * (10 - i);
+            }
+            let remainder = (sum * 10) % 11;
+            if (remainder === 10 || remainder === 11) remainder = 0;
+            if (remainder !== parseInt(cpf.charAt(9))) return false;
+            
+            sum = 0;
+            for (let i = 0; i < 10; i++) {
+                sum += parseInt(cpf.charAt(i)) * (11 - i);
+            }
+            remainder = (sum * 10) % 11;
+            if (remainder === 10 || remainder === 11) remainder = 0;
+            return remainder === parseInt(cpf.charAt(10));
+        }
+
+        // Aplicar máscara ao digitar
+        document.getElementById('cpf').addEventListener('input', function(e) {
+            e.target.value = maskCPF(e.target.value);
+        });
+
         document.getElementById('userForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const cpf = document.getElementById('cpf').value;
             const endereco = document.getElementById('endereco').value;
             const password = document.getElementById('password').value;
+            
+            // Validar CPF
+            if (!validateCPF(cpf)) {
+                document.getElementById('cpf').classList.add('is-invalid');
+                document.getElementById('cpf').focus();
+                return;
+            } else {
+                document.getElementById('cpf').classList.remove('is-invalid');
+            }
             fetch('/api/users', {
                     method: 'POST',
                     headers: {

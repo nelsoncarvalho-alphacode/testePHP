@@ -86,6 +86,8 @@ CREATE TABLE IF NOT EXISTS pedido_itens (
 INSERT INTO usuarios (nome, email, senha) VALUES 
 ('Administrador', 'admin@teste.com', '$2y$10$p4ZrDdt6gMjjnsVStbQbl.Q.jvOJyL05uMc9lSvXdBu3HzI2x.3eS');
 
+-- Caso não seja possível inserir, registre um novo usuário pelo /register.php
+
 -- Dados de exemplo para Clientes
 INSERT INTO clientes (nome, cpf, email, telefone, endereco) VALUES
 ('João Silva', '12345678901', 'joao@email.com', '(11) 98765-4321', 'Rua A, 123'),

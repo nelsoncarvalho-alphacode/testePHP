@@ -2,10 +2,10 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-primary text-white text-center py-4 mt-auto">
-        <div class="border-top border-warning border-4 mb-4"></div>
+    <footer class="bg-primary text-white text-center mt-auto">
+        <div class="border-top border-warning border-4"></div>
         
-        <div class="container">
+        <div class="container py-4">
             <div class="row justify-content-center">
                 <div class="col-md-5 col-lg-4 mb-3 mb-md-0">
                     <h6 class="mb-2 fw-bold text-white">Links Rápidos</h6>

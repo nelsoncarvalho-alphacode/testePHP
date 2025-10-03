@@ -301,6 +301,7 @@ if (strpos($_SERVER['PHP_SELF'], '/views/') !== false) {
             </div>
         </div>
     </nav>
+    <div class="border-bottom border-warning border-4"></div>
     <?php endif; ?>
     
     <!-- Main Content -->

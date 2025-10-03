@@ -5,6 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Verificar se está logado
 $pagina_atual = basename($_SERVER['PHP_SELF']);
+$caminho_completo = $_SERVER['PHP_SELF']; // Adicionar o caminho completo
 $paginas_publicas = ['views/login.php', 'views/register.php'];
 
 if (!isset($_SESSION['usuario_id']) && !in_array($pagina_atual, $paginas_publicas)) {
@@ -246,25 +247,25 @@ if (strpos($_SERVER['PHP_SELF'], '/views/') !== false) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link <?= $pagina_atual === 'index.php' ? 'active' : '' ?>" 
+                        <a class="nav-link <?= ($pagina_atual === 'index.php' && strpos($caminho_completo, '/views/') === false) ? 'active' : '' ?>" 
                            href="<?= $root_path ?>index.php">
                             <i class="bi bi-house-door"></i> Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= strpos($pagina_atual, 'cliente') !== false ? 'active' : '' ?>" 
+                        <a class="nav-link <?= strpos($caminho_completo, '/clientes/') !== false ? 'active' : '' ?>" 
                            href="<?= $root_path ?>views/clientes/index.php">
                             <i class="bi bi-people"></i> Clientes
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= strpos($pagina_atual, 'produto') !== false ? 'active' : '' ?>" 
+                        <a class="nav-link <?= strpos($caminho_completo, '/produtos/') !== false ? 'active' : '' ?>" 
                            href="<?= $root_path ?>views/produtos/index.php">
                             <i class="bi bi-box-seam"></i> Produtos
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= strpos($pagina_atual, 'pedido') !== false ? 'active' : '' ?>" 
+                        <a class="nav-link <?= strpos($caminho_completo, '/pedidos/') !== false ? 'active' : '' ?>" 
                            href="<?= $root_path ?>views/pedidos/index.php">
                             <i class="bi bi-cart"></i> Pedidos
                         </a>

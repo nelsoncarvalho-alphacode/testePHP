@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Verificar se está logado
 $pagina_atual = basename($_SERVER['PHP_SELF']);
-$caminho_completo = $_SERVER['PHP_SELF']; // Adicionar o caminho completo
+$caminho_completo = $_SERVER['PHP_SELF'];
 $paginas_publicas = ['views/login.php', 'views/register.php'];
 
 if (!isset($_SESSION['usuario_id']) && !in_array($pagina_atual, $paginas_publicas)) {

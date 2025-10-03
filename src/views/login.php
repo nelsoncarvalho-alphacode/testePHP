@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$titulo = 'Login';
+$titulo = 'Pedify';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -56,6 +56,9 @@ $titulo = 'Login';
             color: white;
             border-radius: 15px 15px 0 0 !important;
         }
+        .card-header i {
+            color: #ffc107;
+        }
     </style>
 </head>
 <body>
@@ -67,7 +70,6 @@ $titulo = 'Login';
                         <h3 class="mb-0"><i class="bi bi-cart-check"></i> Pedify</h3>
                     </div>
                     <div class="card-body p-4">
-                        <h4 class="text-center mb-4">Login</h4>
 
                         <?php if (isset($erro)): ?>
                             <div class="alert alert-danger"><?= htmlspecialchars($erro) ?></div>

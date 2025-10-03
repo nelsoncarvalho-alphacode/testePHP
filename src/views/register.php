@@ -63,6 +63,10 @@ $titulo = 'Cadastro';
             color: white;
             border-radius: 15px 15px 0 0 !important;
         }
+
+        .card-header i {
+            color: #ffc107;
+        }
         .password-strength {
             height: 5px;
             border-radius: 3px;
@@ -81,7 +85,6 @@ $titulo = 'Cadastro';
                 <div class="card register-card">
                     <div class="card-header text-center py-4">
                         <h3 class="mb-0"><i class="bi bi-person-plus"></i> Criar Conta</h3>
-                        <p class="mb-0 mt-2 small">Pedify</p>
                     </div>
                     <div class="card-body p-4">
                         <?php if (isset($erro)): ?>

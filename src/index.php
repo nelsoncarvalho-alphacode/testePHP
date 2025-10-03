@@ -37,7 +37,7 @@ try {
     $erro = "Erro ao carregar estatísticas: " . $e->getMessage();
 }
 
-$titulo = 'Dashboard';
+$titulo = 'Pedify';
 include 'views/layout/header.php';
 ?>
 

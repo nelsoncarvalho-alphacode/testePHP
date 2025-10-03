@@ -37,10 +37,22 @@ if ($id) {
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nome:</label>
                                 <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($user['name'] ?? ''); ?>" required>
-                                <label for="name" class="form-label">E-mail:</label>
-                                <input type="text" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($user['email'] ?? ''); ?>" required>
-                                <label for="name" class="form-label">Senha:</label>
-                                <input type="text" class="form-control" id="password" name="password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">E-mail:</label>
+                                <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($user['email'] ?? ''); ?>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cpf" class="form-label">CPF:</label>
+                                <input type="text" class="form-control" id="cpf" name="cpf" value="<?php echo htmlspecialchars($user['cpf'] ?? ''); ?>" placeholder="000.000.000-00">
+                            </div>
+                            <div class="mb-3">
+                                <label for="endereco" class="form-label">Endereço:</label>
+                                <textarea class="form-control" id="endereco" name="endereco" rows="3" placeholder="Rua, número, bairro, cidade"><?php echo htmlspecialchars($user['endereco'] ?? ''); ?></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Nova Senha (deixe em branco para manter a atual):</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Digite apenas se quiser alterar">
                             </div>
                             <button type="submit" class="btn btn-success">Editar Usuário</button>
                         </form>
@@ -55,18 +67,29 @@ if ($id) {
             e.preventDefault();
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
+            const cpf = document.getElementById('cpf').value;
+            const endereco = document.getElementById('endereco').value;
             const password = document.getElementById('password').value;
             const userId = <?php echo json_encode($id); ?>;
+            
+            const updateData = {
+                name,
+                email,
+                cpf,
+                endereco
+            };
+            
+            // Só inclui password se foi preenchido
+            if (password.trim() !== '') {
+                updateData.password = password;
+            }
+            
             fetch(`/api/users/${userId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        name,
-                        email,
-                        password
-                    })
+                    body: JSON.stringify(updateData)
                 })
                 .then(response => response.json())
                 .then(data => {

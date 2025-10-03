@@ -65,6 +65,14 @@ if ($userId) {
                                 <td><?= htmlspecialchars($user['email'] ?? 'N/A') ?></td>
                             </tr>
                             <tr>
+                                <td><strong>CPF:</strong></td>
+                                <td><?= htmlspecialchars($user['cpf'] ?? 'Não informado') ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Endereço:</strong></td>
+                                <td><?= htmlspecialchars($user['endereco'] ?? 'Não informado') ?></td>
+                            </tr>
+                            <tr>
                                 <td><strong>ID:</strong></td>
                                 <td><?= htmlspecialchars($user['id'] ?? 'N/A') ?></td>
                             </tr>

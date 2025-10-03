@@ -50,7 +50,7 @@ use Controllers\OrderController;
                                     <option value="100">100 por página</option>
                                 </select>
                             </div>
-                            <div class="col-6 col-md-3">
+                            <div class="col-6 col-md-3" id="deleteButtonContainer" style="display: none;">
                                 <button id="deleteSelectedBtn" class="btn btn-danger w-100" onclick="deleteSelected()" disabled>
                                     <i class="fas fa-trash d-none d-sm-inline"></i>
                                     <span class="d-none d-sm-inline">Excluir</span>
@@ -62,8 +62,8 @@ use Controllers\OrderController;
                             <table class="table table-bordered table-hover">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th style="width: 50px;">
-                                            <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                        <th style="width: 50px;" id="selectAllHeader">
+                                            <input type="checkbox" id="selectAll" onchange="toggleSelectAll()" style="display: none;">
                                         </th>
                                         <th class="sortable-header" onclick="sortTable('id')" style="min-width: 60px;">
                                             ID <i id="sort-id" class="fas fa-sort text-muted"></i>
@@ -104,8 +104,24 @@ use Controllers\OrderController;
             let html = '';
             if (isAdmin) {
                 html += '<a href="/admin" class="btn btn-dark btn-sm me-2">Voltar para Painel Admin</a>';
+                // Mostrar controles de exclusão para admins
+                document.getElementById('deleteButtonContainer').style.display = 'block';
+                document.getElementById('selectAll').style.display = 'inline';
+                // Mostrar coluna de usuário para admins
+                document.getElementById('userColumnHeader').style.display = '';
+                // Ajustar layout das colunas - com botão de exclusão
+                document.querySelector('#searchInput').parentElement.className = 'col-12 col-md-6 col-lg-7';
+                document.querySelector('#itemsPerPage').parentElement.className = 'col-6 col-md-3 col-lg-2';
             } else {
                 html += '<a href="/produtos" class="btn btn-warning btn-sm me-2">Voltar para Produtos</a>';
+                // Esconder controles de exclusão para usuários comuns
+                document.getElementById('deleteButtonContainer').style.display = 'none';
+                document.getElementById('selectAll').style.display = 'none';
+                // Esconder coluna de usuário para usuários comuns
+                document.getElementById('userColumnHeader').style.display = 'none';
+                // Ajustar layout das colunas - sem botão de exclusão
+                document.querySelector('#searchInput').parentElement.className = 'col-12 col-md-8';
+                document.querySelector('#itemsPerPage').parentElement.className = 'col-12 col-md-4';
             }
             html += '<a href="#" onclick="logout()" class="btn btn-outline-light btn-sm">Logout</a>';
             headerDiv.innerHTML = html;
@@ -150,7 +166,7 @@ use Controllers\OrderController;
                         order.products.map(p => `${p.name} (${p.qty || 1})`).join(', ') :
                         '-';
                     tbody.innerHTML += `<tr>
-                        <td><input type="checkbox" class="order-checkbox" value="${order.id}" onchange="updateDeleteButton()"></td>
+                        <td><input type="checkbox" class="order-checkbox" value="${order.id}" onchange="updateDeleteButton()" style="${isAdmin ? '' : 'display: none;'}"></td>
                         <td>${order.id}</td>
                         <td class="d-none d-md-table-cell" style="${isAdmin ? '' : 'display:none;'}">
                             ${isAdmin 

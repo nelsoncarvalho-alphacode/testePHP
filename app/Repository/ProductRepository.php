@@ -29,15 +29,23 @@ class ProductRepository
 
     public function create(array $data)
     {
-        $stmt = $this->conn->prepare("INSERT INTO products (name, img, value, description) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$data['name'], $data['img'], $data['value'], $data['description']]);
-        return $this->conn->lastInsertId();
+        try {
+            $stmt = $this->conn->prepare("INSERT INTO products (name, img, value, description) VALUES (?, ?, ?, ?)");
+            $result = $stmt->execute([$data['name'], $data['img'], $data['value'], $data['description']]);
+            return $result ? $this->conn->lastInsertId() : false;
+        } catch (\PDOException $e) {
+            return false;
+        }
     }
 
     public function update($id, array $data)
     {
-        $stmt = $this->conn->prepare("UPDATE products SET name = ?, description = ?, value = ?, img = ? WHERE id = ?");
-        return $stmt->execute([$data['name'], $data['description'], $data['value'], $data['img'], $id]);
+        try {
+            $stmt = $this->conn->prepare("UPDATE products SET name = ?, description = ?, value = ?, img = ? WHERE id = ?");
+            return $stmt->execute([$data['name'], $data['description'], $data['value'], $data['img'], $id]);
+        } catch (\PDOException $e) {
+            return false;
+        }
     }
 
     public function delete($id)

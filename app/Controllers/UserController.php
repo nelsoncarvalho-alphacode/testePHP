@@ -68,10 +68,13 @@ class UserController
     {
         $data = json_decode((file_get_contents(('php://input'))), true);
         $repo = new UserRepository();
-        $success = $repo->update($id, $data);
+        $result = $repo->update($id, $data);
         header('Content-Type: application/json');
 
-        if ($success) {
+        if (is_array($result) && isset($result['error'])) {
+            http_response_code(400);
+            echo json_encode(['error' => $result['error']]);
+        } else if ($result) {
             echo json_encode(['message' => "Usuário com ID $id atualizado com sucesso"]);
         } else {
             http_response_code(404);

@@ -36,8 +36,8 @@ use Controllers\ProductController;
                                 <input type="number" class="form-control" id="value" name="value" min="0" step="0.01" placeholder="0,00" required>
                             </div>
                             <div class="mb-3">
-                                <label for="productImage" class="form-label">Imagem do Produto</label>
-                                <input type="file" class="form-control" id="productImage" name="productImage" accept="image/*" required>
+                                <label for="productImage" class="form-label">Imagem do Produto (opcional)</label>
+                                <input type="file" class="form-control" id="productImage" name="productImage" accept="image/*">
                             </div>
                             <button type="submit" class="btn btn-success">Cadastrar</button>
                         </form>
@@ -58,16 +58,17 @@ use Controllers\ProductController;
             });
         document.getElementById('productForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const imageInput = document.getElementById('productImage');
-            if (!imageInput.files[0]) {
-                document.getElementById('result').innerHTML = `<div class="alert alert-danger">Selecione uma imagem para o produto.</div>`;
-                return;
-            }
+            
             const formData = new FormData();
             formData.append('name', document.getElementById('name').value);
             formData.append('description', document.getElementById('description').value);
             formData.append('value', document.getElementById('value').value.replace(',', '.'));
-            formData.append('productImage', imageInput.files[0]);
+            
+            const imageInput = document.getElementById('productImage');
+            if (imageInput.files[0]) {
+                formData.append('productImage', imageInput.files[0]);
+            }
+            
             fetch('/api/products', {
                     method: 'POST',
                     body: formData
@@ -84,7 +85,7 @@ use Controllers\ProductController;
                         }, 1000);
                     }
                 })
-                .catch(() => {
+                .catch((error) => {
                     document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao cadastrar produto.</div>`;
                 });
         });

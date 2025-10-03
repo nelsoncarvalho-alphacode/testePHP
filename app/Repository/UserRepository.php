@@ -37,8 +37,11 @@ class UserRepository
             }
             $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
             $isAdmin = isset($data['is_admin']) ? (int)$data['is_admin'] : 0;
-            $stmt = $this->conn->prepare("INSERT INTO users (name, email, password, is_admin) VALUES (?, ?, ?, ?)");
-            $stmt->execute([$data['name'], $data['email'], $hashedPassword, $isAdmin]);
+            $cpf = $data['cpf'] ?? null;
+            $endereco = $data['endereco'] ?? null;
+            
+            $stmt = $this->conn->prepare("INSERT INTO users (name, email, cpf, endereco, password, is_admin) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$data['name'], $data['email'], $cpf, $endereco, $hashedPassword, $isAdmin]);
             return $this->conn->lastInsertId();
         } catch (\PDOException $e) {
             // Não envia nada aqui, apenas retorna false
@@ -57,8 +60,23 @@ class UserRepository
         }
         
         if (isset($data['email']) && !empty($data['email'])) {
+            // Verifica se já existe outro usuário com o mesmo e-mail
+            $existing = $this->findByEmail($data['email']);
+            if ($existing && $existing['id'] != $id) {
+                return ['error' => 'E-mail já está sendo usado por outro usuário'];
+            }
             $fields[] = "email = ?";
             $values[] = $data['email'];
+        }
+        
+        if (isset($data['cpf'])) {
+            $fields[] = "cpf = ?";
+            $values[] = $data['cpf'];
+        }
+        
+        if (isset($data['endereco'])) {
+            $fields[] = "endereco = ?";
+            $values[] = $data['endereco'];
         }
         
         if (isset($data['password']) && !empty($data['password'])) {

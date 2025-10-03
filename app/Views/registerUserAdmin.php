@@ -21,11 +21,25 @@
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nome:</label>
                                 <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="mb-3">
                                 <label for="email" class="form-label">E-mail:</label>
-                                <input type="text" class="form-control" id="email" name="email" required>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cpf" class="form-label">CPF:</label>
+                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="000.000.000-00">
+                            </div>
+                            <div class="mb-3">
+                                <label for="endereco" class="form-label">Endereço:</label>
+                                <textarea class="form-control" id="endereco" name="endereco" rows="3" placeholder="Rua, número, bairro, cidade"></textarea>
+                            </div>
+                            <div class="mb-3">
                                 <label for="password" class="form-label">Senha:</label>
-                                <input type="text" class="form-control" id="password" name="password" required>
-                                <div class="form-check mt-2">
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="is_admin" name="is_admin">
                                     <label class="form-check-label" for="is_admin">Administrador</label>
                                 </div>
@@ -45,6 +59,8 @@
             e.preventDefault();
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
+            const cpf = document.getElementById('cpf').value;
+            const endereco = document.getElementById('endereco').value;
             const password = document.getElementById('password').value;
             const is_admin = document.getElementById('is_admin').checked ? 1 : 0;
             fetch('/api/users', {
@@ -55,6 +71,8 @@
                     body: JSON.stringify({
                         name,
                         email,
+                        cpf,
+                        endereco,
                         password,
                         is_admin
                     })

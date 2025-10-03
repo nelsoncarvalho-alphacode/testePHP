@@ -50,6 +50,16 @@ if ($userId) {
                                        value="<?= htmlspecialchars($user['email'] ?? '') ?>" required>
                             </div>
                             <div class="mb-3">
+                                <label for="cpf" class="form-label">CPF</label>
+                                <input type="text" class="form-control" id="cpf" name="cpf" 
+                                       value="<?= htmlspecialchars($user['cpf'] ?? '') ?>" placeholder="000.000.000-00">
+                            </div>
+                            <div class="mb-3">
+                                <label for="endereco" class="form-label">Endereço</label>
+                                <textarea class="form-control" id="endereco" name="endereco" rows="3" 
+                                          placeholder="Rua, número, bairro, cidade"><?= htmlspecialchars($user['endereco'] ?? '') ?></textarea>
+                            </div>
+                            <div class="mb-3">
                                 <label for="password" class="form-label">Nova Senha (deixe em branco para manter a atual)</label>
                                 <input type="password" class="form-control" id="password" name="password">
                             </div>

@@ -16,8 +16,7 @@ use Controllers\ProductController;
 <body class="bg-light">
     <div class="container-fluid px-3 px-md-5 mt-3 mt-md-5">
         <div class="row justify-content-center">
-            <div class="col-12 col-xl-11">
-            <div class="col-md-10">
+            <div class="col-12 col-xl-10">
                 <div class="card shadow">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">Produtos</h4>
@@ -36,7 +35,7 @@ use Controllers\ProductController;
                                     <option value="100">100 por página</option>
                                 </select>
                             </div>
-                            <div class="col-6 col-md-3">
+                            <div class="col-6 col-md-3" id="deleteButtonContainer" style="display: none;">
                                 <button id="deleteSelectedBtn" class="btn btn-danger w-100" onclick="deleteSelected()" disabled>
                                     <i class="fas fa-trash d-none d-sm-inline"></i>
                                     <span class="d-none d-sm-inline">Excluir</span>
@@ -48,8 +47,8 @@ use Controllers\ProductController;
                             <table class="table table-bordered table-hover">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th style="width: 50px;">
-                                            <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                        <th style="width: 50px;" id="selectAllHeader">
+                                            <input type="checkbox" id="selectAll" onchange="toggleSelectAll()" style="display: none;">
                                         </th>
                                         <th style="cursor: pointer; min-width: 60px;" onclick="sortTable('id')">
                                             ID <i id="sort-id" class="fas fa-sort text-muted"></i>
@@ -104,11 +103,24 @@ use Controllers\ProductController;
             if (isAdmin) {
                 html += '<a href="/cadastro-produto" class="btn btn-success btn-sm me-2">Cadastrar Produto</a>';
                 html += '<a href="/admin" class="btn btn-dark btn-sm me-2">Voltar para Painel Admin</a>';
+                // Mostrar controles de exclusão para admins
+                document.getElementById('deleteButtonContainer').style.display = 'block';
+                document.getElementById('selectAll').style.display = 'inline';
+                // Ajustar layout das colunas - com botão de exclusão
+                document.querySelector('#searchInput').parentElement.className = 'col-12 col-md-6 col-lg-7';
+                document.querySelector('#itemsPerPage').parentElement.className = 'col-6 col-md-3 col-lg-2';
+            } else {
+                // Esconder controles de exclusão para usuários comuns
+                document.getElementById('deleteButtonContainer').style.display = 'none';
+                document.getElementById('selectAll').style.display = 'none';
+                // Ajustar layout das colunas - sem botão de exclusão
+                document.querySelector('#searchInput').parentElement.className = 'col-12 col-md-8';
+                document.querySelector('#itemsPerPage').parentElement.className = 'col-12 col-md-4';
             }
             if (!isAdmin) {
                 html += '<a href="/carrinho" class="btn btn-info btn-sm me-2">Ir para o Carrinho</a>';
                 html += '<a href="/perfil" class="btn btn-secondary btn-sm me-2">Editar Perfil</a>';
-                html += '<a href="/meu-perfil" class="btn btn-outline-secondary btn-sm me-2">Ver Perfil</a>';
+                html += '<a href="/meu-perfil" class="btn btn-primary btn-sm me-2">Ver Perfil</a>';
             }
             if (!isAdmin) {
                 html += '<a href="/pedidos" class="btn btn-warning btn-sm me-2">Ir para os Pedidos</a>';
@@ -141,7 +153,7 @@ use Controllers\ProductController;
                         desc = desc.substring(0, 47) + '...';
                     }
                     tbody.innerHTML += `<tr>
-                        <td><input type="checkbox" class="product-checkbox" value="${product.id}" onchange="updateDeleteButton()"></td>
+                        <td><input type="checkbox" class="product-checkbox" value="${product.id}" onchange="updateDeleteButton()" style="${isAdmin ? '' : 'display: none;'}"></td>
                         <td>${product.id}</td>
                         <td>${product.name}</td>
                         <td class="d-none d-lg-table-cell">${desc}</td>

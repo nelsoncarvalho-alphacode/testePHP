@@ -98,6 +98,14 @@ $totalGasto = array_sum(array_column($orders, 'value'));
                                 <td><?= htmlspecialchars($user['email']) ?></td>
                             </tr>
                             <tr>
+                                <td><strong>CPF:</strong></td>
+                                <td><?= htmlspecialchars($user['cpf'] ?? 'Não informado') ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Endereço:</strong></td>
+                                <td><?= htmlspecialchars($user['endereco'] ?? 'Não informado') ?></td>
+                            </tr>
+                            <tr>
                                 <td><strong>Tipo:</strong></td>
                                 <td>
                                     <?php if ($user['is_admin']): ?>

@@ -49,7 +49,7 @@ if ($id) {
                     <input type="number" class="form-control" id="productValue" name="value" min="0" step="0.01" value="<?php echo htmlspecialchars($product['value'] ?? ''); ?>" required>
                 </div>
                 <div class="mb-3">
-                    <label for="productImage" class="form-label">Imagem do Produto</label>
+                    <label for="productImage" class="form-label">Imagem do Produto (opcional)</label>
                     <input type="file" class="form-control" id="productImage" name="productImage" accept="image/*">
                     <img id="previewImg" src="" alt="Preview" class="mt-2" style="max-width: 200px; display:none;">
                 </div>
@@ -77,22 +77,27 @@ if ($id) {
             if (form) {
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    const imageInput = document.getElementById('productImage');
-                    if (!imageInput.files[0]) {
-                        document.getElementById('result').innerHTML = `<div class="alert alert-danger">Selecione uma imagem para o produto.</div>`;
-                        return;
-                    }
+                    
                     const formData = new FormData(this);
+                    
                     fetch(`/api/products/${productId}`, {
                             method: 'POST',
                             body: formData
                         })
-                        .then(res => res.text())
+                        .then(response => response.json())
                         .then(data => {
-                            document.getElementById('result').innerHTML = `<div class="alert alert-success">Produto atualizado com sucesso!</div>`;
-                            setTimeout(() => {
-                                window.location.href = '/produtos';
-                            }, 1000);
+                            const resultDiv = document.getElementById('result');
+                            if (data.error) {
+                                resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                            } else {
+                                resultDiv.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                                setTimeout(() => {
+                                    window.location.href = '/produtos';
+                                }, 1000);
+                            }
+                        })
+                        .catch((error) => {
+                            document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao atualizar produto.</div>`;
                         });
                 });
             } else {

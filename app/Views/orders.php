@@ -97,7 +97,15 @@ use Controllers\OrderController;
                         '-';
                     tbody.innerHTML += `<tr>
                         <td>${order.id}</td>
-                        <td style="${isAdmin ? '' : 'display:none;'}">${isAdmin ? (order.user_name || '-') : ''}</td>
+                        <td style="${isAdmin ? '' : 'display:none;'}">
+                            ${isAdmin 
+                                ? (order.user_name 
+                                    ? `<a href="/usuario/${order.user_id}" class="text-decoration-none">
+                                         <i class="fas fa-user me-1"></i>${order.user_name}
+                                       </a>` 
+                                    : '-') 
+                                : ''}
+                        </td>
                         <td>${produtos}</td>
                         <td>R$ ${Number(order.value).toFixed(2)}</td>
                         <td>

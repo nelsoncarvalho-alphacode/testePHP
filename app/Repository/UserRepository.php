@@ -48,8 +48,32 @@ class UserRepository
 
     public function update($id, array $data)
     {
-        $stmt = $this->conn->prepare("UPDATE users SET name = ? WHERE id = ?");
-        return $stmt->execute([$data['name'], $id]);
+        $fields = [];
+        $values = [];
+        
+        if (isset($data['name']) && !empty($data['name'])) {
+            $fields[] = "name = ?";
+            $values[] = $data['name'];
+        }
+        
+        if (isset($data['email']) && !empty($data['email'])) {
+            $fields[] = "email = ?";
+            $values[] = $data['email'];
+        }
+        
+        if (isset($data['password']) && !empty($data['password'])) {
+            $fields[] = "password = ?";
+            $values[] = password_hash($data['password'], PASSWORD_DEFAULT);
+        }
+        
+        if (empty($fields)) {
+            return false;
+        }
+        
+        $values[] = $id;
+        $sql = "UPDATE users SET " . implode(", ", $fields) . " WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute($values);
     }
 
     public function delete($id)

@@ -44,6 +44,22 @@ if ($routes[0] === 'editar-informacoes') {
     }
 }
 
+if ($routes[0] === 'perfil') {
+
+    if ($method === 'GET') {
+        require __DIR__ . '/../Views/editProfile.php';
+        exit;
+    }
+}
+
+if ($routes[0] === 'meu-perfil') {
+
+    if ($method === 'GET') {
+        require __DIR__ . '/../Views/userProfile.php';
+        exit;
+    }
+}
+
 if ($routes[0] === 'produtos') {
 
     if ($method === 'GET') {
@@ -96,6 +112,14 @@ if ($routes[0] === 'admin') {
 
     if ($method === 'GET') {
         require __DIR__ . '/../Views/adminPanel.php';
+        exit;
+    }
+}
+
+if ($routes[0] === 'usuario' && !empty($routes[1])) {
+
+    if ($method === 'GET') {
+        require __DIR__ . '/../Views/userDetails.php';
         exit;
     }
 }

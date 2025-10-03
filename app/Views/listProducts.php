@@ -69,6 +69,8 @@ use Controllers\ProductController;
             }
             if (!isAdmin) {
                 html += '<a href="/carrinho" class="btn btn-info btn-sm me-2">Ir para o Carrinho</a>';
+                html += '<a href="/perfil" class="btn btn-secondary btn-sm me-2">Editar Perfil</a>';
+                html += '<a href="/meu-perfil" class="btn btn-outline-secondary btn-sm me-2">Ver Perfil</a>';
             }
             if (!isAdmin) {
                 html += '<a href="/pedidos" class="btn btn-warning btn-sm me-2">Ir para os Pedidos</a>';

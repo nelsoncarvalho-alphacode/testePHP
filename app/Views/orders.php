@@ -37,10 +37,30 @@ use Controllers\OrderController;
                         </div>
                     </div>
                     <div class="card-body">
-                        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar pedido...">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <input type="text" id="searchInput" class="form-control" placeholder="Buscar pedido...">
+                            </div>
+                            <div class="col-md-3">
+                                <select id="itemsPerPage" class="form-select">
+                                    <option value="10">10 por página</option>
+                                    <option value="20" selected>20 por página</option>
+                                    <option value="50">50 por página</option>
+                                    <option value="100">100 por página</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button id="deleteSelectedBtn" class="btn btn-danger w-100" onclick="deleteSelected()" disabled>
+                                    <i class="fas fa-trash"></i> Excluir Selecionados
+                                </button>
+                            </div>
+                        </div>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
+                                    <th style="width: 50px;">
+                                        <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                    </th>
                                     <th class="sortable-header" onclick="sortTable('id')">
                                         ID <i id="sort-id" class="fas fa-sort text-muted"></i>
                                     </th>
@@ -105,7 +125,7 @@ use Controllers\OrderController;
         let allOrders = [];
         let filteredOrders = [];
         let currentPage = 1;
-        const itemsPerPage = 20;
+        let itemsPerPage = 20;
         
         // Variáveis para ordenação
         let currentSort = {
@@ -125,6 +145,7 @@ use Controllers\OrderController;
                         order.products.map(p => `${p.name} (${p.qty || 1})`).join(', ') :
                         '-';
                     tbody.innerHTML += `<tr>
+                        <td><input type="checkbox" class="order-checkbox" value="${order.id}" onchange="updateDeleteButton()"></td>
                         <td>${order.id}</td>
                         <td style="${isAdmin ? '' : 'display:none;'}">
                             ${isAdmin 
@@ -156,7 +177,7 @@ use Controllers\OrderController;
                     </tr>`;
                 });
             } else {
-                tbody.innerHTML = '<tr><td colspan="7">Nenhum pedido encontrado.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8">Nenhum pedido encontrado.</td></tr>';
             }
             renderPagination();
         }
@@ -345,7 +366,59 @@ use Controllers\OrderController;
             renderOrders();
         }
 
+        // Funções para seleção em massa
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.order-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+            });
+            updateDeleteButton();
+        }
+
+        function updateDeleteButton() {
+            const checkedBoxes = document.querySelectorAll('.order-checkbox:checked');
+            const deleteBtn = document.getElementById('deleteSelectedBtn');
+            deleteBtn.disabled = checkedBoxes.length === 0;
+            
+            // Atualizar o checkbox "selecionar todos"
+            const allCheckboxes = document.querySelectorAll('.order-checkbox');
+            const selectAll = document.getElementById('selectAll');
+            selectAll.checked = allCheckboxes.length > 0 && checkedBoxes.length === allCheckboxes.length;
+            selectAll.indeterminate = checkedBoxes.length > 0 && checkedBoxes.length < allCheckboxes.length;
+        }
+
+        function deleteSelected() {
+            const checkedBoxes = document.querySelectorAll('.order-checkbox:checked');
+            const ids = Array.from(checkedBoxes).map(cb => cb.value);
+            
+            if (ids.length === 0) return;
+            
+            if (confirm(`Tem certeza que deseja excluir ${ids.length} pedido(s) selecionado(s)?`)) {
+                Promise.all(ids.map(id => 
+                    fetch(`/api/order/${id}`, { method: 'DELETE' })
+                        .then(response => response.json())
+                ))
+                .then(() => {
+                    alert('Pedidos excluídos com sucesso!');
+                    fetchOrders();
+                })
+                .catch(() => {
+                    alert('Erro ao excluir alguns pedidos.');
+                    fetchOrders();
+                });
+            }
+        }
+
+        // Função para alterar itens por página
+        function changeItemsPerPage() {
+            itemsPerPage = parseInt(document.getElementById('itemsPerPage').value);
+            currentPage = 1;
+            renderOrders();
+        }
+
         fetchOrders();
+        document.getElementById('itemsPerPage').addEventListener('change', changeItemsPerPage);
     </script>
 </body>
 

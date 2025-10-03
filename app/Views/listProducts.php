@@ -23,10 +23,30 @@ use Controllers\ProductController;
                         <div id="headerButtons"></div>
                     </div>
                     <div class="card-body">
-                        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar produto...">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <input type="text" id="searchInput" class="form-control" placeholder="Buscar produto...">
+                            </div>
+                            <div class="col-md-3">
+                                <select id="itemsPerPage" class="form-select">
+                                    <option value="10">10 por página</option>
+                                    <option value="20" selected>20 por página</option>
+                                    <option value="50">50 por página</option>
+                                    <option value="100">100 por página</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button id="deleteSelectedBtn" class="btn btn-danger w-100" onclick="deleteSelected()" disabled>
+                                    <i class="fas fa-trash"></i> Excluir Selecionados
+                                </button>
+                            </div>
+                        </div>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
+                                    <th style="width: 50px;">
+                                        <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                    </th>
                                     <th style="cursor: pointer;" onclick="sortTable('id')">
                                         ID <i id="sort-id" class="fas fa-sort text-muted"></i>
                                     </th>
@@ -100,7 +120,7 @@ use Controllers\ProductController;
         }
         
         let currentPage = 1;
-        const itemsPerPage = 20;
+        let itemsPerPage = 20;
 
         function renderProducts() {
             const tbody = document.getElementById('productTable');
@@ -116,6 +136,7 @@ use Controllers\ProductController;
                         desc = desc.substring(0, 47) + '...';
                     }
                     tbody.innerHTML += `<tr>
+                        <td><input type="checkbox" class="product-checkbox" value="${product.id}" onchange="updateDeleteButton()"></td>
                         <td>${product.id}</td>
                         <td>${product.name}</td>
                         <td>${desc}</td>
@@ -128,7 +149,7 @@ use Controllers\ProductController;
                     </tr>`;
                 });
             } else {
-                tbody.innerHTML = '<tr><td colspan="6">Nenhum produto encontrado.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7">Nenhum produto encontrado.</td></tr>';
             }
             renderPagination();
         }
@@ -260,7 +281,73 @@ use Controllers\ProductController;
             renderPagination();
         }
 
+        // Funções para seleção em massa
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.product-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+            });
+            updateDeleteButton();
+        }
+
+        function updateDeleteButton() {
+            const checkedBoxes = document.querySelectorAll('.product-checkbox:checked');
+            const deleteBtn = document.getElementById('deleteSelectedBtn');
+            
+            console.log('Checkboxes marcados:', checkedBoxes.length);
+            
+            deleteBtn.disabled = checkedBoxes.length === 0;
+            
+            // Atualizar o checkbox "selecionar todos"
+            const allCheckboxes = document.querySelectorAll('.product-checkbox');
+            const selectAll = document.getElementById('selectAll');
+            selectAll.checked = allCheckboxes.length > 0 && checkedBoxes.length === allCheckboxes.length;
+            selectAll.indeterminate = checkedBoxes.length > 0 && checkedBoxes.length < allCheckboxes.length;
+        }
+
+        function deleteSelected() {
+            const checkedBoxes = document.querySelectorAll('.product-checkbox:checked');
+            const ids = Array.from(checkedBoxes).map(cb => cb.value);
+            
+            console.log('IDs selecionados para deleção:', ids);
+            
+            if (ids.length === 0) return;
+            
+            if (confirm(`Tem certeza que deseja excluir ${ids.length} produto(s) selecionado(s)?`)) {
+                Promise.all(ids.map(id => 
+                    fetch(`/api/products/${id}`, { method: 'DELETE' })
+                        .then(response => {
+                            console.log(`Resposta para produto ${id}:`, response.status);
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log(`Dados retornados para produto ${id}:`, data);
+                            return data;
+                        })
+                ))
+                .then((results) => {
+                    console.log('Todos os resultados:', results);
+                    alert('Produtos excluídos com sucesso!');
+                    listProducts();
+                })
+                .catch((error) => {
+                    console.error('Erro na deleção em massa:', error);
+                    alert('Erro ao excluir alguns produtos.');
+                    listProducts();
+                });
+            }
+        }
+
+        // Função para alterar itens por página
+        function changeItemsPerPage() {
+            itemsPerPage = parseInt(document.getElementById('itemsPerPage').value);
+            currentPage = 1;
+            renderProducts();
+        }
+
         listProducts();
+        document.getElementById('itemsPerPage').addEventListener('change', changeItemsPerPage);
     </script>
 </body>
 

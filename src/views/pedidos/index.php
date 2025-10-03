@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_multiple'])) {
             $_SESSION['erro'] = 'Erro ao excluir pedidos: ' . $e->getMessage();
         }
     }
-    header('Location: index.php');
+    header('Location: ../../index.php');
     exit;
 }
 

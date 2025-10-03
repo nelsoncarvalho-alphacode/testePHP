@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $pedidoModel->criar($dados);
             $_SESSION['sucesso'] = 'Pedido criado com sucesso!';
-            header('Location: index.php');
+            header('Location: ../../index.php');
             exit;
         } catch (Exception $e) {
             $erros[] = 'Erro ao criar pedido: ' . $e->getMessage();

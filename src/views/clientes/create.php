@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $clienteModel->criar($dados);
             $_SESSION['sucesso'] = 'Cliente criado com sucesso!';
-            header('Location: index.php');
+            header('Location: ../../index.php');
             exit;
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {

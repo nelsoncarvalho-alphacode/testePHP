@@ -13,7 +13,7 @@ $id = $_GET['id'] ?? null;
 
 if (!$id) {
     $_SESSION['erro'] = 'Cliente não encontrado';
-    header('Location: index.php');
+    header('Location: ../../index.php');
     exit;
 }
 
@@ -21,7 +21,7 @@ $cliente = $clienteModel->buscarPorId($id);
 
 if (!$cliente) {
     $_SESSION['erro'] = 'Cliente não encontrado';
-    header('Location: index.php');
+    header('Location: ../../index.php');
     exit;
 }
 

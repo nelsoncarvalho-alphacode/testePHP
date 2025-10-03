@@ -13,7 +13,7 @@ $id = $_GET['id'] ?? null;
 
 if (!$id) {
     $_SESSION['erro'] = 'Produto não encontrado';
-    header('Location: index.php');
+    header('Location: ../../index.php');
     exit;
 }
 
@@ -21,7 +21,7 @@ $produto = $produtoModel->buscarPorId($id);
 
 if (!$produto) {
     $_SESSION['erro'] = 'Produto não encontrado';
-    header('Location: index.php');
+    header('Location: ../../index.php');
     exit;
 }
 
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $produtoModel->atualizar($id, $dados);
             $_SESSION['sucesso'] = 'Produto atualizado com sucesso!';
-            header('Location: index.php');
+            header('Location: ../../index.php');
             exit;
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {

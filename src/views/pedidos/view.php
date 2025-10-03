@@ -13,7 +13,7 @@ $id = $_GET['id'] ?? null;
 
 if (!$id) {
     $_SESSION['erro'] = 'Pedido não encontrado';
-    header('Location: index.php');
+    header('Location: ../../index.php');
     exit;
 }
 
@@ -22,7 +22,7 @@ $itens = $pedidoModel->buscarItensPedido($id);
 
 if (!$pedido) {
     $_SESSION['erro'] = 'Pedido não encontrado';
-    header('Location: index.php');
+    header('Location: ../../index.php');
     exit;
 }
 

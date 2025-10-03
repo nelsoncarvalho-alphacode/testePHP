@@ -18,7 +18,7 @@ $id = $_GET['id'] ?? null;
 
 if (!$id) {
     $_SESSION['erro'] = 'Pedido não encontrado';
-    header('Location: index.php');
+    header('Location: ../../index.php');
     exit;
 }
 
@@ -27,7 +27,7 @@ $itens_pedido = $pedidoModel->buscarItensPedido($id);
 
 if (!$pedido) {
     $_SESSION['erro'] = 'Pedido não encontrado';
-    header('Location: index.php');
+    header('Location: ../../index.php');
     exit;
 }
 
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $pedidoModel->atualizar($id, $dados);
             $_SESSION['sucesso'] = 'Pedido atualizado com sucesso!';
-            header('Location: index.php');
+            header('Location: ../../index.php');
             exit;
         } catch (Exception $e) {
             $erros[] = 'Erro ao atualizar pedido: ' . $e->getMessage();

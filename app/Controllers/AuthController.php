@@ -10,7 +10,10 @@ class AuthController
     // Autentica usuário e inicia sessão
     public static function login()
     {
-        ob_clean();
+        // Limpa buffer de saída apenas se houver um ativo
+        if (ob_get_level()) {
+            ob_clean();
+        }
 
         // Captura dados de login do JSON
         $data = json_decode(file_get_contents('php://input'), true);

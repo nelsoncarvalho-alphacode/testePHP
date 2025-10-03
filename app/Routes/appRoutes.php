@@ -8,6 +8,39 @@ if (empty($routes[0]) || $routes[0] === '') {
     }
 }
 
+// Rota para servir imagens da pasta uploads
+if ($routes[0] === 'storage' && $routes[1] === 'uploads') {
+    if ($method === 'GET' && isset($routes[2])) {
+        $filename = $routes[2];
+        $filepath = __DIR__ . '/../../storage/uploads/' . $filename;
+        
+        if (file_exists($filepath)) {
+            $fileInfo = pathinfo($filepath);
+            $extension = strtolower($fileInfo['extension']);
+            
+            // Define o content-type baseado na extensão
+            $contentTypes = [
+                'jpg' => 'image/jpeg',
+                'jpeg' => 'image/jpeg',
+                'png' => 'image/png',
+                'gif' => 'image/gif',
+                'webp' => 'image/webp'
+            ];
+            
+            $contentType = $contentTypes[$extension] ?? 'application/octet-stream';
+            
+            header('Content-Type: ' . $contentType);
+            header('Content-Length: ' . filesize($filepath));
+            readfile($filepath);
+            exit;
+        } else {
+            http_response_code(404);
+            echo 'Imagem não encontrada';
+            exit;
+        }
+    }
+}
+
 // Rota para listagem de clientes
 if ($routes[0] === 'clientes') {
     if ($method === 'GET') {

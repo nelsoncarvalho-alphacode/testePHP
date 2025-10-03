@@ -129,8 +129,13 @@
                         is_admin
                     })
                 })
-                .then(response => response.json())
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    console.log('Response headers:', response.headers);
+                    return response.json();
+                })
                 .then(data => {
+                    console.log('Response data:', data);
                     const resultDiv = document.getElementById('result');
                     if (data.error) {
                         resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
@@ -140,6 +145,11 @@
                             window.location.href = '/clientes';
                         }, 1500);
                     }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    const resultDiv = document.getElementById('result');
+                    resultDiv.innerHTML = `<div class="alert alert-danger">Erro ao criar usuário: ${error.message}</div>`;
                 });
         });
     </script>

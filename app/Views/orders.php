@@ -53,7 +53,7 @@ require_once __DIR__ . '/../../bootstrap.php';
                             <div class="col-6 col-md-3" id="deleteButtonContainer" style="display: none;">
                                 <button id="deleteSelectedBtn" class="btn btn-danger w-100" onclick="deleteSelected()" disabled>
                                     <i class="fas fa-trash d-none d-sm-inline"></i>
-                                    <span class="d-none d-sm-inline">Excluir</span>
+                                    <span class="d-none d-sm-inline">Excluir selecionados</span>
                                     <span class="d-sm-none">Del</span>
                                 </button>
                             </div>
@@ -182,10 +182,11 @@ require_once __DIR__ . '/../../bootstrap.php';
                         <td class="d-none d-md-table-cell">
                             ${isAdmin
                                 ? `<select class='form-select form-select-sm w-auto d-inline' onchange='changeStatus(${order.id}, this.value)'>
-                                    <option value="pendente" ${order.status === 'pendente' ? 'selected' : ''}>Pendente</option>
-                                    <option value="pago" ${order.status === 'pago' ? 'selected' : ''}>Pago</option>
-                                    <option value="enviado" ${order.status === 'enviado' ? 'selected' : ''}>Enviado</option>
-                                    <option value="cancelado" ${order.status === 'cancelado' ? 'selected' : ''}>Cancelado</option>
+                                    <option value="Pendente" ${order.status === 'Pendente' ? 'selected' : ''}>Pendente</option>
+                                    <option value="Processando" ${order.status === 'Processando' ? 'selected' : ''}>Processando</option>
+                                    <option value="Enviado" ${order.status === 'Enviado' ? 'selected' : ''}>Enviado</option>
+                                    <option value="Entregue" ${order.status === 'Entregue' ? 'selected' : ''}>Entregue</option>
+                                    <option value="Cancelado" ${order.status === 'Cancelado' ? 'selected' : ''}>Cancelado</option>
                                 </select>`
                                 : order.status}
                         </td>
@@ -197,10 +198,10 @@ require_once __DIR__ . '/../../bootstrap.php';
                                         <i class="fas fa-trash d-md-none"></i>
                                         <span class="d-none d-md-inline">Excluir</span>
                                        </button>` 
-                                    : (order.status !== 'cancelado' ? `<button class='btn btn-danger btn-sm' onclick='cancelOrder(${order.id})'>
+                                    : (!['Cancelado', 'Entregue'].includes(order.status) ? `<button class='btn btn-danger btn-sm' onclick='cancelOrder(${order.id})'>
                                         <i class="fas fa-times d-md-none"></i>
                                         <span class="d-none d-md-inline">Cancelar</span>
-                                       </button>` : '')}
+                                       </button>` : `<span class="badge bg-secondary">Finalizado</span>`)}
                             </div>
                         </td>
                     </tr>`;

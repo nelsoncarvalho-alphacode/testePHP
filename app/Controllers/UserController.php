@@ -36,7 +36,10 @@ class UserController
     // Cria novo usuário com validação de dados obrigatórios
     public static function create()
     {
-        ob_clean();
+        // Limpa buffer de saída apenas se houver um ativo
+        if (ob_get_level()) {
+            ob_clean();
+        }
         
         // Captura dados do JSON
         $data = json_decode((file_get_contents(('php://input'))), true);

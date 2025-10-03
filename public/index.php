@@ -7,8 +7,12 @@ use Controllers\UserController;
 use Controllers\ProductController;
 use Repository\UserRepository;
 
-// Inclui configurações e autoload
-include __DIR__ . '/../bootstrap.php';
+// Inclui configurações e autoload (Docker ou local)
+if (file_exists(__DIR__ . '/../bootstrap-docker.php') && getenv('DOCKER_ENV')) {
+    include __DIR__ . '/../bootstrap-docker.php';
+} else {
+    include __DIR__ . '/../bootstrap.php';
+}
 
 // Inicializa sistema de rotas
 try {

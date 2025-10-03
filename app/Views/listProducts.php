@@ -38,7 +38,7 @@ require_once __DIR__ . '/../../bootstrap.php';
                             <div class="col-6 col-md-3" id="deleteButtonContainer" style="display: none;">
                                 <button id="deleteSelectedBtn" class="btn btn-danger w-100" onclick="deleteSelected()" disabled>
                                     <i class="fas fa-trash d-none d-sm-inline"></i>
-                                    <span class="d-none d-sm-inline">Excluir</span>
+                                    <span class="d-none d-sm-inline">Excluir selecionados</span>
                                     <span class="d-sm-none">Del</span>
                                 </button>
                             </div>
@@ -147,7 +147,7 @@ require_once __DIR__ . '/../../bootstrap.php';
             const pageProducts = filteredProducts.slice(startIdx, endIdx);
             if (pageProducts.length > 0) {
                 pageProducts.forEach(product => {
-                    let imgTag = product.img ? `<img src="data:image/jpeg;base64,${product.img}" width="60">` : 'Sem imagem';
+                    let imgTag = product.image_file ? `<img src="/storage/uploads/${product.image_file}" width="60" class="border rounded">` : '<span class="text-muted small">Sem imagem</span>';
                     let desc = product.description || '';
                     if (desc.length > 50) {
                         desc = desc.substring(0, 47) + '...';

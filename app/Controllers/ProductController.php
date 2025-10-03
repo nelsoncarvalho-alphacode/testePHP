@@ -42,21 +42,113 @@ class ProductController
     // Cria novo produto com validação de dados obrigatórios
     public static function create()
     {
+        // Limpa todos os buffers de saída
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+        
+        // Inicia novo buffer
+        ob_start();
+        
         try {
             // Captura dados do formulário
             $name = $_POST['name'] ?? '';
             $description = $_POST['description'] ?? '';
             $value = $_POST['value'] ?? '';
-            $img = (isset($_FILES['productImage']) && !empty($_FILES['productImage']['tmp_name'])) ? file_get_contents($_FILES['productImage']['tmp_name']) : null;
+            
+            // Processa upload de imagem
+            $imageFileName = null;
+            
+            if (isset($_FILES['productImage']) && !empty($_FILES['productImage']['tmp_name'])) {
+                // Verifica se houve erro no upload
+                if ($_FILES['productImage']['error'] !== UPLOAD_ERR_OK) {
+                    ob_end_clean();
+                    http_response_code(400);
+                    header('Content-Type: application/json');
+                    echo json_encode(['error' => 'Erro no upload: código ' . $_FILES['productImage']['error']]);
+                    return;
+                }
+                
+                // Valida se o arquivo é uma imagem
+                $imageInfo = getimagesize($_FILES['productImage']['tmp_name']);
+                if ($imageInfo === false) {
+                    ob_end_clean();
+                    http_response_code(400);
+                    header('Content-Type: application/json');
+                    echo json_encode(['error' => 'Arquivo enviado não é uma imagem válida']);
+                    return;
+                }
+                
+                // Gera nome único para o arquivo
+                $fileExtension = pathinfo($_FILES['productImage']['name'], PATHINFO_EXTENSION);
+                $imageFileName = uniqid('product_') . '.' . $fileExtension;
+                
+                // Define diretório de upload
+                $uploadDir = '/var/www/html/storage/uploads/';
+                if (!is_dir($uploadDir)) {
+                    if (!mkdir($uploadDir, 0777, true)) {
+                        ob_end_clean();
+                        http_response_code(500);
+                        header('Content-Type: application/json');
+                        echo json_encode(['error' => 'Erro ao criar diretório de upload']);
+                        return;
+                    }
+                }
+                
+                // Verifica se diretório é gravável
+                if (!is_writable($uploadDir)) {
+                    ob_end_clean();
+                    http_response_code(500);
+                    header('Content-Type: application/json');
+                    echo json_encode(['error' => 'Diretório de upload não é gravável']);
+                    return;
+                }
+                
+                // Salva arquivo
+                $uploadPath = $uploadDir . $imageFileName;
+                $fileContent = file_get_contents($_FILES['productImage']['tmp_name']);
+                
+                if ($fileContent === false) {
+                    ob_end_clean();
+                    http_response_code(500);
+                    header('Content-Type: application/json');
+                    echo json_encode(['error' => 'Erro ao ler arquivo temporário']);
+                    return;
+                }
+                
+                if (!file_put_contents($uploadPath, $fileContent)) {
+                    // Fallback: move_uploaded_file
+                    if (!move_uploaded_file($_FILES['productImage']['tmp_name'], $uploadPath)) {
+                        $lastError = error_get_last();
+                        ob_end_clean();
+                        http_response_code(500);
+                        header('Content-Type: application/json');
+                        echo json_encode(['error' => 'Erro ao salvar arquivo de imagem: ' . ($lastError['message'] ?? 'Erro desconhecido')]);
+                        return;
+                    }
+                }
+                
+                if (file_exists($uploadPath)) {
+                    chmod($uploadPath, 0644);
+                } else {
+                    ob_end_clean();
+                    http_response_code(500);
+                    header('Content-Type: application/json');
+                    echo json_encode(['error' => 'Arquivo não foi salvo corretamente']);
+                    return;
+                }
+            }
 
             // Validação de campos obrigatórios
             if (empty($name)) {
+                ob_end_clean();
                 http_response_code(400);
                 header('Content-Type: application/json');
                 echo json_encode(['error' => "Nome é obrigatório"]);
                 return;
             }
             if ($value === '') {
+                ob_end_clean();
                 http_response_code(400);
                 header('Content-Type: application/json');
                 echo json_encode(['error' => "Valor é obrigatório"]);
@@ -65,8 +157,10 @@ class ProductController
 
             // Salva produto no banco de dados
             $repo = new ProductRepository();
-            $id = $repo->create(['name' => $name, 'img' => $img, 'value' => $value, 'description' => $description]);
+            $id = $repo->create(['name' => $name, 'image_file' => $imageFileName, 'value' => $value, 'description' => $description]);
 
+            // Limpa buffer antes de enviar resposta
+            ob_end_clean();
             header('Content-Type: application/json');
             if ($id) {
                 echo json_encode(['message' => 'Produto criado com sucesso!', 'id' => $id]);
@@ -75,9 +169,10 @@ class ProductController
                 echo json_encode(['error' => 'Erro ao criar produto']);
             }
         } catch (\Exception $e) {
+            ob_end_clean();
             http_response_code(500);
             header('Content-Type: application/json');
-            echo json_encode(['error' => 'Erro interno do servidor']);
+            echo json_encode(['error' => 'Erro interno do servidor: ' . $e->getMessage()]);
         }
     }
 

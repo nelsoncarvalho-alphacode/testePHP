@@ -1,4 +1,8 @@
 RewriteEngine On
+
+# Redireciona requisições de /storage/uploads/ para o script PHP
+RewriteRule ^storage/uploads/(.+)$ storage/uploads/index.php [L,QSA]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ public/index.php [NC,L,QSA]

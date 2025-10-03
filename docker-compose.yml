@@ -1,0 +1,62 @@
+services:
+  # Aplicação PHP com Apache
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: orders-app
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - uploads_volume:/var/www/html/storage/uploads
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=ordersapp
+      - DB_USER=root
+      - DB_PASSWORD=rootpassword
+    networks:
+      - orders-network
+
+  # Banco de dados MySQL
+  db:
+    image: mysql:8.0
+    container_name: orders-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: ordersapp
+      MYSQL_USER: orders_user
+      MYSQL_PASSWORD: orders_pass
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - orders-network
+
+  # phpMyAdmin para gerenciar banco
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: orders-phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: rootpassword
+    depends_on:
+      - db
+    networks:
+      - orders-network
+
+volumes:
+  mysql_data:
+  uploads_volume:
+
+networks:
+  orders-network:
+    driver: bridge

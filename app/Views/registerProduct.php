@@ -73,7 +73,21 @@ require_once __DIR__ . '/../../bootstrap.php';
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.json())
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    console.log('Response ok:', response.ok);
+                    
+                    // Lê a resposta como texto primeiro para debug
+                    return response.text().then(text => {
+                        console.log('Raw response text:', text);
+                        try {
+                            return JSON.parse(text);
+                        } catch (e) {
+                            console.error('JSON parse error:', e);
+                            throw new Error('Resposta inválida do servidor');
+                        }
+                    });
+                })
                 .then(data => {
                     const resultDiv = document.getElementById('result');
                     if (data.error) {
@@ -86,7 +100,8 @@ require_once __DIR__ . '/../../bootstrap.php';
                     }
                 })
                 .catch((error) => {
-                    document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao cadastrar produto.</div>`;
+                    console.error('Fetch error:', error);
+                    document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao cadastrar produto: ${error.message}</div>`;
                 });
         });
     </script>

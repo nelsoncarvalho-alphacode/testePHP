@@ -1,0 +1,33 @@
+# Arquivos e pastas a serem ignorados no Docker
+node_modules/
+.env
+.env.local
+.env.*.local
+*.log
+*.pid
+*.seed
+*.pid.lock
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Arquivos específicos do Docker
+.dockerignore
+
+# Arquivos temporários
+tmp/
+temp/
+cache/
+
+# Logs
+logs/
+*.log
+
+# Arquivos de backup
+*.bak
+*.backup
+
+# Arquivos de upload grandes (podem ser recriados)
+storage/uploads/*
+!storage/uploads/.gitkeep

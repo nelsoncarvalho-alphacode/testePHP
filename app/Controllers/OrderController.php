@@ -23,7 +23,7 @@ class OrderController
         
         // Atualiza status para cancelado
         $repo = new OrderRepository;
-        $success = $repo->updateStatus($id, 'cancelado');
+        $success = $repo->updateStatus($id, 'Cancelado');
         header('Content-Type: application/json');
         if ($success) {
             echo json_encode(['message' => 'Pedido cancelado com sucesso']);

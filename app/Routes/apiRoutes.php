@@ -36,13 +36,13 @@ if ($routes[1] === 'products') {
         exit;
     }
 
-    if ($method === 'POST' && !empty($routes[2])) {
-        ProductController::update($routes[2]);
+    if ($method === 'POST' && empty($routes[2])) {
+        ProductController::create();
         exit;
     }
 
-    if ($method === 'POST') {
-        ProductController::create();
+    if ($method === 'POST' && !empty($routes[2])) {
+        ProductController::update($routes[2]);
         exit;
     }
 
@@ -95,7 +95,10 @@ if ($routes[1] === 'order') {
 }
 
 if ($routes[1] === 'session') {
-    ob_clean();
+    // Limpa buffer de saída apenas se houver um ativo
+    if (ob_get_level()) {
+        ob_clean();
+    }
     session_start();
     $is_admin = $_SESSION['is_admin'] ?? 0;
     $user_id = $_SESSION['user_id'] ?? null;

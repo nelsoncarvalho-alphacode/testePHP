@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS pedido_itens (
 
 -- Inserir usuário admin padrão (senha: admin123)
 INSERT INTO usuarios (nome, email, senha) VALUES 
-('Administrador', 'admin@teste.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
+('Administrador', 'admin@teste.com', '$2y$10$p4ZrDdt6gMjjnsVStbQbl.Q.jvOJyL05uMc9lSvXdBu3HzI2x.3eS');
 
 -- Dados de exemplo para Clientes
 INSERT INTO clientes (nome, cpf, email, telefone, endereco) VALUES

@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-12">
                     <p class="mb-0 text-muted small">
-                        &copy; <?= date('Y') ?> Sistema de Pedidos. Todos os direitos reservados.
+                        &copy; <?= date('Y') ?> Pedify. Todos os direitos reservados.
                     </p>
                 </div>
             </div>

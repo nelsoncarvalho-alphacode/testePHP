@@ -22,7 +22,7 @@ if (strpos($_SERVER['PHP_SELF'], '/views/') !== false) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $titulo ?? 'Sistema de Pedidos' ?></title>
+    <title><?= $titulo ?? 'Pedify' ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
@@ -238,7 +238,7 @@ if (strpos($_SERVER['PHP_SELF'], '/views/') !== false) {
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="<?= $root_path ?>index.php">
-                <i class="bi bi-cart-check"></i> Sistema de Pedidos
+                <i class="bi bi-cart-check"></i> Pedify
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>

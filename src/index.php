@@ -44,7 +44,7 @@ include 'views/layout/header.php';
 <div class="row mb-4">
     <div class="col-12">
         <h2 class="mb-0">Dashboard</h2>
-        <p class="text-muted">Bem-vindo ao sistema de pedidos</p>
+        <p class="text-muted">Bem-vindo ao Pedify!</p>
     </div>
 </div>
 

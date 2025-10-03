@@ -64,7 +64,7 @@ $titulo = 'Login';
             <div class="col-md-5">
                 <div class="card login-card">
                     <div class="card-header text-center py-4">
-                        <h3 class="mb-0"><i class="bi bi-cart-check"></i> Sistema de Pedidos</h3>
+                        <h3 class="mb-0"><i class="bi bi-cart-check"></i> Pedify</h3>
                     </div>
                     <div class="card-body p-4">
                         <h4 class="text-center mb-4">Login</h4>

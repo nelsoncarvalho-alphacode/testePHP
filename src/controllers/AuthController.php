@@ -104,7 +104,7 @@ class AuthController {
             if ($criado) {
                 return [
                     'sucesso' => true,
-                    'mensagem' => 'Cadastro realizado com sucesso! Faça login.'
+                    'mensagem' => 'Cadastro realizado com sucesso!'
                 ];
             } else {
                 return [

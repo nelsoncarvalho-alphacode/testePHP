@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $erro = 'Este email já está cadastrado.';
         } else {
             if ($usuarioModel->criar($nome, $email, $senha)) {
-                $_SESSION['sucesso'] = 'Cadastro realizado com sucesso! Faça login.';
+                $_SESSION['sucesso'] = 'Cadastro realizado com sucesso!';
                 header('Location: login.php');
                 exit;
             } else {

@@ -54,8 +54,7 @@ include '../layout/header.php';
                     <h2 class="text-white mb-2 fw-bold">
                         <i class="bi bi-box-seam-fill me-2"></i>Produtos
                     </h2>
-                    <p class="text-white opacity-75 mb-3">
-                        <i class="bi bi-grid me-1"></i>
+                    <p class="text-white mb-3">
                         Gerencie todos os seus produtos cadastrados
                     </p>
                     <a href="create.php" class="btn btn-light btn-lg shadow-sm">

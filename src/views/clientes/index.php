@@ -52,8 +52,7 @@ include '../layout/header.php';
                     <h2 class="text-white mb-2 fw-bold">
                         <i class="bi bi-people-fill me-2"></i>Clientes
                     </h2>
-                    <p class="text-white opacity-75 mb-3">
-                        <i class="bi bi-list-check me-1"></i>
+                    <p class="text-white mb-3">
                         Gerencie todos os seus clientes cadastrados
                     </p>
                     <a href="create.php" class="btn btn-light btn-lg shadow-sm">

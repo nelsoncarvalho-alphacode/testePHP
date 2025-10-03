@@ -42,7 +42,7 @@ $titulo = 'Login';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0047AB, #007BFF, #FFD700);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -52,7 +52,7 @@ $titulo = 'Login';
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
         .card-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0047AB, #007BFF, #FFD700);
             color: white;
             border-radius: 15px 15px 0 0 !important;
         }

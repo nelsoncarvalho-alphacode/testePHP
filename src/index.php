@@ -43,8 +43,32 @@ include 'views/layout/header.php';
 
 <div class="row mb-4">
     <div class="col-12">
-        <h2 class="mb-0">Dashboard</h2>
-        <p class="text-muted">Bem-vindo ao Pedify!</p>
+        <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);">
+            <div class="card-body py-4">
+                <div class="text-center">
+                    <h2 class="text-white mb-2 fw-bold">
+                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                    </h2>
+                    <p class="text-white opacity-75 mb-0">
+                        <i class="bi bi-person-check me-1"></i>
+                        Bem-vindo ao Pedify, <?= htmlspecialchars($_SESSION['usuario_nome'] ?? 'Usuário') ?>!
+                    </p>
+                    <?php
+                    $dias_semana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+                    $meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+                    $data_atual = getdate();
+                    $dia_semana = $dias_semana[$data_atual['wday']];
+                    $mes = $meses[$data_atual['mon'] - 1];
+                    ?>
+                    <div class="text-white opacity-75 small mt-2">
+                        <i class="bi bi-calendar3 me-1"></i>
+                        <?= $dia_semana ?>, <?= $data_atual['mday'] ?> de <?= $mes ?> de <?= $data_atual['year'] ?>
+                        <span class="mx-2">|</span>
+                        <i class="bi bi-clock me-1"></i><?= date('H:i') ?>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

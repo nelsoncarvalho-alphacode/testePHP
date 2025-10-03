@@ -47,11 +47,25 @@ $titulo = 'Pedidos';
 include '../layout/header.php';
 ?>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2><i class="bi bi-cart"></i> Pedidos</h2>
-    <a href="create.php" class="btn btn-primary">
-        <i class="bi bi-plus-circle"></i> Novo Pedido
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);">
+            <div class="card-body py-4">
+                <div class="text-center">
+                    <h2 class="text-white mb-2 fw-bold">
+                        <i class="bi bi-cart-fill me-2"></i>Pedidos
+                    </h2>
+                    <p class="text-white opacity-75 mb-3">
+                        <i class="bi bi-receipt me-1"></i>
+                        Gerencie todos os pedidos realizados
+                    </p>
+                    <a href="create.php" class="btn btn-light btn-lg shadow-sm">
+                        <i class="bi bi-plus-circle me-1"></i> Novo Pedido
     </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="card shadow-sm mb-4">
@@ -106,7 +120,7 @@ include '../layout/header.php';
 <div class="card shadow-sm">
     <div class="card-header d-flex justify-content-between align-items-center">
         <span>Total: <?= $total ?> pedido(s)</span>
-        <button type="button" class="btn btn-sm btn-danger" id="deleteMultiple">
+        <button type="button" class="btn btn-sm btn-danger" id="deleteMultiple" disabled>
             <i class="bi bi-trash"></i> Excluir selecionados
         </button>
     </div>

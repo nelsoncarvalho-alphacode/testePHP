@@ -10,6 +10,17 @@ use Controllers\OrderController;
     <meta charset="UTF-8">
     <title>Lista de Pedidos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .sortable-header {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+        .sortable-header:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+    </style>
 </head>
 
 <body class="bg-light">
@@ -30,12 +41,24 @@ use Controllers\OrderController;
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th id="userColumnHeader" style="display:none;">Usuário</th>
-                                    <th>Produtos</th>
-                                    <th>Total (R$)</th>
-                                    <th>Status</th>
-                                    <th>Código de Barras</th>
+                                    <th class="sortable-header" onclick="sortTable('id')">
+                                        ID <i id="sort-id" class="fas fa-sort text-muted"></i>
+                                    </th>
+                                    <th id="userColumnHeader" class="sortable-header" style="display:none;" onclick="sortTable('user_name')">
+                                        Usuário <i id="sort-user_name" class="fas fa-sort text-muted"></i>
+                                    </th>
+                                    <th class="sortable-header" onclick="sortTable('products')">
+                                        Produtos <i id="sort-products" class="fas fa-sort text-muted"></i>
+                                    </th>
+                                    <th class="sortable-header" onclick="sortTable('value')">
+                                        Total (R$) <i id="sort-value" class="fas fa-sort text-muted"></i>
+                                    </th>
+                                    <th class="sortable-header" onclick="sortTable('status')">
+                                        Status <i id="sort-status" class="fas fa-sort text-muted"></i>
+                                    </th>
+                                    <th class="sortable-header" onclick="sortTable('barcode')">
+                                        Código de Barras <i id="sort-barcode" class="fas fa-sort text-muted"></i>
+                                    </th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
@@ -83,6 +106,12 @@ use Controllers\OrderController;
         let filteredOrders = [];
         let currentPage = 1;
         const itemsPerPage = 20;
+        
+        // Variáveis para ordenação
+        let currentSort = {
+            field: null,
+            direction: 'asc'
+        };
 
         function renderOrders() {
             const tbody = document.getElementById('ordersTable');
@@ -260,6 +289,61 @@ use Controllers\OrderController;
                 });
         }
 
+        function sortTable(field) {
+            // Alterna a direção se o mesmo campo for clicado
+            if (currentSort.field === field) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.field = field;
+                currentSort.direction = 'asc';
+            }
+            
+            // Remove todos os ícones de ordenação
+            document.querySelectorAll('[id^="sort-"]').forEach(icon => {
+                icon.className = 'fas fa-sort text-muted';
+            });
+            
+            // Adiciona o ícone correto para o campo atual
+            const icon = document.getElementById(`sort-${field}`);
+            if (icon) {
+                icon.className = `fas fa-sort-${currentSort.direction === 'asc' ? 'up' : 'down'} text-primary`;
+            }
+            
+            // Ordena os pedidos
+            filteredOrders.sort((a, b) => {
+                let aVal = a[field];
+                let bVal = b[field];
+                
+                // Conversão para números se for id ou value
+                if (field === 'id' || field === 'value') {
+                    aVal = parseFloat(aVal) || 0;
+                    bVal = parseFloat(bVal) || 0;
+                } else if (field === 'products') {
+                    // Para produtos, ordenar pelo nome do primeiro produto ou número de produtos
+                    aVal = Array.isArray(a.products) && a.products.length > 0 
+                        ? a.products[0].name || '' 
+                        : '';
+                    bVal = Array.isArray(b.products) && b.products.length > 0 
+                        ? b.products[0].name || '' 
+                        : '';
+                    aVal = String(aVal).toLowerCase();
+                    bVal = String(bVal).toLowerCase();
+                } else {
+                    // Conversão para string para campos de texto
+                    aVal = String(aVal || '').toLowerCase();
+                    bVal = String(bVal || '').toLowerCase();
+                }
+                
+                if (currentSort.direction === 'asc') {
+                    return aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
+                } else {
+                    return aVal < bVal ? 1 : aVal > bVal ? -1 : 0;
+                }
+            });
+            
+            currentPage = 1; // Volta para a primeira página
+            renderOrders();
+        }
 
         fetchOrders();
     </script>

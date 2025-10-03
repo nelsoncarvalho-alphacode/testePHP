@@ -10,6 +10,7 @@ use Controllers\ProductController;
     <meta charset="UTF-8">
     <title>Lista de Produtos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-light">
@@ -26,10 +27,18 @@ use Controllers\ProductController;
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Nome</th>
-                                    <th>Descrição</th>
-                                    <th>Valor</th>
+                                    <th style="cursor: pointer;" onclick="sortTable('id')">
+                                        ID <i id="sort-id" class="fas fa-sort text-muted"></i>
+                                    </th>
+                                    <th style="cursor: pointer;" onclick="sortTable('name')">
+                                        Nome <i id="sort-name" class="fas fa-sort text-muted"></i>
+                                    </th>
+                                    <th style="cursor: pointer;" onclick="sortTable('description')">
+                                        Descrição <i id="sort-description" class="fas fa-sort text-muted"></i>
+                                    </th>
+                                    <th style="cursor: pointer;" onclick="sortTable('value')">
+                                        Valor <i id="sort-value" class="fas fa-sort text-muted"></i>
+                                    </th>
                                     <th>Imagem</th>
                                     <th style="width: 270px;">Ações</th>
                                 </tr>
@@ -47,6 +56,10 @@ use Controllers\ProductController;
     </div>
     <script>
         let isAdmin = false;
+        let allProducts = [];
+        let filteredProducts = [];
+        let currentSort = { field: 'id', direction: 'asc' };
+        
         // Busca se o usuário é admin
         fetch('/api/session')
             .then(response => response.json())
@@ -85,8 +98,7 @@ use Controllers\ProductController;
                     window.location.href = '/login';
                 });
         }
-        let allProducts = [];
-        let filteredProducts = [];
+        
         let currentPage = 1;
         const itemsPerPage = 20;
 
@@ -199,6 +211,53 @@ use Controllers\ProductController;
             } else {
                 alert('Produto já está no carrinho!');
             }
+        }
+
+        function sortTable(field) {
+            // Alterna a direção se o mesmo campo for clicado
+            if (currentSort.field === field) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.field = field;
+                currentSort.direction = 'asc';
+            }
+            
+            // Remove todos os ícones de ordenação
+            document.querySelectorAll('[id^="sort-"]').forEach(icon => {
+                icon.className = 'fas fa-sort text-muted';
+            });
+            
+            // Adiciona o ícone correto para o campo atual
+            const icon = document.getElementById(`sort-${field}`);
+            if (icon) {
+                icon.className = `fas fa-sort-${currentSort.direction === 'asc' ? 'up' : 'down'} text-primary`;
+            }
+            
+            // Ordena os produtos
+            filteredProducts.sort((a, b) => {
+                let aVal = a[field];
+                let bVal = b[field];
+                
+                // Conversão para números se for valor ou id
+                if (field === 'value' || field === 'id') {
+                    aVal = parseFloat(aVal) || 0;
+                    bVal = parseFloat(bVal) || 0;
+                } else {
+                    // Conversão para string para campos de texto
+                    aVal = String(aVal || '').toLowerCase();
+                    bVal = String(bVal || '').toLowerCase();
+                }
+                
+                if (currentSort.direction === 'asc') {
+                    return aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
+                } else {
+                    return aVal < bVal ? 1 : aVal > bVal ? -1 : 0;
+                }
+            });
+            
+            currentPage = 1; // Volta para a primeira página
+            renderProducts();
+            renderPagination();
         }
 
         listProducts();

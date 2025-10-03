@@ -1,0 +1,525 @@
+name: Vagas
+description: |-
+
+  Endpoints para gerenciamento de vagas.
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/vagas
+    metadata:
+      groupName: Vagas
+      groupDescription: |-
+
+        Endpoints para gerenciamento de vagas.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Listar vagas'
+      description: 'Retorna uma lista de vagas com filtros opcionais e paginação.'
+      authenticated: false
+      deprecated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      tipo:
+        name: tipo
+        description: 'Filtrar por tipo de vaga (CLT, PJ, Freelancer). Exemplo: CLT'
+        required: false
+        example: consequatur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      titulo:
+        name: titulo
+        description: 'Buscar vagas pelo título. Exemplo: Desenvolvedor'
+        required: false
+        example: consequatur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      status:
+        name: status
+        description: 'Status da vaga (ativa, inativa). Exemplo: ativa'
+        required: false
+        example: consequatur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      sort:
+        name: sort
+        description: 'Campo de ordenação. Exemplo: titulo'
+        required: false
+        example: consequatur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      direction:
+        name: direction
+        description: 'Direção da ordenação (asc ou desc). Exemplo: asc'
+        required: false
+        example: consequatur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanQueryParameters:
+      tipo: consequatur
+      titulo: consequatur
+      status: consequatur
+      sort: consequatur
+      direction: consequatur
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "data": []
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/vagas
+    metadata:
+      groupName: Vagas
+      groupDescription: |-
+
+        Endpoints para gerenciamento de vagas.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Criar nova vaga'
+      description: ''
+      authenticated: false
+      deprecated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      titulo:
+        name: titulo
+        description: 'Título da vaga. Exemplo: Desenvolvedor PHP'
+        required: true
+        example: consequatur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      descricao:
+        name: descricao
+        description: 'Descrição da vaga.'
+        required: true
+        example: consequatur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      tipo:
+        name: tipo
+        description: 'Tipo da vaga (CLT, PJ, Freelancer).'
+        required: true
+        example: consequatur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      status:
+        name: status
+        description: 'Status da vaga (ativa ou pausada).'
+        required: true
+        example: ativa
+        type: string
+        enumValues:
+          - ativa
+          - pausada
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      salario:
+        name: salario
+        description: 'Valor do salário. Exemplo: 5500.00'
+        required: false
+        example: 11613.31890586
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+    cleanBodyParameters:
+      titulo: consequatur
+      descricao: consequatur
+      tipo: consequatur
+      status: ativa
+      salario: 11613.31890586
+    fileParameters: []
+    responses:
+      -
+        status: 201
+        content: |-
+          {
+            "success": true,
+            "message": "Vaga criada com sucesso!",
+            "data": { "id": 1, "titulo": "Desenvolvedor PHP" }
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/vagas/{id}'
+    metadata:
+      groupName: Vagas
+      groupDescription: |-
+
+        Endpoints para gerenciamento de vagas.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Mostrar detalhes de uma vaga'
+      description: ''
+      authenticated: false
+      deprecated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the vaga.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      vaga:
+        name: vaga
+        description: 'ID da vaga. Exemplo: 1'
+        required: true
+        example: 17
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+      vaga: 17
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "data": { "id": 1, "titulo": "Dev PHP" }
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'api/vagas/{id}'
+    metadata:
+      groupName: Vagas
+      groupDescription: |-
+
+        Endpoints para gerenciamento de vagas.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Atualizar vaga'
+      description: ''
+      authenticated: false
+      deprecated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the vaga.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      vaga:
+        name: vaga
+        description: 'ID da vaga. Exemplo: 1'
+        required: true
+        example: 17
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+      vaga: 17
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      titulo:
+        name: titulo
+        description: 'Título da vaga.'
+        required: true
+        example: consequatur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      descricao:
+        name: descricao
+        description: Descrição.
+        required: true
+        example: consequatur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      tipo:
+        name: tipo
+        description: 'Tipo da vaga (CLT, PJ, Freelancer).'
+        required: true
+        example: consequatur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      status:
+        name: status
+        description: 'Status da vaga (ativa ou pausada).'
+        required: true
+        example: ativa
+        type: string
+        enumValues:
+          - ativa
+          - pausada
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      salario:
+        name: salario
+        description: Salário.
+        required: false
+        example: 11613.31890586
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+    cleanBodyParameters:
+      titulo: consequatur
+      descricao: consequatur
+      tipo: consequatur
+      status: ativa
+      salario: 11613.31890586
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "message": "Vaga atualizada com sucesso!",
+            "data": { "id": 1, "titulo": "Dev PHP Senior" }
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/vagas/{id}'
+    metadata:
+      groupName: Vagas
+      groupDescription: |-
+
+        Endpoints para gerenciamento de vagas.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Deletar vaga'
+      description: ''
+      authenticated: false
+      deprecated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the vaga.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      vaga:
+        name: vaga
+        description: 'ID da vaga. Exemplo: 1'
+        required: true
+        example: 17
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+      vaga: 17
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "message": "Vaga excluída com sucesso."
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: api/vagas-mass
+    metadata:
+      groupName: Vagas
+      groupDescription: |-
+
+        Endpoints para gerenciamento de vagas.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Excluir várias vagas de uma vez'
+      description: 'Recebe uma lista de IDs e exclui todas as vagas correspondentes.'
+      authenticated: false
+      deprecated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      ids:
+        name: ids
+        description: 'Lista de IDs das vagas a serem excluídas. Exemplo: [1, 2, 3]'
+        required: true
+        example:
+          - consequatur
+        type: 'string[]'
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      ids:
+        - consequatur
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "message": "3 vagas excluídas com sucesso.",
+            "ids": [1, 2, 3]
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 400
+        content: |-
+          {
+            "success": false,
+            "message": "Nenhum ID informado."
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

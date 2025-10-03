@@ -1,0 +1,331 @@
+<?php
+// View de listagem de usuários - painel administrativo com busca, ordenação e CRUD
+require_once __DIR__ . '/../../bootstrap.php';
+
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Usuários</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <div class="container-fluid px-3 px-md-5 mt-3 mt-md-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-10">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Usuários Cadastrados</h4>
+                        <div>
+                            <a href="/admin-cadastro" class="btn btn-success btn-sm me-2">Cadastrar Usuário</a>
+                            <a id="adminPanelBtn" href="#" class="btn btn-dark btn-sm me-2" style="display:none;">Voltar para Painel Admin</a>
+                            <a href="#" onclick="logout()" class="btn btn-outline-light btn-sm">Logout</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-2 mb-3">
+                            <div class="col-12 col-md-6 col-lg-7">
+                                <input type="text" id="searchInput" class="form-control" placeholder="Buscar usuário...">
+                            </div>
+                            <div class="col-6 col-md-3 col-lg-2">
+                                <select id="itemsPerPage" class="form-select">
+                                    <option value="10">10 por página</option>
+                                    <option value="20" selected>20 por página</option>
+                                    <option value="50">50 por página</option>
+                                    <option value="100">100 por página</option>
+                                </select>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <button id="deleteSelectedBtn" class="btn btn-danger w-100" onclick="deleteSelected()" disabled>
+                                    <i class="fas fa-trash d-none d-sm-inline"></i>
+                                    <span class="d-none d-sm-inline">Excluir selecionados</span>
+                                    <span class="d-sm-none">Del</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th style="width: 50px;">
+                                            <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                        </th>
+                                        <th style="cursor: pointer; min-width: 60px;" onclick="sortTable('id')">
+                                            ID <i id="sort-id" class="fas fa-sort text-muted"></i>
+                                        </th>
+                                        <th style="cursor: pointer; min-width: 120px;" onclick="sortTable('name')">
+                                            Nome <i id="sort-name" class="fas fa-sort text-muted"></i>
+                                        </th>
+                                        <th style="cursor: pointer; min-width: 150px;" onclick="sortTable('email')" class="d-none d-lg-table-cell">
+                                            Email <i id="sort-email" class="fas fa-sort text-muted"></i>
+                                        </th>
+                                        <th style="cursor: pointer; min-width: 120px;" onclick="sortTable('cpf')" class="d-none d-xl-table-cell">
+                                            CPF <i id="sort-cpf" class="fas fa-sort text-muted"></i>
+                                        </th>
+                                        <th style="cursor: pointer; min-width: 150px;" onclick="sortTable('endereco')" class="d-none d-xxl-table-cell">
+                                            Endereço <i id="sort-endereco" class="fas fa-sort text-muted"></i>
+                                        </th>
+                                        <th style="cursor: pointer; min-width: 100px;" onclick="sortTable('is_admin')" class="d-none d-md-table-cell">
+                                            Admin <i id="sort-is_admin" class="fas fa-sort text-muted"></i>
+                                        </th>
+                                        <th style="min-width: 120px;">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="userTable"></tbody>
+                            </table>
+                        </div>
+                        <nav>
+                            <ul class="pagination justify-content-center" id="pagination"></ul>
+                        </nav>
+                        <div id="result" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let allUsers = [];
+        let filteredUsers = [];
+        let currentSort = { field: 'id', direction: 'asc' };
+        let currentPage = 1;
+        let itemsPerPage = 20;
+        
+        function checkAdminPermission() {
+            fetch('/api/session')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.is_admin) {
+                        document.body.innerHTML = '<div class="container mt-5"><div class="alert alert-danger">Acesso negado. Apenas administradores podem acessar esta página.</div></div>';
+                        return;
+                    }
+                    document.getElementById('adminPanelBtn').style.display = '';
+                    document.getElementById('adminPanelBtn').setAttribute('href', '/admin');
+                    listUsers();
+                })
+                .catch(() => {
+                    document.body.innerHTML = '<div class="container mt-5"><div class="alert alert-danger">Erro ao verificar permissão.</div></div>';
+                });
+        }
+
+        function renderUsers() {
+            const tbody = document.getElementById('userTable');
+            tbody.innerHTML = '';
+            const startIdx = (currentPage - 1) * itemsPerPage;
+            const endIdx = startIdx + itemsPerPage;
+            const pageUsers = filteredUsers.slice(startIdx, endIdx);
+            
+            if (pageUsers.length > 0) {
+                pageUsers.forEach(user => {
+                    const cpfFormatted = user.cpf ? user.cpf : '-';
+                    const enderecoShort = user.endereco ? (user.endereco.length > 30 ? user.endereco.substring(0, 27) + '...' : user.endereco) : '-';
+                    
+                    tbody.innerHTML += `<tr>
+                        <td><input type="checkbox" class="user-checkbox" value="${user.id}" onchange="updateDeleteButton()"></td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td class="d-none d-lg-table-cell">${user.email || ''}</td>
+                        <td class="d-none d-xl-table-cell">${cpfFormatted}</td>
+                        <td class="d-none d-xxl-table-cell" title="${user.endereco || ''}">${enderecoShort}</td>
+                        <td class="d-none d-md-table-cell">
+                            ${user.is_admin == 1 
+                                ? '<span class="badge bg-success"><i class="fas fa-crown me-1"></i><span class="d-none d-sm-inline">Admin</span></span>' 
+                                : '<span class="badge bg-secondary"><i class="fas fa-user me-1"></i><span class="d-none d-sm-inline">Usuário</span></span>'}
+                        </td>
+                        <td>
+                            <div class="btn-group-vertical btn-group-sm d-md-none">
+                                <button class="btn btn-info btn-sm" onclick="window.location.href='/usuario/${user.id}'" title="Ver detalhes">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-warning btn-sm" onclick="window.location.href='/editar-informacoes/${user.id}'" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <div class="d-none d-md-block">
+                                <button class="btn btn-info btn-sm me-1" onclick="window.location.href='/usuario/${user.id}'" title="Ver detalhes">
+                                    <i class="fas fa-eye d-lg-none"></i>
+                                    <span class="d-none d-lg-inline">Ver</span>
+                                </button>
+                                <button class="btn btn-warning btn-sm me-1" onclick="window.location.href='/editar-informacoes/${user.id}'" title="Editar">
+                                    <i class="fas fa-edit d-lg-none"></i>
+                                    <span class="d-none d-lg-inline">Editar</span>
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})" title="Excluir">
+                                    <i class="fas fa-trash d-lg-none"></i>
+                                    <span class="d-none d-lg-inline">Excluir</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>`;
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center">Nenhum usuário encontrado.</td></tr>';
+            }
+            renderPagination();
+            updateDeleteButton();
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            if (totalPages <= 1) return;
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.innerHTML += `<li class="page-item${i === currentPage ? ' active' : ''}"><a class="page-link" href="#" onclick="goToPage(${i});return false;">${i}</a></li>`;
+            }
+        }
+
+        window.goToPage = function(page) {
+            currentPage = page;
+            renderUsers();
+        }
+
+        function filterUsers() {
+            const search = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (!search) {
+                filteredUsers = allUsers.slice();
+            } else {
+                filteredUsers = allUsers.filter(user => {
+                    return Object.values(user).some(val => String(val).toLowerCase().includes(search));
+                });
+            }
+            currentPage = 1;
+            renderUsers();
+        }
+
+        function listUsers() {
+            fetch('/api/users')
+                .then(response => response.json())
+                .then(users => {
+                    allUsers = Array.isArray(users) ? users : [];
+                    filterUsers();
+                })
+                .catch(error => {
+                    document.getElementById('result').innerHTML = `<div class="alert alert-danger">Erro ao listar usuários.</div>`;
+                });
+        }
+
+        function deleteUser(id) {
+            if (confirm('Tem certeza que deseja excluir este usuário?')) {
+                fetch(`/api/users/${id}`, { method: 'DELETE' })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message || 'Usuário excluído!');
+                        listUsers();
+                    })
+                    .catch(() => {
+                        alert('Erro ao excluir usuário.');
+                    });
+            }
+        }
+
+        function logout() {
+            fetch('/api/logout')
+                .then(() => {
+                    window.location.href = '/login';
+                });
+        }
+
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.user-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+            });
+            updateDeleteButton();
+        }
+
+        function updateDeleteButton() {
+            const checkedBoxes = document.querySelectorAll('.user-checkbox:checked');
+            const deleteBtn = document.getElementById('deleteSelectedBtn');
+            deleteBtn.disabled = checkedBoxes.length === 0;
+            
+            const allCheckboxes = document.querySelectorAll('.user-checkbox');
+            const selectAll = document.getElementById('selectAll');
+            if (allCheckboxes.length > 0) {
+                selectAll.checked = checkedBoxes.length === allCheckboxes.length;
+                selectAll.indeterminate = checkedBoxes.length > 0 && checkedBoxes.length < allCheckboxes.length;
+            }
+        }
+
+        function deleteSelected() {
+            const checkedBoxes = document.querySelectorAll('.user-checkbox:checked');
+            const ids = Array.from(checkedBoxes).map(cb => cb.value);
+            
+            if (ids.length === 0) return;
+            
+            if (confirm(`Tem certeza que deseja excluir ${ids.length} usuário(s) selecionado(s)?`)) {
+                Promise.all(ids.map(id => 
+                    fetch(`/api/users/${id}`, { method: 'DELETE' })
+                        .then(response => response.json())
+                ))
+                .then(() => {
+                    alert('Usuários excluídos com sucesso!');
+                    listUsers();
+                })
+                .catch(() => {
+                    alert('Erro ao excluir alguns usuários.');
+                    listUsers();
+                });
+            }
+        }
+
+        function changeItemsPerPage() {
+            itemsPerPage = parseInt(document.getElementById('itemsPerPage').value);
+            currentPage = 1;
+            renderUsers();
+        }
+
+        function sortTable(field) {
+            if (currentSort.field === field) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.field = field;
+                currentSort.direction = 'asc';
+            }
+            
+            document.querySelectorAll('[id^="sort-"]').forEach(icon => {
+                icon.className = 'fas fa-sort text-muted';
+            });
+            
+            const icon = document.getElementById(`sort-${field}`);
+            if (icon) {
+                icon.className = `fas fa-sort-${currentSort.direction === 'asc' ? 'up' : 'down'} text-primary`;
+            }
+            
+            filteredUsers.sort((a, b) => {
+                let aVal = a[field];
+                let bVal = b[field];
+                
+                if (field === 'id' || field === 'is_admin') {
+                    aVal = parseInt(aVal) || 0;
+                    bVal = parseInt(bVal) || 0;
+                } else {
+                    aVal = String(aVal || '').toLowerCase();
+                    bVal = String(bVal || '').toLowerCase();
+                }
+                
+                if (currentSort.direction === 'asc') {
+                    return aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
+                } else {
+                    return aVal < bVal ? 1 : aVal > bVal ? -1 : 0;
+                }
+            });
+            
+            currentPage = 1;
+            renderUsers();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', filterUsers);
+        document.getElementById('itemsPerPage').addEventListener('change', changeItemsPerPage);
+        checkAdminPermission();
+    </script>
+</body>
+
+</html>

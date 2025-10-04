@@ -41,7 +41,7 @@ pedify/
 ├── src/
 │   ├── config/              # Configuração e Banco de Dados
 │   ├── models/              # Models
-│   ├── controllers/         # Controllers
+│   ├── controllers/         # Controllers (exemplos)
 │   ├── views/               # Views
 │   ├── index.php            # Dashboard
 │   ├── login.php            # Login

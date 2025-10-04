@@ -280,17 +280,6 @@ if (strpos($_SERVER['PHP_SELF'], '/views/') !== false) {
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" href="#">
-                                    <i class="bi bi-person"></i> Meu Perfil
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <i class="bi bi-gear"></i> Configurações
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
                                 <a class="dropdown-item text-danger" href="<?= $root_path ?>logout.php">
                                     <i class="bi bi-box-arrow-right"></i> Sair
                                 </a>

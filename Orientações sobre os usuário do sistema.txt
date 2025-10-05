@@ -1,0 +1,10 @@
+O sistema ACP tem os seguintes usários
+
+Usuário: ADM
+Senha: 123
+
+Usuário: GERENTE
+Senha: 200
+
+Usuário: FUNC
+Senha: 2000

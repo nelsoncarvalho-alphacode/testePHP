@@ -1,0 +1,16 @@
+/* Páginda desenvolvida para o teste da ALPHACODE - Out/2025 -->
+ <!-- Desenvolvida por Ivan Souza  */
+
+body 
+{ 
+ background-image: linear-gradient( to right, rgb(69, 68, 68), rgb(0, 0, 0) 40%, rgb(0, 0, 0), rgb(69, 68, 68) );
+ }
+
+a{margin-left: 20px;}
+
+
+#menu_img {width: 50px; height: 50px;}
+
+#pos_menu{height: 100px; padding-top: 15px;}
+
+
